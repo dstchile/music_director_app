@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
+<title>Documento sin título</title>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="socket/assets/www/websocket.js"></script>
+</head>
+
+<body>
+<p>Servidor IP</p>
+<p>&nbsp;</p>
+<script type="text/javascript">
+console.log("aqui");
+
+document.addEventListener('deviceready', function () {
+    alert ("aqui hola");
+
+
+function onSuccess( ipInformation ) {
+    alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+}
+
+function onError( error ) {
+
+    // Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
+    alert( error );
+}
+
+networkinterface.getWiFiIPAddress( onSuccess, onError );
+networkinterface.getCarrierIPAddress( onSuccess, onError );
+networkinterface.getIPAddress(function (ip) { alert(ip); });
+
+}, false);
+
+</script>
+</body>
+</html>

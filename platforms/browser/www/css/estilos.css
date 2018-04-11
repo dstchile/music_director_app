@@ -1,0 +1,399 @@
+@charset "utf-8";
+*{	margin:0;
+	padding:0;
+	box-sizing: border-box;	
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+	list-style: none;
+}
+body{
+	margin-left:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	margin-top:0px;
+	background-color: #000000;
+	overflow-y:hidden;
+	scroll-behavior: no;
+}
+
+.borde {
+	border:1px solid #096;
+}
+
+.boton1 {
+  background: #808080;
+  background-image: -webkit-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: -moz-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: -ms-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: -o-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: linear-gradient(to bottom, #4D4D4D, #1a1a1a);
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  border: solid #484848 1px;
+  text-decoration: none;
+}
+
+.boton1:hover {
+  background: #8a8a8a;
+  background-image: -webkit-linear-gradient(top, #8a8a8a, #414242);
+  background-image: -moz-linear-gradient(top, #8a8a8a, #414242);
+  background-image: -ms-linear-gradient(top, #8a8a8a, #414242);
+  background-image: -o-linear-gradient(top, #8a8a8a, #414242);
+  background-image: linear-gradient(to bottom, #8a8a8a, #414242);
+  text-decoration: none;
+}
+.boton3 {
+  position: relative;
+  background: #808080;
+  background-image: -webkit-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: -moz-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: -ms-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: -o-linear-gradient(top, #4D4D4D, #1a1a1a);
+  background-image: linear-gradient(to bottom, #4D4D4D, #1a1a1a);
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 10px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 5px 10px 5px 10px;
+  border: solid #484848 1px;
+  text-decoration: none;
+}
+
+.boton3:hover {
+  position: relative;
+  background: #8a8a8a;
+  background-image: -webkit-linear-gradient(top, #8a8a8a, #414242);
+  background-image: -moz-linear-gradient(top, #8a8a8a, #414242);
+  background-image: -ms-linear-gradient(top, #8a8a8a, #414242);
+  background-image: -o-linear-gradient(top, #8a8a8a, #414242);
+  background-image: linear-gradient(to bottom, #8a8a8a, #414242);
+  text-decoration: none;
+}
+
+.boton2 {
+	 display:inline-block;
+	 border:1px solid #333;
+	 background: #3a7999;
+	 background-image: -webkit-linear-gradient(top, #4D4D4D, #1a1a1a);
+	 background-image: -moz-linear-gradient(top, #4D4D4D, #1a1a1a);
+	 background-image: -ms-linear-gradient(top, #4D4D4D, #1a1a1a);
+	 background-image: -o-linear-gradient(top, #4D4D4D, #1a1a1a);
+	 background-image: linear-gradient(to bottom, #4D4D4D, #1a1a1a);
+	 color: #f2f2f2;
+	 padding-top:15px;
+	 padding-bottom:15px;
+	 font-size: 18px;
+	 position: relative;
+	 text-decoration:none;
+	 min-height:20px;
+	 text-align:center;
+}
+.boton2_activo {
+	 display:inline-block;
+	 border:1px solid #333;
+	  background: #8a8a8a;
+	  background-image: -webkit-linear-gradient(top, #8a8a8a, #414242);
+	  background-image: -moz-linear-gradient(top, #8a8a8a, #414242);
+	  background-image: -ms-linear-gradient(top, #8a8a8a, #414242);
+	  background-image: -o-linear-gradient(top, #8a8a8a, #414242);
+	  background-image: linear-gradient(to bottom, #8a8a8a, #414242);
+	 color: #f2f2f2;
+	 padding-top:15px;
+	 padding-bottom:15px;
+	 font-size: 18px;
+	 position: relative;
+	 text-decoration:none;
+	 min-height:20px;
+	 text-align:center;
+}
+
+
+
+.ancho-back {
+	width:10vw;
+}
+.ancho-b_listado {
+	width:25vw;
+}
+.ancho-b_grupos {
+	width:25vw;
+}
+.ancho-b_agregar {
+	width:25vw;
+}
+.ancho-b_config {
+	width:15vw;
+}
+
+#busqueda {
+	position: relative;
+	width:80%;
+	height:85%;
+	top: -9px;
+	min-height:20px;
+	border-radius: 20px;
+	border: 1px solid #000000; 
+	box-shadow: 0px 15px 20px -1px #939393  inset;
+	font-size: 15px;
+}
+.busqueda {
+	position: relative;
+	font-size: 40px !important;
+	background-color:#666;
+	height:30px;
+	width:100vw;
+	color: white;
+	text-align:center;
+	min-height:50px;
+	font-size-adjust:inherit;
+}
+#titulo_cancion {
+	position: relative;
+	margin:auto;
+	width:90%;
+	height:85%;
+	min-height:20px;
+	border-radius: 20px;
+	border: 1px solid #000000; 
+	box-shadow: 0px 15px 20px -1px #939393  inset;
+	font-size: 15px;
+}
+.titulo_cancion {
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	font-size: 18px !important;
+	background-color:#666;
+	height:40px;
+	width:100vw;
+	color: white;
+	text-align:left;
+	min-height:35px;
+	line-height: 40px;
+	font-size-adjust:inherit;
+	display: flex;
+	//border: 3px solid white;
+}
+.centrado{
+	text-align:center !important;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+input[type=number] { -moz-appearance:textfield; }
+
+.listado {
+	position:inherit;
+	overflow:scroll;
+	height:73vh;
+	width:100vw;
+	box-sizing:border-box;
+	background-color:white;
+}
+.bot{
+	position: fixed;
+	bottom: 0;
+}
+.ancho-b_ordenar {
+	width:40vw;
+}
+.ancho-b_song {
+	width:20vw;
+}
+.ancho-b_songer {
+	width:20vw;
+}
+.ancho-b_tono {
+	width:20vw;
+}
+.content{
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display:flex;
+	-webkit-box-pack:center;
+	-ms-flex-pack:center;
+	justify-content: center;
+	//border: 10px solid #FF0004;
+	width: 100%;
+	height: 100vh;
+}
+.content-menu{
+	margin-top: 25vh;
+	height: 40vh;
+}
+.content-menu ul li{
+	list-style: none;
+	display: flex;
+}
+.content-menu ul li a{
+	line-height: 17vh;
+	text-align: center;
+	display: block;
+	width: 80vw;
+	height: 20vh;
+	margin: 2vh;
+}
+
+#cantante_grupo {
+	position: relative;
+	margin:auto;
+	width:90%;
+	height:85%;
+	//top: -9px;
+	min-height:20px;
+	border-radius: 20px;
+	border: 1px solid #000000; 
+	box-shadow: 0px 15px 20px -1px #939393  inset;
+	font-size: 15px;
+}
+
+.n_velocidad {
+	position: relative;
+	width: 40%;
+	height: 90%;
+	top: -4px;
+	min-height: 20px;
+	border-radius: 20px;
+	border: 1px solid #000000;
+	box-shadow: 0px 15px 20px -1px #939393 inset;
+	font-size: 15px;
+	text-align: center;
+}
+
+#tono {	
+	position: relative;
+	width:60%;
+	height:85%;
+	text-align: center;
+	min-height:20px;
+	border-radius: 20px;
+	border: 1px solid #000000; 
+	box-shadow: 0px 15px 20px -1px #939393  inset;
+	font-size: 15px;
+}
+#compas {	
+	position: relative;
+	width:60%;
+	height:85%;
+	text-align: center;
+	min-height:20px;
+	border-radius: 20px;
+	border: 1px solid #000000; 
+	box-shadow: 0px 15px 20px -1px #939393  inset;
+	font-size: 15px;
+}
+
+.sel_css {
+	width: 65%;
+	text-align: center;
+}
+
+#l_cancion {
+	width: 100vw;
+	height: 90vh;
+}
+
+.base_cancion {
+	margin: 0px;
+	padding: 0px;
+	position: fixed;
+	bottom: 0px;
+	background-color:#666;
+	height:40px;
+	width:100vw;
+	z-index: 999 !important;
+}
+#guardar {
+	width: 50vw;
+	height: 100%;
+	background: #808080;
+    background-image: -webkit-linear-gradient(top, #4D4D4D, #1a1a1a);
+    background-image: -moz-linear-gradient(top, #4D4D4D, #1a1a1a);
+    background-image: -ms-linear-gradient(top, #4D4D4D, #1a1a1a);
+    background-image: -o-linear-gradient(top, #4D4D4D, #1a1a1a);
+    background-image: linear-gradient(to bottom, #4D4D4D, #1a1a1a);
+    -webkit-border-radius: 10;
+    -moz-border-radius: 10;
+    border-radius: 10px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 10px 20px 10px 20px;
+    border: solid #484848 1px;
+    text-decoration: none;
+}
+
+.letra_cancion {
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	font-size: 18px !important;
+	color: white;
+	display:flex;
+	background-color:#666;
+	height:40px;
+	width:100vw;	
+}
+#check{
+	display:none;
+}
+.icon-resize-small{
+	display:block !important;
+	position:fixed !important;
+	right:3px; /* ajusta X px a la izquierda desde el margen derecho */
+	top:3px; /* ajusta X px hacia abajo desde el margen superior */
+	padding:3px; /* separa X px del margen */
+	font-size: 20px;
+}
+.letra_cancion2 {
+	position: fixed;
+	top: 0px; 
+	z-index: 999;
+}
+.letra_cancion3 {
+	position: fixed;
+	top: 40px;
+	z-index: 999;
+}
+.listado_canciones{
+	background-color:white;
+	text-decoration:none;
+}
+.listado_canciones a{
+	text-decoration:none;
+	color:black;
+}
+.listado_canciones h3{
+	font-weight:bold;
+}
+.listado_canciones li{
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left:5px;
+	box-shadow: 0px -2px 5px 1px #CCCCCC inset;
+}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

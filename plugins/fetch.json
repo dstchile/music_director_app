@@ -1,0 +1,42 @@
+{
+    "cordova-plugin-websocket-server": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-websocket-server"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-add-swift-support": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-add-swift-support"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-ip-mac-address": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-ip-mac-address"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-deviceinfo": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-deviceinfo"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-networkinterface": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-networkinterface"
+        },
+        "is_top_level": true,
+        "variables": {}
+    }
+}

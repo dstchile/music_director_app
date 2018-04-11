@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Blank App</title>
+    <script src="js/jquery-3.1.1.js"></script>
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="cordova.js"></script>
+        <script>
+        document.addEventListener("deviceready", lectura_inicial, false);
+		function lectura_inicial()
+			{
+				lectura_datos();
+				console.log("carga de BD");
+			}
+		function lectura_datos(db)
+			{
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+			db.transaction(queryDB,errorCB);
+			function queryDB(tx)
+				{
+				tx.executeSql('CREATE TABLE IF NOT EXISTS director (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo_cancion TEXT NOT NULL, cantante TEXT NOT NULL, velocidad INTEGER NOT NULL, tono TEXT NOT NULL, compas TEXT NOT NULL, letra_cancion TEXT NOT NULL)');
+				tx.executeSql('SELECT * FROM director ',[],querySuccess,errorCB);
+				console.log( "Leyendo datos guardados." );
+				}
+				function errorCB(err) 
+				{
+				if (err.code!=0)
+					{
+					alert("1Error processing SQL: "+err.code);
+					}
+				}
+				function querySuccess(tx,result)
+				{
+				
+				console.log( "generando query." );
+				var existen_datos=false;
+				$.each(result.rows,function(index)
+					{
+					var row = result.rows.item(index);
+					var titulo=row['titulo_cancion'];
+					var cantante=row['cantante'];
+					var velocidad=row['velocidad'];
+					var compas=row['compas'];
+					var letra_cancion=row['letra_cancion'];
+					var tono=row['tono'];
+					console.log("titulo:"+titulo+" --");
+					console.log("cantante:"+cantante+" --");
+					console.log("velocidad:"+velocidad+" --");
+					console.log("tono:"+tono+" --");
+					console.log("compas:"+compas+" --");
+					console.log("letra_cancion:"+letra_cancion+" --");
+					//mueveReloj(ip,nombre_bd,usuariobd,passbd);
+					var existen_datos=true;
+					});
+				if (existen_datos==false)
+					{
+						console.log("sin datos");
+					}
+					
+				
+				}
+			}        
+        </script>
+    </head>
+    <body>
+    <div class="content">
+		<div class="content-menu">
+			<ul>
+				<li><a href="listado.html" title="lista" class="boton1">DIRECTOR</a></li>
+				<li><a href="#" title="lista" class="boton1">MÚSICO</a></li>
+			</ul>
+		</div>
+	<a href="servidor.html" style="color:#FFF" >SERVIDOR</a>
+	<a href="cliente.html" >CLIENTE</a>
+	</div>
+    </body>
+</html>

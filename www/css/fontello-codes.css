@@ -1,0 +1,14 @@
+
+.icon-mic:before { content: '\e800'; } /* '' */
+.icon-music:before { content: '\e801'; } /* '' */
+.icon-cog:before { content: '\e802'; } /* '' */
+.icon-left-open:before { content: '\e803'; } /* '' */
+.icon-plus:before { content: '\e804'; } /* '' */
+.icon-group:before { content: '\e805'; } /* '' */
+.icon-headphones:before { content: '\e806'; } /* '' */
+.icon-play:before { content: '\e807'; } /* '' */
+.icon-resize-small:before { content: '\e808'; } /* '' */
+.icon-edit:before { content: '\e809'; } /* '' */
+.icon-th-list:before { content: '\f009'; } /* '' */
+.icon-th-thumb:before { content: '\f00a'; } /* '' */
+.icon-search:before { content: '\f50d'; } /* '' */

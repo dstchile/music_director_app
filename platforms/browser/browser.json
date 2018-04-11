@@ -1,0 +1,77 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"networkinterface\"><param name=\"browser-package\" value=\"networkinterface\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-add-swift-support": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-websocket-server": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-ip-mac-address": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-deviceinfo": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-networkinterface": {
+            "PACKAGE_NAME": "com.phonegap.helloworld"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-plugin-ip-mac-address/www/addressimpl.js",
+            "id": "cordova-plugin-ip-mac-address.addressimpl",
+            "pluginId": "cordova-plugin-ip-mac-address",
+            "clobbers": [
+                "addressimpl"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-deviceinfo/www/client.js",
+            "id": "cordova-plugin-deviceinfo.client",
+            "pluginId": "cordova-plugin-deviceinfo",
+            "clobbers": [
+                "community.deviceInfo"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-networkinterface/www/networkinterface.js",
+            "id": "cordova-plugin-networkinterface.networkinterface",
+            "pluginId": "cordova-plugin-networkinterface",
+            "clobbers": [
+                "window.networkinterface"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-networkinterface/src/browser/networkinterfaceProxy.js",
+            "id": "cordova-plugin-networkinterface.networkinterfaceProxy",
+            "pluginId": "cordova-plugin-networkinterface",
+            "runs": true
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-add-swift-support": "1.7.2",
+        "cordova-plugin-websocket-server": "1.4.10",
+        "cordova-plugin-ip-mac-address": "1.0.1",
+        "cordova-plugin-deviceinfo": "1.0.1",
+        "cordova-plugin-networkinterface": "2.0.0"
+    }
+}
