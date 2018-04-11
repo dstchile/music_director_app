@@ -10,7 +10,6 @@
 	<gap:plugin name="cordova-plugin-websocket-server" source="npm"/>
     <gap:plugin name="cordova-plugin-ip-mac-address" source="npm" />
     <plugin name="cordova-plugin-networkinterface" spec="0.4.0" source="npm"/>
-    <plugin name="com.albahra.plugin.networkinterface" spec="1.0.7" source="pgb"/>
     <gap:plugin name="cordova-plugin-whitelist" source="npm"/>
     <plugin name="cordova-plugin-deviceinfo" source="npm"/>
     <content src="index.html" />
