@@ -5,6 +5,17 @@
 <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
+<script>
+
+function iniciar_servidor()
+	{
+		alert ("iniciando servidor");
+	}
+function detener_servidor()
+	{
+		alert ("deteniendo servidor");
+	}
+</script>
 </head>
 
 <body>
@@ -12,6 +23,10 @@
 <p>
   <label for="mi_ip">Mi IP</label>
   <input name="mi_ip" type="text" id="mi_ip" size="20" maxlength="20" />
+</p>
+<p>
+  <input type="button" name="iniciar" id="iniciar" value="iniciar" onclick="iniciar_servidor()" />
+  <input type="button" name="detener" id="detener" value="detener" onclick="detener_servidor()" />
 </p>
 <p>&nbsp;</p>
 <script type="text/javascript">
