@@ -7,7 +7,7 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
-	<plugin name="cordova-plugin-network-information" source="npm"/>
+	<plugin name="cordova-plugin-ip-mac-address" source="npm"/>
     <plugin name="cordova-plugin-whitelist" source="npm"/>
     <content src="index.html" />
     <access origin="HOST*" />
