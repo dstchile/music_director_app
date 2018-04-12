@@ -37,7 +37,7 @@ document.addEventListener("deviceready", lectura_inicial, false);
  
 		networkinterface.getWiFiIPAddress( onSuccess, onError );
 		var valor = document.getElementById('mi_ip').value;
-		if (dato=='')
+		if (valor=='')
 			{
 			networkinterface.getCarrierIPAddress( onSuccess, onError );
 			}

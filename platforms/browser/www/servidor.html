@@ -9,6 +9,10 @@
 
 <body>
 <p>Servidor IP</p>
+<p>
+  <label for="mi_ip">Mi IP</label>
+  <input name="mi_ip" type="text" id="mi_ip" size="20" maxlength="20" />
+</p>
 <p>&nbsp;</p>
 <script type="text/javascript">
 console.log("aqui");
@@ -16,12 +20,11 @@ document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
 	  
-	    alert ("aqui hola");
-
-
+	    
 		function onSuccess( ipInformation ) 
 			{
-			alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+			//alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+			document.getElementById('mi_ip').value=ipInformation.ip;
 			}
  
 		function onError( error ) 
@@ -31,8 +34,11 @@ document.addEventListener("deviceready", lectura_inicial, false);
 			}
  
 		networkinterface.getWiFiIPAddress( onSuccess, onError );
-		networkinterface.getCarrierIPAddress( onSuccess, onError );
-
+		var valor = document.getElementById('mi_ip').value;
+		if (valor=='')
+			{
+			networkinterface.getCarrierIPAddress( onSuccess, onError );
+			}
 		}
 
 </script>
