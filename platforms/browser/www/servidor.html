@@ -5,6 +5,8 @@
 <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
+<script src="js/socket.io.js"></script>
+<script src="js/require.js"></script>
 <script>
 
 function iniciar_servidor()
@@ -17,7 +19,7 @@ function iniciar_servidor()
 		io.on('connection', function (socket) 
 			{
 		  	io.emit('this', { will: 'be received by everyone'});
-		
+			
 		  	socket.on('private message', function (from, msg) 
 				{
 				console.log('I received a private message by ', from, ' saying ', msg);
