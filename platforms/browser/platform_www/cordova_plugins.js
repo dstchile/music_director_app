@@ -38,7 +38,8 @@ module.exports.metadata =
     "cordova-plugin-websocket-server": "1.4.10",
     "cordova-plugin-ip-mac-address": "1.0.1",
     "cordova-plugin-deviceinfo": "1.0.1",
-    "cordova-plugin-networkinterface": "2.0.0"
+    "cordova-plugin-networkinterface": "2.0.0",
+    "cordova-plugin-whitelist": "1.3.3"
 }
 // BOTTOM OF METADATA
 });
