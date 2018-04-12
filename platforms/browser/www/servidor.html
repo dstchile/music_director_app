@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+<meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
+<title>Documento sin título</title>
+<script type="text/javascript" src="cordova.js"></script>
+<script src="js/require.js"></script>
+<script src="js/socket.io.js"></script>
+<script>
+
+function iniciar_servidor()
+	{
+		alert ("iniciando servidor");
+		var io = require('socket.io').listen(8080);
+		io.sockets.on('connection', function (socket) {
+		  console.log('emit...');
+		  alert('emit...');
+		  socket.emit('ping', { message: 'Hello from server ' + Date.now() });
+		  socket.on('pong', function (data) {
+			console.log(data.message);
+		  	alert(data.message);
+		  });
+		});
+		
+		console.log('listening on port 8080');
+	}
+function detener_servidor()
+	{
+		alert ("deteniendo servidor");
+		io.server.close();
+	
+	}
+</script>
+</head>
+
+<body>
+<p>Servidor IP</p>
+<p>
+  <label for="mi_ip">Mi IP</label>
+  <input name="mi_ip" type="text" id="mi_ip" size="20" maxlength="20" />
+</p>
+<p>
+  <input type="button" name="iniciar" id="iniciar" value="iniciar" onclick="iniciar_servidor()" />
+  <input type="button" name="detener" id="detener" value="detener" onclick="detener_servidor()" />
+</p>
+<p>&nbsp;</p>
+<script type="text/javascript">
+console.log("aqui");
+document.addEventListener("deviceready", lectura_ip, false);
+function lectura_ip()
+	{
+	function onSuccess( ipInformation ) 
+		{
+		//ipInformation.ip
+		//ipInformation.subnet
+		document.getElementById('mi_ip').value=ipInformation.ip;
+		}
+	function onError( error ) 
+		{
+		// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
+		//alert( error );
+		}
+	networkinterface.getWiFiIPAddress( onSuccess, onError );
+	networkinterface.getCarrierIPAddress( onSuccess, onError );
+	}
+
+</script>
+</body>
+</html>
