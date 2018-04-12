@@ -25,7 +25,7 @@ document.addEventListener("deviceready", lectura_inicial, false);
 
 		function onSuccess( ipInformation ) 
 			{
-			alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
+			//alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
 			document.getElementById('mi_ip').value=ipInformation.ip;
 			}
  
@@ -36,8 +36,11 @@ document.addEventListener("deviceready", lectura_inicial, false);
 			}
  
 		networkinterface.getWiFiIPAddress( onSuccess, onError );
-		networkinterface.getCarrierIPAddress( onSuccess, onError );
-
+		var valor = document.getElementById('mi_ip').value;
+		if (dato=='')
+			{
+			networkinterface.getCarrierIPAddress( onSuccess, onError );
+			}
 		}
 
 </script>
