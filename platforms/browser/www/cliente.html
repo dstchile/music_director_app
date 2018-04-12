@@ -4,6 +4,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
+<script>
+
+function conectar_servidor()
+	{
+		alert("conectando");
+		var direccion=document.getElementById('ip_servidor').value;
+		var socket = io.connect('http://'+direccion+':4444');
+  		socket.on('this', function (data) 
+			{
+    		console.log(data);
+    		alert (data);
+			socket.emit('private message', { my: 'data' });
+  			});
+	}
+</script>
 </head>
 
 <body>
@@ -15,34 +30,27 @@
 <p>
   <label for="ip_servidor">ip servidor</label>
   <input type="text" name="ip_servidor" id="ip_servidor" />
-<input type="submit" name="conectar" id="conectar" value="Conectar" />
+<input type="button" name="conectar" id="conectar" value="Conectar" onclick="conectar_servidor()" />
 </p>
 <script type="text/javascript">
 console.log("aqui");
-document.addEventListener("deviceready", lectura_inicial, false);
-	function lectura_inicial()
+document.addEventListener("deviceready", lectura_ip, false);
+function lectura_ip()
+	{
+	function onSuccess( ipInformation ) 
 		{
-	  
-		function onSuccess( ipInformation ) 
-			{
-			//alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
-			document.getElementById('mi_ip').value=ipInformation.ip;
-			}
- 
-		function onError( error ) 
-			{
-			// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
-			alert( error );
-			}
- 
-		networkinterface.getWiFiIPAddress( onSuccess, onError );
-		var valor = document.getElementById('mi_ip').value;
-		if (valor=='')
-			{
-			networkinterface.getCarrierIPAddress( onSuccess, onError );
-			}
-		
+		//ipInformation.ip
+		//ipInformation.subnet
+		document.getElementById('mi_ip').value=ipInformation.ip;
 		}
+	function onError( error ) 
+		{
+		// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
+		//alert( error );
+		}
+	networkinterface.getWiFiIPAddress( onSuccess, onError );
+	networkinterface.getCarrierIPAddress( onSuccess, onError );
+	}
 
 </script>
 

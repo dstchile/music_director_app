@@ -5,6 +5,38 @@
 <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
+<script>
+
+function iniciar_servidor()
+	{
+		alert ("iniciando servidor");
+		
+		// note, io(<port>) will create a http server for you
+		var io = require('socket.io')(4444);
+		
+		io.on('connection', function (socket) 
+			{
+		  	io.emit('this', { will: 'be received by everyone'});
+		
+		  	socket.on('private message', function (from, msg) 
+				{
+				console.log('I received a private message by ', from, ' saying ', msg);
+		  		alert('I received a private message by '+from+' saying '+msg+'--')
+				});
+		
+		  	socket.on('disconnect', function () 
+				{
+				io.emit('user disconnected');
+		  		});
+			});
+	}
+function detener_servidor()
+	{
+		alert ("deteniendo servidor");
+
+	
+	}
+</script>
 </head>
 
 <body>
@@ -13,33 +45,30 @@
   <label for="mi_ip">Mi IP</label>
   <input name="mi_ip" type="text" id="mi_ip" size="20" maxlength="20" />
 </p>
+<p>
+  <input type="button" name="iniciar" id="iniciar" value="iniciar" onclick="iniciar_servidor()" />
+  <input type="button" name="detener" id="detener" value="detener" onclick="detener_servidor()" />
+</p>
 <p>&nbsp;</p>
 <script type="text/javascript">
 console.log("aqui");
-document.addEventListener("deviceready", lectura_inicial, false);
-	function lectura_inicial()
+document.addEventListener("deviceready", lectura_ip, false);
+function lectura_ip()
+	{
+	function onSuccess( ipInformation ) 
 		{
-	  
-	    
-		function onSuccess( ipInformation ) 
-			{
-			//alert( "IP: " + ipInformation.ip + " subnet:" + ipInformation.subnet );
-			document.getElementById('mi_ip').value=ipInformation.ip;
-			}
- 
-		function onError( error ) 
-			{
-			// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
-			alert( error );
-			}
- 
-		networkinterface.getWiFiIPAddress( onSuccess, onError );
-		var valor = document.getElementById('mi_ip').value;
-		if (valor=='')
-			{
-			networkinterface.getCarrierIPAddress( onSuccess, onError );
-			}
+		//ipInformation.ip
+		//ipInformation.subnet
+		document.getElementById('mi_ip').value=ipInformation.ip;
 		}
+	function onError( error ) 
+		{
+		// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
+		//alert( error );
+		}
+	networkinterface.getWiFiIPAddress( onSuccess, onError );
+	networkinterface.getCarrierIPAddress( onSuccess, onError );
+	}
 
 </script>
 </body>

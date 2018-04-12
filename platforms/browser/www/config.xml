@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="cl.dstchile.music_director_app" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <feature name="networkinterface">
+        <param name="browser-package" value="networkinterface" />
+    </feature>
+    <name>Music Director</name>
+    <description>
+        Gestor de acordes para grupos o bandas de rock, pop, alabanza,etc.
+    </description>
+    <author email="support@phonegap.com" href="http://phonegap.com">
+        PhoneGap Team
+    </author>
+    <content src="index.html" />
+    <access origin="HOST*" />
+</widget>

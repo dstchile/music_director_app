@@ -1,4 +1,4 @@
-var networkinterface = function() {
+cordova.define("cordova-plugin-networkinterface.networkinterface", function(require, exports, module) { var networkinterface = function() {
 };
 
 networkinterface.getWiFiIPAddress = function( success, fail ) {
@@ -14,3 +14,5 @@ networkinterface.getHttpProxyInformation = function(url, success, fail ) {
 };
 
 module.exports = networkinterface;
+
+});
