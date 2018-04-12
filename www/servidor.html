@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
@@ -12,22 +13,23 @@
 function iniciar_servidor()
 	{
 		alert ("iniciando servidor");
-		var io = require('socket.io').listen(4444);
-
+		var io = require('socket.io').listen(8080);
 		io.sockets.on('connection', function (socket) {
-		alert ("iniciado");
-		
-		socket.emit('news', { hello: 'world' });
-			socket.on('my other event', function (data) {
-				console.log(data);
-				alert (data);
-			});
+		  console.log('emit...');
+		  alert('emit...');
+		  socket.emit('ping', { message: 'Hello from server ' + Date.now() });
+		  socket.on('pong', function (data) {
+			console.log(data.message);
+		  	alert(data.message);
+		  });
 		});
+		
+		console.log('listening on port 8080');
 	}
 function detener_servidor()
 	{
 		alert ("deteniendo servidor");
-
+		io.server.close();
 	
 	}
 </script>

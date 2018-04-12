@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js/socket.io.js"></script>
@@ -10,11 +11,43 @@
 
 function conectar_servidor()
 	{
+	document.addEventListener("deviceready", chat, false);
+	function chat()
+		{
 		alert("conectando");
-		var socket = io.connect('HOST');
-		socket.on('news', function (data) {
-			socket.emit('my other event', { my: 'data' });
-		});
+		loadScript('js/socket.io.js', function () {
+
+              var direccion= document.getElementById('ip_servidor').value;
+			  var socket = io.connect("http://"+direccion+":8080");
+
+              document.getElementById('log').innerHTML = "connecting";
+				alert("coectando ahora");
+              socket.on('ping', function (data) {
+                document.getElementById('log').innerHTML = data.message;
+                socket.emit('pong', { message: 'Hello from client!' });
+              });
+
+              socket.on('connect', function () {
+                 document.getElementById('log').innerHTML = "connected";
+              });
+
+              socket.on('reconnect', function () {
+                document.getElementById('log').innerHTML = "reconnected";
+              });
+
+              socket.on('disconnect', function () {
+                document.getElementById('log').innerHTML = "disconnected";
+              });
+
+              socket.on('reconnecting', function () {
+                document.getElementById('log').innerHTML = "reconnecting...";
+              });
+
+              socket.on('error', function () {
+                document.getElementById('log').innerHTML = "error";
+              });
+            });
+		}
 	}
 </script>
 </head>
@@ -29,6 +62,7 @@ function conectar_servidor()
   <label for="ip_servidor">ip servidor</label>
   <input type="text" name="ip_servidor" id="ip_servidor" />
 <input type="button" name="conectar" id="conectar" value="Conectar" onclick="conectar_servidor()" />
+ <div id="log">waiting...</div>
 </p>
 <script type="text/javascript">
 console.log("aqui");
