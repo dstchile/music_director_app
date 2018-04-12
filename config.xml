@@ -7,11 +7,7 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
-	<plugin name="cordova-plugin-websocket-server" source="npm"/>
-    <plugin name="cordova-plugin-ip-mac-address" source="npm" />
-    <plugin name="cordova-plugin-networkinterface" source="npm"/>
-    <plugin name="cordova-plugin-whitelist" source="npm"/>
-    <plugin name="cordova-plugin-deviceinfo" source="npm"/>
+	<plugin name="cordova-plugin-whitelist" source="npm"/>
     <content src="index.html" />
     <access origin="HOST*" />
 </widget>
