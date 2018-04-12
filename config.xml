@@ -2,7 +2,7 @@
 <widget id="cl.dstchile.music_director_app" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Music Director</name>
     <description>
-        A blank PhoneGap app.
+        Gestor de acordes para grupos o bandas de rock, pop, alabanza,etc.
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
