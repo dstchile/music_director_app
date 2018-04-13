@@ -18,7 +18,7 @@ function conectar_servidor()
 		loadScript('js/socket.io.js', function () {
 
               var direccion= document.getElementById('ip_servidor').value;
-			  var socket = io.connect("http://"+direccion+":8080");
+			  var socket = io.connect("http://"+direccion+":3000");
 
               document.getElementById('log').innerHTML = "connecting";
 				alert("coectando ahora");
