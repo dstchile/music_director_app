@@ -24,6 +24,9 @@
         },
         "cordova-plugin-node": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cz.blocshop.socketsforcordova": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {

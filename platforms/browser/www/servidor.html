@@ -9,17 +9,32 @@
 <!--<script src="js/socket.io.js"></script>-->
 <!--<script src="js/require.js"></script>-->
 <script>
-
+var socket = new Socket();
+		
 function iniciar_servidor()
 	{
 		alert ("iniciando servidor");
-		var wsserver = cordova.plugins.wsserver;
+		socket.onData = function(data) 
+			{
+				alert("conectado");
+		  // invoked after new batch of data is received (typed array of bytes Uint8Array)
+		};
+		socket.onError = function(errorMessage) 
+			{
+				alert("error:"+errorMessage+"---")
+		  // invoked after error occurs during connection
+		};
+		socket.onClose = function(hasError) 
+			{
+				alert("cerrado");
+		  // invoked after connection close
+		};
 		
 	}
 function detener_servidor()
 	{
 		alert ("deteniendo servidor");
-		//io.server.close();
+		socket.close();
 	
 	}
 </script>

@@ -37,6 +37,14 @@ module.exports = [
         "clobbers": [
             "node"
         ]
+    },
+    {
+        "file": "plugins/cz.blocshop.socketsforcordova/socket.js",
+        "id": "cz.blocshop.socketsforcordova.Socket",
+        "pluginId": "cz.blocshop.socketsforcordova",
+        "clobbers": [
+            "window.Socket"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -48,7 +56,8 @@ module.exports.metadata =
     "cordova-plugin-deviceinfo": "1.0.1",
     "cordova-plugin-networkinterface": "2.0.0",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-node": "0.1.1"
+    "cordova-plugin-node": "0.1.1",
+    "cz.blocshop.socketsforcordova": "1.1.0"
 }
 // BOTTOM OF METADATA
 });
