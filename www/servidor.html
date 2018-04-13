@@ -6,31 +6,15 @@
 <meta http-equiv="Content-Security-Policy" content="default-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
-<script src="js/require.js"></script>
-<script src="js/socket.io.js"></script>
+<!--<script src="js/socket.io.js"></script>-->
+<!--<script src="js/require.js"></script>-->
 <script>
 
 function iniciar_servidor()
 	{
 		alert ("iniciando servidor");
+		var wsserver = cordova.plugins.wsserver;
 		
-		define(function (require) {
-			var server = require('http').createServer();
-		});
-		var io = require('socket.io')(server);
-		
-		io.sockets.on('connection', function (socket) {
-			console.log('socket connected');
-			alert('socket connected');
-			socket.on('disconnect', function () {
-				console.log('socket disconnected');
-				alert('socket disconnected');
-			});
-		
-			socket.emit('text', 'wow. such event. very real time.');
-		});
-		
-		server.listen(3000);
 	}
 function detener_servidor()
 	{

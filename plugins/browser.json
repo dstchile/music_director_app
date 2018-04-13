@@ -21,6 +21,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-node": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {

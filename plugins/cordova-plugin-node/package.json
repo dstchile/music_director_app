@@ -1,0 +1,27 @@
+{
+  "name": "cordova-plugin-node",
+  "version": "0.1.1",
+  "description": "Cordova Plugin for the Node+ Platform developed by Variable, Inc.",
+  "cordova": {
+    "id": "cordova-plugin-node",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cjschooley/cordova-plugin-node.git"
+  },
+  "keywords": [
+    "cordova",
+    "node",
+    "variable"
+  ],
+  "author": "Cory Schooley",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/cjschooley/cordova-plugin-node/issues"
+  },
+  "homepage": "https://github.com/cjschooley/cordova-plugin-node"
+}

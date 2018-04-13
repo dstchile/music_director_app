@@ -35,6 +35,9 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-node": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {},
@@ -68,6 +71,14 @@
             "id": "cordova-plugin-networkinterface.networkinterfaceProxy",
             "pluginId": "cordova-plugin-networkinterface",
             "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-node/www/node.js",
+            "id": "cordova-plugin-node.node",
+            "pluginId": "cordova-plugin-node",
+            "clobbers": [
+                "node"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -76,6 +87,7 @@
         "cordova-plugin-ip-mac-address": "1.0.1",
         "cordova-plugin-deviceinfo": "1.0.1",
         "cordova-plugin-networkinterface": "2.0.0",
-        "cordova-plugin-whitelist": "1.3.3"
+        "cordova-plugin-whitelist": "1.3.3",
+        "cordova-plugin-node": "0.1.1"
     }
 }

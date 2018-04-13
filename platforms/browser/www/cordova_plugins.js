@@ -29,6 +29,14 @@ module.exports = [
         "id": "cordova-plugin-networkinterface.networkinterfaceProxy",
         "pluginId": "cordova-plugin-networkinterface",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-node/www/node.js",
+        "id": "cordova-plugin-node.node",
+        "pluginId": "cordova-plugin-node",
+        "clobbers": [
+            "node"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -39,7 +47,8 @@ module.exports.metadata =
     "cordova-plugin-ip-mac-address": "1.0.1",
     "cordova-plugin-deviceinfo": "1.0.1",
     "cordova-plugin-networkinterface": "2.0.0",
-    "cordova-plugin-whitelist": "1.3.3"
+    "cordova-plugin-whitelist": "1.3.3",
+    "cordova-plugin-node": "0.1.1"
 }
 // BOTTOM OF METADATA
 });
