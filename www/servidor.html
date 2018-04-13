@@ -13,23 +13,29 @@
 function iniciar_servidor()
 	{
 		alert ("iniciando servidor");
-		var io = require('socket.io').listen(8080);
+		
+		define(function (require) {
+			var server = require('http').createServer();
+		});
+		var io = require('socket.io')(server);
+		
 		io.sockets.on('connection', function (socket) {
-		  console.log('emit...');
-		  alert('emit...');
-		  socket.emit('ping', { message: 'Hello from server ' + Date.now() });
-		  socket.on('pong', function (data) {
-			console.log(data.message);
-		  	alert(data.message);
-		  });
+			console.log('socket connected');
+			alert('socket connected');
+			socket.on('disconnect', function () {
+				console.log('socket disconnected');
+				alert('socket disconnected');
+			});
+		
+			socket.emit('text', 'wow. such event. very real time.');
 		});
 		
-		console.log('listening on port 8080');
+		server.listen(3000);
 	}
 function detener_servidor()
 	{
 		alert ("deteniendo servidor");
-		io.server.close();
+		//io.server.close();
 	
 	}
 </script>
@@ -47,7 +53,6 @@ function detener_servidor()
 </p>
 <p>&nbsp;</p>
 <script type="text/javascript">
-console.log("aqui");
 document.addEventListener("deviceready", lectura_ip, false);
 function lectura_ip()
 	{
