@@ -9,13 +9,13 @@
 <!--<script src="js/socket.io.js"></script>-->
 <!--<script src="js/require.js"></script>-->
 <script>
-document.addEventListener("deviceready", iniciando, false);
-function iniciando()
-	{
-		var wsserver = cordova.plugins.wsserver;	
-			
 	function iniciar_servidor()
 		{ 
+		document.addEventListener("deviceready", iniciando, false);
+		function iniciando()
+			{
+				var wsserver = cordova.plugins.wsserver;	
+			
 			alert ("iniciando servidor");
 			document.getElementById('log').innerHTML="iniciando servidor";
 			alert ("iniciado....");
@@ -57,6 +57,7 @@ function iniciando()
 					console.log('Did not start. Reason: %s', reason);
 					document.getElementById('log').innerHTML="NO INICIADO-";
 				});
+			}
 		}
 	function detener_servidor()
 		{
@@ -67,7 +68,6 @@ function iniciando()
 			});
 		
 		}
-	}
 </script>
 </head>
 
