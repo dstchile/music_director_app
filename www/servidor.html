@@ -53,15 +53,27 @@
 				}, function onStart(addr, port) {
 					console.log('Listening on %s:%d', addr, port);
 					document.getElementById('log').innerHTML="escuchando:"+addr+"   port:"+port+" ----";
+				
+											wsserver.getInterfaces(function(result) {
+											for (var interface in result) {
+												if (result.hasOwnProperty(interface)) {
+													console.log('interface', interface);
+													console.log('ipv4', result[interface].ipv4Addresses);
+													console.log('ipv6', result[interface].ipv6Addresses);
+												alert("i:"+interface+"--- ip4:"+result[interface].ipv4Addresses+"   ---")
+												}
+											}
+										});
 				}, function onDidNotStart(reason) {
 					console.log('Did not start. Reason: %s', reason);
-					document.getElementById('log').innerHTML="NO INICIADO-";
+					document.getElementById('log').innerHTML="NO INICIADO-:"+reason+"  ";
 				});
 			}
 		}
 	function detener_servidor()
 		{
 			alert ("deteniendo servidor");
+			var wsserver = cordova.plugins.wsserver;	
 			wsserver.stop(function onStop(addr, port) {
 				console.log('Stopped listening on %s:%d', addr, port);
 				document.getElementById('log').innerHTML="detenido:"+addr+"   port:"+port+" ----";
