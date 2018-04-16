@@ -16,11 +16,12 @@
 			{
 				var wsserver = cordova.plugins.wsserver;	
 			
+			var puerto=document.getElementById('mi_puerto').value;
 			alert ("iniciando servidor");
 			document.getElementById('log').innerHTML="iniciando servidor";
 			alert ("iniciado....");
 			document.getElementById('log').innerHTML="iniciado...";
-			wsserver.start(8080, {
+			wsserver.start(puerto, {
 					// WebSocket Server handlers
 					'onFailure' :  function(addr,port, reason) {
 						console.log('Stopped listening on %s:%d. Reason: %s', addr, port, reason);
@@ -88,6 +89,10 @@
 <p>
   <label for="mi_ip">Mi IP</label>
   <input name="mi_ip" type="text" id="mi_ip" size="20" maxlength="20" />
+</p>
+<p>
+  <label for="mi_puerto">Mi Puerto</label>
+  <input name="mi_puerto" type="text" id="mi_puerto" size="20" maxlength="20" />
 </p>
 <p>
   <input type="button" name="iniciar" id="iniciar" value="iniciar" onclick="iniciar_servidor()" />
