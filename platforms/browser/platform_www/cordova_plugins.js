@@ -99,7 +99,8 @@ module.exports.metadata =
     "cz.blocshop.socketsforcordova": "1.1.0",
     "cordova-plugin-chrome-apps-common": "1.0.7",
     "cordova-plugin-chrome-apps-system-network": "1.1.2",
-    "cordova-plugin-chrome-apps-socket": "1.2.3"
+    "cordova-plugin-chrome-apps-socket": "1.2.3",
+    "cordova-plugin-websocket": "0.12.2"
 }
 // BOTTOM OF METADATA
 });

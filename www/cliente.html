@@ -15,19 +15,32 @@ function conectar_servidor()
 	function chat()
 		{
 		alert("conectando");
-		var socket = new Socket();
 		var direccion= document.getElementById('ip_servidor').value;
-		socket.open(
-		  direccion,
-		  1234,
-		  function() {
-			// invoked after successful opening of socket
-			alert("socket abierto")
-		  },
-		  function(errorMessage) {
-			// invoked after unsuccessful opening of socket
-		  	alert ("error al intenatar abrir el socket");
-		  });
+		
+		var ws = new WebSocket(direccion+":8080");
+	 
+		ws.onopen = function () {
+			console.log('open');
+			this.send('hello');         // transmit "hello" after connecting 
+			document.getElementById('log').innerHTML="abierto se envia mensaje---";
+			};
+	 
+		ws.onmessage = function (event) {
+			console.log(event.data);    // will be "hello" 
+			document.getElementById('log').innerHTML="se encia el mensaje---";
+			this.close();
+			};
+	 
+		ws.onerror = function () {
+			document.getElementById('log').innerHTML="ocurrio un error--";
+			console.log('error occurred!');
+			};
+	 
+		ws.onclose = function (event) {
+			document.getElementById('log').innerHTML="evento:"+event.code+"---";
+			console.log('close code=' + event.code);
+			};
+		
 		}
 	}
 </script>
