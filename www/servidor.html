@@ -9,26 +9,18 @@
 <!--<script src="js/socket.io.js"></script>-->
 <!--<script src="js/require.js"></script>-->
 <script>
-var socket = new Socket();
+
 		
 function iniciar_servidor()
 	{ 
 		alert ("iniciando servidor");
-		socket.onData = function(data) 
-			{
-				alert("conectado");
-		  // invoked after new batch of data is received (typed array of bytes Uint8Array)
-		};
-		socket.onError = function(errorMessage) 
-			{
-				alert("error:"+errorMessage+"---")
-		  // invoked after error occurs during connection
-		};
-		socket.onClose = function(hasError) 
-			{
-				alert("cerrado");
-		  // invoked after connection close
-		};
+		document.getElementById('log').innerHTML="iniciando servidor";
+	document.addEventListener("deviceready", iniciando, false);
+	function iniciando()
+		{
+		var wsserver = cordova.plugins.wsserver;	
+		alert ("iniciado....");
+		}
 		
 	}
 function detener_servidor()
@@ -50,7 +42,8 @@ function detener_servidor()
   <input type="button" name="iniciar" id="iniciar" value="iniciar" onclick="iniciar_servidor()" />
   <input type="button" name="detener" id="detener" value="detener" onclick="detener_servidor()" />
 </p>
-<p>&nbsp;</p>
+<p>
+ <div id="log">waiting...</div></p>
 <script type="text/javascript">
 document.addEventListener("deviceready", lectura_ip, false);
 function lectura_ip()
