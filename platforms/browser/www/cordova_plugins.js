@@ -45,6 +45,45 @@ module.exports = [
         "clobbers": [
             "window.Socket"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-chrome-apps-common/events.js",
+        "id": "cordova-plugin-chrome-apps-common.events",
+        "pluginId": "cordova-plugin-chrome-apps-common",
+        "clobbers": [
+            "chrome.Event"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-chrome-apps-common/errors.js",
+        "id": "cordova-plugin-chrome-apps-common.errors",
+        "pluginId": "cordova-plugin-chrome-apps-common"
+    },
+    {
+        "file": "plugins/cordova-plugin-chrome-apps-common/stubs.js",
+        "id": "cordova-plugin-chrome-apps-common.stubs",
+        "pluginId": "cordova-plugin-chrome-apps-common"
+    },
+    {
+        "file": "plugins/cordova-plugin-chrome-apps-common/helpers.js",
+        "id": "cordova-plugin-chrome-apps-common.helpers",
+        "pluginId": "cordova-plugin-chrome-apps-common"
+    },
+    {
+        "file": "plugins/cordova-plugin-chrome-apps-system-network/system.network.js",
+        "id": "cordova-plugin-chrome-apps-system-network.system.network",
+        "pluginId": "cordova-plugin-chrome-apps-system-network",
+        "clobbers": [
+            "chrome.system.network"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-chrome-apps-socket/socket.js",
+        "id": "cordova-plugin-chrome-apps-socket.Socket",
+        "pluginId": "cordova-plugin-chrome-apps-socket",
+        "clobbers": [
+            "chrome.socket"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -57,7 +96,10 @@ module.exports.metadata =
     "cordova-plugin-networkinterface": "2.0.0",
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-plugin-node": "0.1.1",
-    "cz.blocshop.socketsforcordova": "1.1.0"
+    "cz.blocshop.socketsforcordova": "1.1.0",
+    "cordova-plugin-chrome-apps-common": "1.0.7",
+    "cordova-plugin-chrome-apps-system-network": "1.1.2",
+    "cordova-plugin-chrome-apps-socket": "1.2.3"
 }
 // BOTTOM OF METADATA
 });

@@ -27,11 +27,20 @@
         },
         "cz.blocshop.socketsforcordova": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-chrome-apps-socket": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {
         "cordova-plugin-add-swift-support": {
             "PACKAGE_NAME": "com.phonegap.helloworld"
+        },
+        "cordova-plugin-chrome-apps-common": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-chrome-apps-system-network": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     }
 }

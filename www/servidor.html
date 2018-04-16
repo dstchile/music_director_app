@@ -20,6 +20,44 @@ function iniciar_servidor()
 		{
 		var wsserver = cordova.plugins.wsserver;	
 		alert ("iniciado....");
+		document.getElementById('log').innerHTML="iniciado...";
+		wsserver.start(8080, {
+				// WebSocket Server handlers
+				'onFailure' :  function(addr,port, reason) {
+					console.log('Stopped listening on %s:%d. Reason: %s', addr, port, reason);
+					document.getElementById('log').innerHTML="Stopped listening on %s:%d. Reason: %s"+addr+"---"+port+"---"+reason+"----";
+	
+				},
+				// WebSocket Connection handlers
+				'onOpen' : function(conn) {
+					/* conn: {
+					 'uuid' : '8e176b14-a1af-70a7-3e3d-8b341977a16e',
+					 'remoteAddr' : '192.168.1.10',
+					 'httpFields' : {...},
+					 'resource' : '/?param1=value1&param2=value2'
+					 } */
+					console.log('A user connected from %s', conn.remoteAddr);
+					document.getElementById('log').innerHTML="A user conecctado-";
+				},
+				'onMessage' : function(conn, msg) {
+					console.log(conn, msg);
+					document.getElementById('log').innerHTML="mensaje-";
+				},
+				'onClose' : function(conn, code, reason, wasClean) {
+					console.log('A user disconnected from %s', conn.remoteAddr);
+					document.getElementById('log').innerHTML="A user desconectado-";
+				},
+				// Other options
+				'origins' : [ 'file://' ], // validates the 'Origin' HTTP Header.
+				'protocols' : [ 'my-protocol-v1', 'my-protocol-v2' ], // validates the 'Sec-WebSocket-Protocol' HTTP Header.
+				'tcpNoDelay' : true // disables Nagle's algorithm.
+			}, function onStart(addr, port) {
+				console.log('Listening on %s:%d', addr, port);
+				document.getElementById('log').innerHTML="escuchando-";
+			}, function onDidNotStart(reason) {
+				console.log('Did not start. Reason: %s', reason);
+				document.getElementById('log').innerHTML="NO INICIADO-";
+			});
 		}
 		
 	}

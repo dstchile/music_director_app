@@ -62,5 +62,29 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-chrome-apps-socket": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-chrome-apps-socket"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "cordova-plugin-chrome-apps-common": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-chrome-apps-common@1"
+        },
+        "is_top_level": false,
+        "variables": {}
+    },
+    "cordova-plugin-chrome-apps-system-network": {
+        "source": {
+            "type": "registry",
+            "id": "cordova-plugin-chrome-apps-system-network@1"
+        },
+        "is_top_level": false,
+        "variables": {}
     }
 }
