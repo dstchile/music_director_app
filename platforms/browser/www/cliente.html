@@ -17,30 +17,47 @@ function conectar_servidor()
 		alert("conectando");
 		var direccion= document.getElementById('ip_servidor').value;
 		
-		var ws = new WebSocket(direccion+":8080");
-	 
-		ws.onopen = function () {
-			console.log('open');
-			this.send('hello');         // transmit "hello" after connecting 
-			document.getElementById('log').innerHTML="abierto se envia mensaje---";
-			};
-	 
-		ws.onmessage = function (event) {
-			console.log(event.data);    // will be "hello" 
-			document.getElementById('log').innerHTML="se encia el mensaje---";
-			this.close();
-			};
-	 
-		ws.onerror = function () {
-			document.getElementById('log').innerHTML="ocurrio un error--";
-			console.log('error occurred!');
-			};
-	 
-		ws.onclose = function (event) {
-			document.getElementById('log').innerHTML="evento:"+event.code+"---";
-			console.log('close code=' + event.code);
-			};
+		var accessToken = "abcdefghiklmnopqrstuvwxyz";
+		var wsOptions = {
+			url: direccion,
+			timeout: 5000,
+			pingInterval: 10000,
+			headers: {"Authorization": "Bearer " + accessToken},
+			acceptAllCerts: false
+			}
+		 
+		CordovaWebsocketPlugin.wsConnect(wsOptions,
+						function(recvEvent) {
+							console.log("Received callback from WebSocket: "+recvEvent["callbackMethod"]);
+							document.getElementById('log').innerHTML='Received callback from WebSocket: '+recvEvent["callbackMethod"];
+						},
+						function(success) {
+							console.log("Connected to WebSocket with id: " + success.webSocketId);
+							document.getElementById('log').innerHTML="Connected to WebSocket with id: " + success.webSocketId;
+							document.getElementById('id_socket').value=success.webSocketId;
+						},
+						function(error) {
+							console.log("Failed to connect to WebSocket: "+
+										"code: "+error["code"]+
+										", reason: "+error["reason"]+
+										", exception: "+error["exception"]);
+							document.getElementById('log').innerHTML="Failed to connect to WebSocket: "+
+										"code: "+error["code"]+
+										", reason: "+error["reason"]+
+										", exception: "+error["exception"];
+						
+						}
+					);
 		
+		}
+	}
+function desconectar_servidor()
+	{
+	document.addEventListener("deviceready", desconectar, false);
+	function desconectar()
+		{
+		var id_socket=document.getElementById('id_socket').value;
+		CordovaWebsocketPlugin.wsClose(id_socket, 1000, "I'm done!");
 		}
 	}
 </script>
@@ -51,12 +68,15 @@ function conectar_servidor()
 <p>
   <label for="mi_ip">Mi IP</label>
   <input name="mi_ip" type="text" id="mi_ip" size="20" maxlength="20" />
+  <label for="id_socket">Id socket</label>
+  <input name="id_socket" type="text" id="id_socket" size="20" maxlength="20" />
 </p>
 <p>
   <label for="ip_servidor">ip servidor</label>
   <input type="text" name="ip_servidor" id="ip_servidor" />
 <input type="button" name="conectar" id="conectar" value="Conectar" onclick="conectar_servidor()" />
- <div id="log">waiting...</div>
+ <input type="button" name="desconectar" id="desconectar" value="Desonectar" onclick="desconectar_servidor()" />
+<div id="log">waiting...</div>
 </p>
 <script type="text/javascript">
 console.log("aqui");
