@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+ <title>Documento sin título</title>
+    <script src="js/jquery-3.1.1.js"></script>
+<link href="css/estilos.css" rel="stylesheet" type="text/css" />
+<link href="css/fontello.css" rel="stylesheet" type="text/css" />
+<script>
+function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+var id_cancion = getParameterByName('v1');
+console.log("ID cancion: "+id_cancion)
+document.addEventListener("deviceready", lectura_inicial, false);
+	function lectura_inicial()
+		{
+			console.log("LLego aqui")
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+			lista_programas(db);
+		}
+function lista_programas(db){
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		console.log( "Leyendo datos guardados." );
+		}
+		function errorCB(err) 
+		{
+		alert("Error processing SQL: "+err.code);
+		}
+		function querySuccess(tx,result)
+		{
+		console.log( "generando query." );
+		$.each(result.rows,function(index)
+			{
+				var row = result.rows.item(index);
+				var id_cancion=row['id'];
+				var titulo=row['titulo_cancion'];
+				titulo=titulo.toUpperCase();
+				var cantante=row['cantante'];
+				cantante=cantante.toUpperCase();
+				tituloc.textContent=cantante+" - "+titulo;
+				var velocidad=row['velocidad'];
+				var compas=row['compas'];
+				var letra_cancion=row['letra_cancion'];
+				var tono=row['tono'];
+				console.log("Titulo cancion: "+titulo);
+				document.getElementById('cancion').value=letra_cancion;
+	 		});
+ 		}
+	}
+
+
+</script>
+</head>
+
+<body>
+<script type="text/javascript" src="cordova.js"></script>
+<div id="principal">
+    <div id="menu-superior">
+    	<a href="listado.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled><span id="tituloc"></span>&nbsp;</button>
+    </div>
+    <div id="content-cancion">
+        <div id="le-can"><textarea id="cancion" readonly></textarea></div>
+    </div>
+    	<div id="menu-inferior">
+    </div>
+</div>
+</body>
+</html>

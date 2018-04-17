@@ -7,7 +7,7 @@
     <script src="js/jquery-3.1.1.js"></script>
     <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
-    <script>
+	<script>
 	document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial(ob,x)
 		{
@@ -66,7 +66,7 @@
 				var letra_cancion=row['letra_cancion'];
 				var tono=row['tono'];
 			
-	 		$('#Listado_canciones').append('<li><a href="#?v1='+id_cancion+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+row['titulo_cancion']+'</font></span></p><p><span class="icon-mic"> - '+row['cantante']+'</span></p><p><span class="icon-music"> - '+row['tono']+'</span></p></a></li>');
+	 		$('#Listado_canciones').append('<li><a href="cancion_detalle.html?v1='+id_cancion+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+row['titulo_cancion']+'</font></span></p><p><span class="icon-mic"> - '+row['cantante']+'</span></p><p><span class="icon-music"> - '+row['tono']+'</span></p></a></li>');
 			});
  		}
 	}

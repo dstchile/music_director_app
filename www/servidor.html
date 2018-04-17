@@ -48,8 +48,8 @@
 						document.getElementById('log').innerHTML="A user desconectado-";
 					},
 					// Other options
-					'origins' : [ 'file://' ], // validates the 'Origin' HTTP Header.
-					'protocols' : [ 'my-protocol-v1', 'my-protocol-v2' ], // validates the 'Sec-WebSocket-Protocol' HTTP Header.
+					//'origins' : [ 'file://' ], // validates the 'Origin' HTTP Header.
+					//'protocols' : [ 'my-protocol-v1', 'my-protocol-v2' ], // validates the 'Sec-WebSocket-Protocol' HTTP Header.
 					'tcpNoDelay' : true // disables Nagle's algorithm.
 				}, function onStart(addr, port) {
 					console.log('Listening on %s:%d', addr, port);

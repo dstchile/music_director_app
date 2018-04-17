@@ -52,6 +52,11 @@ function guardar_cancion(){
 	var ton = document.getElementById('tono').value;
 	var comp = document.getElementById('compas').value;
 	var letra = document.getElementById('l_cancion').value;
+	
+	var titulov = titulo.replace("'","´");
+	var cantantev = cantante.replace("'","´");
+	var letrav = letra.replace("'","´");
+	
 	if(titulo=='')
 	{
 		alert("Debe especificar el titulo de la Cancion");
@@ -74,7 +79,7 @@ function guardar_cancion(){
 				db.transaction(populateDB, errorCB, successCB);
 				function populateDB(tx) 
 					{
-					tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulo+"','"+cantante+"','"+velo+"','"+ton+"','"+comp+"','"+letra+"')");														
+					tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulov+"','"+cantantev+"','"+velo+"','"+ton+"','"+comp+"','"+letrav+"')");														
 					}
 				function errorCB(err) 
 					{
