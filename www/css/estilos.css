@@ -298,15 +298,21 @@ input[type=number] { -moz-appearance:textfield; }
 	text-align: center;
 }
 
-#l_cancion {
+.l_cancion {
+	position:absolute;
+	top:0px;
+	bottom:0px;
 	width: 100vw;
+	resize:none;
+	z-index:999;
 }
-.letra_cancion3 {
+.l_cancion2 {
 	position: fixed;
 	top: 40px;
-	z-index: 999;
 	bottom: 0px;
-	//height: 90vh;
+	resize:none;
+	width: 100vw;
+	z-index: 999;
 }
 .base_cancion {
 	margin: 0px;
@@ -316,7 +322,54 @@ input[type=number] { -moz-appearance:textfield; }
 	background-color:#666;
 	height:40px;
 	width:100vw;
+	z-index:99;
 }
+.letra_cancion {
+	margin: 0px;
+	padding: 0px;
+	position: relative;
+	font-size: 18px !important;
+	color: white;
+	display:flex;
+	background-color:#666;
+	height:200px;
+	width:100vw;
+}
+.letra_cancion2 {
+	position: fixed;
+	top: 0px; 
+	z-index: 999;
+}
+.letra_cancionw{
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	width:100vw;
+	height:150px;
+	top:360px;
+	background-color: #0F0;
+}
+.letra_cancionx {
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	width:100vw;
+	top:360px;
+	bottom:40px;
+	background-color: #0F0;
+}
+#check{
+	display:none;
+}
+.icon-resize-small{
+	display:block !important;
+	position:fixed !important;
+	right:3px; /* ajusta X px a la izquierda desde el margen derecho */
+	top:3px; /* ajusta X px hacia abajo desde el margen superior */
+	padding:3px; /* separa X px del margen */
+	font-size: 20px;
+}
+
 #guardar {
 	width: 50vw;
 	height: 100%;
@@ -337,33 +390,6 @@ input[type=number] { -moz-appearance:textfield; }
     text-decoration: none;
 }
 
-.letra_cancion {
-	margin: 0px;
-	padding: 0px;
-	position: relative;
-	font-size: 18px !important;
-	color: white;
-	display:flex;
-	background-color:#666;
-	height:40px;
-	width:100vw;	
-}
-#check{
-	display:none;
-}
-.icon-resize-small{
-	display:block !important;
-	position:fixed !important;
-	right:3px; /* ajusta X px a la izquierda desde el margen derecho */
-	top:3px; /* ajusta X px hacia abajo desde el margen superior */
-	padding:3px; /* separa X px del margen */
-	font-size: 20px;
-}
-.letra_cancion2 {
-	position: fixed;
-	top: 0px; 
-	z-index: 999;
-}
 .listado_canciones{
 	background-color:white;
 	text-decoration:none;

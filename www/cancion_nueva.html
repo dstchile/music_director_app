@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script src="js/jquery-3.1.1.js"></script>
 	<script>
+	if(window.innerWidth>window.innerHeight){document.getElementById('borde_cancion').className="letra_cancionw";}else{document.getElementById('borde_cancion').className="letra_cancionx";}
 	function vel(x){
 		if( x =='menos')
 			{
@@ -34,15 +35,13 @@
 			}
 	}
 function ajustar(){
-	var elemento = document.getElementById("letra_can");
-	elemento.className += " letra_cancion2";
-	document.getElementById("l_cancion").className += " letra_cancion3"
+	document.getElementById("letra_can").className += " letra_cancion2";
+	document.getElementById("l_cancion").className="l_cancion2"
 	document.getElementById('lab').className="icon-resize-small";
 }
 function reajustar(){
-	var elemento = document.getElementById("letra_can");
-	elemento.className ="letra_cancion";
-	document.getElementById("l_cancion").className="";
+	document.getElementById("letra_can").className ="letra_cancion";
+	document.getElementById("l_cancion").className="l_cancion";
 	document.getElementById('lab').className="";
 }
 function guardar_cancion(){
@@ -170,8 +169,8 @@ function guardar_cancion(){
 	<div style="width: 45%;"><span class="icon-edit"></span>Letra Cancion :</div>
 	<div style="width: 55%;" align="right"><input type="checkbox" id="check"><label id="lab" onClick="reajustar()" for="check"></label></div>
 </div>
-<div class="letra_cancion">
-	<textarea id="l_cancion" name="l_cancion" onFocus="ajustar()"></textarea>
+<div id="borde_cancion" class="letra_cancionx">
+	<textarea id="l_cancion" name="l_cancion" class="l_cancion" onFocus="ajustar()"></textarea>
 </div>
 <div class="base_cancion" align="center">
 	<input type="button" id="guardar" name="guardar" onClick="guardar_cancion()" value="Guardar">	
