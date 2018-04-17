@@ -10,6 +10,7 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
+    <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
     <content src="index.html" />
     <access origin="HOST*" />
 </widget>

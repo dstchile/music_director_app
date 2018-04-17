@@ -8,7 +8,42 @@
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script src="js/jquery-3.1.1.js"></script>
 	<script>
-	if(window.innerWidth>window.innerHeight){document.getElementById('borde_cancion').className="letra_cancionw";}else{document.getElementById('borde_cancion').className="letra_cancionx";}
+	/*
+	screen.orientation.addEventListener('change',function(){
+		console.log(screen.orientation.type)
+		
+	});
+	*/
+	/*
+	if(window.innerWidth>window.innerHeight)
+		{
+			var w = window.innerWidth;
+			alert(w)
+			
+		}
+	else
+		{
+			var w = window.innerWidth;
+			alert(w)
+			
+		}
+	*/
+			$(window).resize(function(){
+			   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+			   var alto=$(window).height();
+			   var ancho=$(window).width();
+			   if(ancho>alto)
+			   {
+				  document.getElementById('borde_cancion').className="letra_cancionw"; 
+				  document.getElementById('boton_guardar').className="base_cancionw";
+			   }
+			   else
+			   {
+				  document.getElementById('borde_cancion').className="letra_cancionx";
+				  document.getElementById('boton_guardar').className="base_cancion";
+			   }
+			   //alert("alto: "+alto+" ancho:"+ancho);
+			})
 	function vel(x){
 		if( x =='menos')
 			{
@@ -172,7 +207,7 @@ function guardar_cancion(){
 <div id="borde_cancion" class="letra_cancionx">
 	<textarea id="l_cancion" name="l_cancion" class="l_cancion" onFocus="ajustar()"></textarea>
 </div>
-<div class="base_cancion" align="center">
+<div id="boton_guardar" class="base_cancion" align="center">
 	<input type="button" id="guardar" name="guardar" onClick="guardar_cancion()" value="Guardar">	
 </div>
 </body>

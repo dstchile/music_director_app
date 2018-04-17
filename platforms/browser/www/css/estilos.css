@@ -324,6 +324,16 @@ input[type=number] { -moz-appearance:textfield; }
 	width:100vw;
 	z-index:99;
 }
+.base_cancionw {
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	top: 500px;
+	background-color:#666;
+	height:40px;
+	width:100vw;
+	z-index:99;
+}
 .letra_cancion {
 	margin: 0px;
 	padding: 0px;
@@ -340,12 +350,12 @@ input[type=number] { -moz-appearance:textfield; }
 	top: 0px; 
 	z-index: 999;
 }
-.letra_cancionw{
+.letra_cancionw {
 	margin: 0px;
 	padding: 0px;
 	position: absolute;
 	width:100vw;
-	height:150px;
+	height:120px;
 	top:360px;
 	background-color: #0F0;
 }
