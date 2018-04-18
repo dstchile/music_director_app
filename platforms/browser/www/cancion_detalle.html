@@ -70,9 +70,9 @@ function repro(estado){
 			document.getElementById('boton-menos').className="color-boton";
 			document.getElementById('text-velocidad').className="";
 			document.getElementById('boton-mas').className="color-boton";
-			$('#cancion').scrollTop(0);
-			$('#cancion').delay(3000).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
 			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
+			var sh = document.getElementById('cancion').scrollHeight;
+			document.getElementById('cancion').scrollTo(0,sh);
 		}
 	if(estado=="stop")
 		{
@@ -84,8 +84,6 @@ function repro(estado){
 			document.getElementById('boton-mas').className +=" disnone";
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
-			$('#cancion').stop(true,true).animate({ scrollTop: 0}, 100);
-		
 		}
 	
 }
@@ -96,13 +94,11 @@ function pau(){
 		{
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
-			$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 5000);
 		}
 	if(x=='')
 		{
 			document.getElementById('pausa').className="icon-play";
 			document.getElementById('boton-pause').value=1;
-			$('#cancion').stop(true,false);
 		}
 }
 
@@ -115,7 +111,6 @@ function velo(z){
 			document.getElementById('text-velocidad').value=parseInt(res);
 			var dato = document.getElementById('text-velocidad').value;
 			vel=parseInt(dato)*100;
-			$('#cancion').stop(true,false).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
 		}
 	else if(z=='mas')
 		{
@@ -125,7 +120,6 @@ function velo(z){
 			document.getElementById('text-velocidad').value=parseInt(res);
 			var dato = document.getElementById('text-velocidad').value;
 			vel=parseInt(dato)*100;
-			$('#cancion').stop(true,false).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
 		}
 	else
 		{
@@ -135,7 +129,6 @@ function velo(z){
 			document.getElementById('text-velocidad').value=x;
 			var dato = document.getElementById('text-velocidad').value;
 			vel=parseInt(dato)*100;
-			$('#cancion').stop(true,false).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
 		}
 }
 
