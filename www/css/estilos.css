@@ -483,6 +483,10 @@ input[type=number] { -moz-appearance:textfield; }
 	width:100%;
 	background-color:white;
 }
+.content-cancion{
+	top:0 !important;
+	transition:all 1s;
+}
 #cancion{
 	position:absolute;
 	width:99vw;
@@ -566,16 +570,6 @@ input[type=number] { -moz-appearance:textfield; }
 	display:none;
 }
 
-#boton-play:active ~ #menu-superior{
-	top:-40px;
-	transition:	all 500s;
-}
-/*
- #check:checked ~ .menu{
-	left:0px;
-	transition:	all 600ms;
-}
- */
  
  
  

@@ -44,8 +44,7 @@
 					'onMessage' : function(conn, msg) {
 						console.log(conn, msg);
 						document.getElementById('log').innerHTML="mensaje-:"+msg+" fin.";
-						alert ("mensaje....");
-			
+						document.getElementById('respuesta').innerHTML=msg;	
 					},
 					'onClose' : function(conn, code, reason, wasClean) {
 						console.log('A user disconnected from %s', conn.remoteAddr);
@@ -89,7 +88,7 @@
 		{
 			var id_user=document.getElementById('uuid').value;
 			var msg=document.getElementById('mensaje').value;
-			wsserver.send({'uuid':'8e176b14-a1af-70a7-3e3d-8b341977a16e'}, msg);
+			wsserver.send({'uuid':id_user}, msg);
 		}
 </script>
 </head>
@@ -119,6 +118,9 @@
   <input name="mensaje" type="text" id="mensaje" size="20" maxlength="20" />
   <input type="button" name="enviar" id="enviar" value="enviar" onclick="enviar_mensaje()" />
 </p>
+<p>Respuesta:</p>
+<div id="respuesta">waiting...</div>
+<p>&nbsp;</p>
 
 <script type="text/javascript">
 document.addEventListener("deviceready", lectura_ip, false);

@@ -46,10 +46,29 @@ function conectar_servidor()
 		function envmsg()
 			{
 			
+			var msg=document.getElementById('mensaje').value;
 			var direccion= document.getElementById('ip_servidor').value;
 			var ws = new WebSocket('ws://'+direccion);
-			var msg=document.getElementById('mensaje').value;
-			ws.send(msg);
+	
+	 
+			ws.onopen = function () {
+				console.log('open');
+				this.send(msg);         // transmit "hello" after connecting 
+			};
+		 
+			ws.onmessage = function (event) {
+				console.log(event.data);    // will be "hello" 
+				alert (event.data);
+				this.close();
+			};
+		 
+			ws.onerror = function () {
+				console.log('error occurred!');
+			};
+		 
+			ws.onclose = function (event) {
+				console.log('close code=' + event.code);
+			};
 			}
 		}
 
@@ -80,6 +99,9 @@ function conectar_servidor()
   <input name="mensaje" type="text" id="mensaje" size="20" maxlength="20" />
   <input type="button" name="enviar" id="enviar" value="enviar" onclick="enviar_mensaje()" />
 </p>
+<p>Respuesta</p>
+<div id="respuesta">waiting...</div>
+<p>&nbsp;</p>
 <script type="text/javascript">
 console.log("aqui");
 document.addEventListener("deviceready", lectura_ip, false);
