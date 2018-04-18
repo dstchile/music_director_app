@@ -65,6 +65,7 @@ function repro(estado){
 			document.getElementById('boton-pause').className="boton2";
 			document.getElementById('boton-stop').className="boton2";
 			document.getElementById('boton-menos').className="boton2";
+			document.getElementById('text-velocidad').className="";
 			document.getElementById('boton-mas').className="boton2";
 		}
 	if(estado=="stop")
@@ -73,6 +74,7 @@ function repro(estado){
 			document.getElementById('boton-pause').className +=" disnone";
 			document.getElementById('boton-stop').className +=" disnone";
 			document.getElementById('boton-menos').className +=" disnone";
+			document.getElementById('text-velocidad').className="disnone";
 			document.getElementById('boton-mas').className +=" disnone";
 		}
 	
@@ -95,7 +97,7 @@ function repro(estado){
         <button id="boton-pause" class="boton2 disnone"><span class="icon-pause"></span></button>
         <button id="boton-stop" class="boton2 disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
         <button id="boton-menos" class="boton2 disnone"><span class="icon-minus"></span></button>
-        <input type="text" readonly id="velocidad" class="n_velocidad">
+        <input type="text" readonly id="text-velocidad" class="disnone">
         <button id="boton-mas" class="boton2 disnone"><span class="icon-plus"></span></button>
     </div>
 </div>
