@@ -510,19 +510,20 @@ input[type=number] { -moz-appearance:textfield; }
 }
 #boton-stop{
 	border-radius:35px;
-	width:24vw;
+	width:20vw;
+	color:red !important;
 }
 #boton-pause{
 	border-radius:35px;
-	width:24vw;
+	width:20vw;
 }
 #boton-menos{
 	border-radius:35px;
-	width:24vw;
+	width:20vw;
 }
 #boton-mas{
 	border-radius:35px;
-	width:24vw;
+	width:20vw;
 }
 .disnone{
 	display:none;
