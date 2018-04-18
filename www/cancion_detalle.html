@@ -72,7 +72,8 @@ function repro(estado){
 			document.getElementById('boton-mas').className="color-boton";
 			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
 			var sh = document.getElementById('cancion').scrollHeight;
-			document.getElementById('cancion').scrollTo(0,sh);
+			var scrol=document.getElementById('cancion');
+			scrol.scrollTo(0,sh);
 		}
 	if(estado=="stop")
 		{
@@ -84,6 +85,7 @@ function repro(estado){
 			document.getElementById('boton-mas').className +=" disnone";
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
+			document.getElementById('cancion').scrollTo(0,0);
 		}
 	
 }

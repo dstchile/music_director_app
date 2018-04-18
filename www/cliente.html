@@ -21,9 +21,9 @@ function conectar_servidor()
 		var wsOptions = {
 			url: direccion,
 			timeout: 5000,
-			pingInterval: 10000,
-			headers: {"Authorization": "my-protocol-v1"},
-			acceptAllCerts: false
+			pingInterval: 10000
+			//,headers: {"Authorization": "my-protocol-v1"}
+			//,acceptAllCerts: false
 			}
 		 
 		CordovaWebsocketPlugin.wsConnect(wsOptions,
