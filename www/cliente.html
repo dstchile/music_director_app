@@ -8,50 +8,55 @@
 <script src="js/socket.io.js"></script>
 <script src="js/require.js"></script>
 <script>
-document.addEventListener("deviceready", chat, false);
-function chat()
+function conectar_servidor()
 	{
-	
-	function conectar_servidor()
+	document.addEventListener("deviceready", chat, false);
+	function chat()
 		{
-		alert("conectando");
-		var direccion= document.getElementById('ip_servidor').value;
-		var ws = new WebSocket('ws://'+direccion);
-
- 
-		ws.onopen = function () {
-			console.log('open');
-			this.send('hello');         // transmit "hello" after connecting 
-		};
+			
+			alert("conectando");
+			var direccion= document.getElementById('ip_servidor').value;
+			var ws = new WebSocket('ws://'+direccion);
+	
 	 
-		ws.onmessage = function (event) {
-			console.log(event.data);    // will be "hello" 
-			alert (event.data);
-			this.close();
-		};
-	 
-		ws.onerror = function () {
-			console.log('error occurred!');
-		};
-	 
-		ws.onclose = function (event) {
-			console.log('close code=' + event.code);
-		};
+			ws.onopen = function () {
+				console.log('open');
+				this.send('hello');         // transmit "hello" after connecting 
+			};
+		 
+			ws.onmessage = function (event) {
+				console.log(event.data);    // will be "hello" 
+				alert (event.data);
+				this.close();
+			};
+		 
+			ws.onerror = function () {
+				console.log('error occurred!');
+			};
+		 
+			ws.onclose = function (event) {
+				console.log('close code=' + event.code);
+			};
 		
 		}
+	}
 	function enviar_mensaje()
 		{
-		var direccion= document.getElementById('ip_servidor').value;
-		var ws = new WebSocket('ws://'+direccion);
-		var msg=document.getElementById('mensaje').value;
-		ws.send(msg);
+		document.addEventListener("deviceready", envmsg, false);
+		function envmsg()
+			{
+			
+			var direccion= document.getElementById('ip_servidor').value;
+			var ws = new WebSocket('ws://'+direccion);
+			var msg=document.getElementById('mensaje').value;
+			ws.send(msg);
+			}
 		}
 
 	function desconectar_servidor()
 		{
 		}
 
-	}
 </script>
 </head>
 

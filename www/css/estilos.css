@@ -566,11 +566,16 @@ input[type=number] { -moz-appearance:textfield; }
 	display:none;
 }
 
-#boton-play~ #cancion{
+#boton-play:active ~ #menu-superior{
+	top:-40px;
 	transition:	all 500s;
 }
- 
- 
+/*
+ #check:checked ~ .menu{
+	left:0px;
+	transition:	all 600ms;
+}
+ */
  
  
  
