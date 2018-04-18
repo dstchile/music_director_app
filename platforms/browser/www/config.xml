@@ -12,5 +12,5 @@
     </author>
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
     <content src="index.html" />
-    <access origin="HOST*" />
+    <access origin="*" />
 </widget>

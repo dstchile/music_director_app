@@ -60,6 +60,8 @@ function lista_programas(db){
 
 
 function repro(estado){
+	var vel=document.getElementById('text-velocidad').value;
+	vel=parseInt(vel)*100;
 	if(estado=="play")
 		{
 			document.getElementById('boton-play').className +=" disnone";
@@ -68,7 +70,9 @@ function repro(estado){
 			document.getElementById('boton-menos').className="color-boton";
 			document.getElementById('text-velocidad').className="";
 			document.getElementById('boton-mas').className="color-boton";
-			$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
+			$('#cancion').scrollTop(0);
+			$('#cancion').delay(3000).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
+			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
 		}
 	if(estado=="stop")
 		{
@@ -78,7 +82,10 @@ function repro(estado){
 			document.getElementById('boton-menos').className +=" disnone";
 			document.getElementById('text-velocidad').className="disnone";
 			document.getElementById('boton-mas').className +=" disnone";
-			$('#cancion').animate();
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			$('#cancion').stop(true,true).animate({ scrollTop: 0}, 100);
+		
 		}
 	
 }
@@ -89,11 +96,46 @@ function pau(){
 		{
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
+			$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 5000);
 		}
 	if(x=='')
 		{
 			document.getElementById('pausa').className="icon-play";
 			document.getElementById('boton-pause').value=1;
+			$('#cancion').stop(true,false);
+		}
+}
+
+function velo(z){
+	if(z=='menos')
+		{
+			var v = document.getElementById('text-velocidad').value;
+			var res = parseInt(v)-parseInt(1);
+			if(res<parseInt(40)){res=parseInt(40);}
+			document.getElementById('text-velocidad').value=parseInt(res);
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+			$('#cancion').stop(true,false).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
+		}
+	else if(z=='mas')
+		{
+			var v = document.getElementById('text-velocidad').value;
+			var res = parseInt(v)+parseInt(1);
+			if(res>parseInt(210)){res=parseInt(210);}
+			document.getElementById('text-velocidad').value=parseInt(res);
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+			$('#cancion').stop(true,false).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
+		}
+	else
+		{
+			var x = document.getElementById('text-velocidad').value;
+			if(x>210){x=210;}
+			else if(x<40){x=40;}
+			document.getElementById('text-velocidad').value=x;
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+			$('#cancion').stop(true,false).animate({ scrollTop: $('#cancion')[0].scrollHeight}, vel);
 		}
 }
 
@@ -113,9 +155,9 @@ function pau(){
     	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
         <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
-        <button id="boton-menos" class="color-boton disnone"><span class="icon-minus"></span></button>
-        <input type="text" readonly id="text-velocidad" class="disnone">
-        <button id="boton-mas" class="color-boton disnone"><span class="icon-plus"></span></button>
+        <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
+        <input type="number" onFocus="this.select();" onBlur="velo()" id="text-velocidad" class="disnone">
+        <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
     </div>
 </div>
 </body>
