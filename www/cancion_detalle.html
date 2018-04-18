@@ -71,27 +71,10 @@ function repro(estado){
 			document.getElementById('text-velocidad').className="";
 			document.getElementById('boton-mas').className="color-boton";
 			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
+			document.getElementById('estado').value="PLAY";
 			var sh = document.getElementById('cancion').scrollHeight;
 			var i=1;
 			delay(i,sh);
-			function delay(i,sh){
-				if(i<sh)
-					{
-						vel=document.getElementById('text-velocidad').value;
-						if(vel>210){vel=210}
-						if(vel<40){vel=40}
-						setTimeout(function(){
-						document.getElementById('cancion').scrollTo(0,i);
-						console.log("i= "+i);
-						i++;
-						delay(i,sh);
-						},vel);
-					}
-				else
-					{
-						alert("termino")
-					}
-			}
 		}
 	if(estado=="stop")
 		{
@@ -103,10 +86,36 @@ function repro(estado){
 			document.getElementById('boton-mas').className +=" disnone";
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="STOP";
 			document.getElementById('cancion').scrollTo(0,0);
 		}
 	
 }
+
+function delay(i,sh){
+	if(i<sh)
+		{
+			var vel=document.getElementById('text-velocidad').value;
+			if(vel>210){vel=210;}
+			if(vel<40){vel=40;}
+			var est = document.getElementById('estado').value;
+			if(est=="PLAY")
+				{
+					setTimeout(function(){
+					document.getElementById('cancion').scrollTo(0,i);
+					console.log("i= "+i);
+					i++;
+					delay(i,sh);
+					},vel);
+				}
+			if(est=="STOP")
+				{
+					document.getElementById('cancion').scrollTo(0,0);
+				}
+		}
+}
+
+
 
 function pau(){
 	var x=document.getElementById('boton-pause').value;
@@ -114,11 +123,16 @@ function pau(){
 		{
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="PLAY";
+			var sh = document.getElementById('cancion').scrollHeight;
+			var i = document.getElementById('cancion').scrollTop;
+			delay(i,sh);
 		}
 	if(x=='')
 		{
 			document.getElementById('pausa').className="icon-play";
 			document.getElementById('boton-pause').value=1;
+			document.getElementById('estado').value="PAUSE";
 		}
 }
 
@@ -157,6 +171,7 @@ function velo(z){
 
 <body>
 <script type="text/javascript" src="cordova.js"></script>
+<input type="hidden" id="estado">
 <div id="principal">
     <div id="menu-superior">
     	<a href="listado.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><button id="boton-editar" class="boton2" value="haaaaaa" ><span class="icon-edit"></span></button>
@@ -167,10 +182,10 @@ function velo(z){
     <div id="menu-inferior">
     	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
-        <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
         <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
         <input type="number" onFocus="this.select();" onBlur="velo()" id="text-velocidad" class="disnone">
         <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
+        <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
     </div>
 </div>
 </body>

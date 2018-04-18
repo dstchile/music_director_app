@@ -8,16 +8,16 @@
 <script src="js/socket.io.js"></script>
 <script src="js/require.js"></script>
 <script>
-
-function conectar_servidor()
+document.addEventListener("deviceready", chat, false);
+function chat()
 	{
-	document.addEventListener("deviceready", chat, false);
-	function chat()
+	
+	function conectar_servidor()
 		{
 		alert("conectando");
 		var direccion= document.getElementById('ip_servidor').value;
-		
 		var ws = new WebSocket('ws://'+direccion);
+
  
 		ws.onopen = function () {
 			console.log('open');
@@ -26,6 +26,7 @@ function conectar_servidor()
 	 
 		ws.onmessage = function (event) {
 			console.log(event.data);    // will be "hello" 
+			alert (event.data);
 			this.close();
 		};
 	 
@@ -38,15 +39,18 @@ function conectar_servidor()
 		};
 		
 		}
-	}
-function desconectar_servidor()
-	{
-	document.addEventListener("deviceready", desconectar, false);
-	function desconectar()
+	function enviar_mensaje()
 		{
-		var id_socket=document.getElementById('id_socket').value;
-		CordovaWebsocketPlugin.wsClose(id_socket, 1000, "I'm done!");
+		var direccion= document.getElementById('ip_servidor').value;
+		var ws = new WebSocket('ws://'+direccion);
+		var msg=document.getElementById('mensaje').value;
+		ws.send(msg);
 		}
+
+	function desconectar_servidor()
+		{
+		}
+
 	}
 </script>
 </head>
@@ -65,6 +69,11 @@ function desconectar_servidor()
 <input type="button" name="conectar" id="conectar" value="Conectar" onclick="conectar_servidor()" />
  <input type="button" name="desconectar" id="desconectar" value="Desonectar" onclick="desconectar_servidor()" />
 <div id="log">waiting...</div>
+</p>
+<p>
+  <label for="mensaje">Mensaje</label>
+  <input name="mensaje" type="text" id="mensaje" size="20" maxlength="20" />
+  <input type="button" name="enviar" id="enviar" value="enviar" onclick="enviar_mensaje()" />
 </p>
 <script type="text/javascript">
 console.log("aqui");
