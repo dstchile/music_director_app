@@ -58,7 +58,7 @@ function conectar_servidor()
 		 
 			ws.onmessage = function (event) {
 				console.log(event.data);    // will be "hello" 
-				alert (event.data);
+				document.getElementById('respuesta').innerHTML=event.data;
 				this.close();
 			};
 		 
