@@ -39,6 +39,7 @@
 						alert ("opne....");
 						console.log('A user connected from %s', conn.remoteAddr);
 						document.getElementById('log').innerHTML="A user conecctado-:"+conn.remoteAddr+" ---";
+						document.getElementById('uuid').value=conn.uuid;
 					},
 					'onMessage' : function(conn, msg) {
 						console.log(conn, msg);
@@ -84,6 +85,12 @@
 			});
 		
 		}
+	function enviar_mensaje()
+		{
+			var id_user=document.getElementById('uuid').value;
+			var msg=document.getElementById('mensaje').value;
+			wsserver.send({'uuid':'8e176b14-a1af-70a7-3e3d-8b341977a16e'}, msg);
+		}
 </script>
 </head>
 
@@ -104,8 +111,13 @@
 <p>
  <div id="log">waiting...</div></p>
 <p>
+  <label for="uuid">uuid</label>
+  <input name="uuid" type="text" id="uuid" size="20" maxlength="20" />
+</p>
+<p>
   <label for="mensaje">Mensaje</label>
   <input name="mensaje" type="text" id="mensaje" size="20" maxlength="20" />
+  <input type="button" name="enviar" id="enviar" value="enviar" onclick="enviar_mensaje()" />
 </p>
 
 <script type="text/javascript">
