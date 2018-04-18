@@ -16,6 +16,18 @@ body{
 	overflow-y:hidden;
 	scroll-behavior: no;
 }
+input:focus{
+	outline:0px;
+}
+textarea:focus{
+	outline:0px;
+}
+select:focus{
+	outline:0px;
+}
+button:focus{
+	outline:0px;
+}
 
 .borde {
 	border:1px solid #096;
@@ -192,6 +204,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 input[type=number] { -moz-appearance:textfield; }
 
+
 .listado {
 	position:inherit;
 	overflow:scroll;
@@ -200,10 +213,20 @@ input[type=number] { -moz-appearance:textfield; }
 	box-sizing:border-box;
 	background-color:white;
 }
+.listado2 {
+	position:inherit;
+	overflow:scroll;
+	height:54vh;
+	width:100vw;
+	box-sizing:border-box;
+	background-color:white;
+}
 .bot{
 	position: fixed;
 	bottom: 0;
 }
+
+
 .ancho-b_ordenar {
 	width:40vw;
 }
@@ -365,7 +388,7 @@ input[type=number] { -moz-appearance:textfield; }
 	position: absolute;
 	width:100vw;
 	top:360px;
-	bottom:40px;
+	bottom:39px;
 	background-color: #0F0;
 }
 #check{
@@ -424,42 +447,86 @@ input[type=number] { -moz-appearance:textfield; }
 }
 
 #menu-superior{
-	position:relative;
-	top:0;
-	height:20px;
-}
-#menu-inferior{
 	position:absolute;
 	z-index:99;
-	bottom:0px;
-	height:50px;
-	width:100%;
+	top:0px;
+	height:53px;
+	width:100vw;
 	background: #808080;
 	background-image: -webkit-linear-gradient(top, #4D4D4D, #1a1a1a);
 	background-image: -moz-linear-gradient(top, #4D4D4D, #1a1a1a);
 	background-image: -ms-linear-gradient(top, #4D4D4D, #1a1a1a);
 	background-image: -o-linear-gradient(top, #4D4D4D, #1a1a1a);
 	background-image: linear-gradient(to bottom, #4D4D4D, #1a1a1a);
+	text-align:center;
+}
+#menu-inferior{
+	position:absolute;
+	z-index:99;
+	bottom:0px;
+	height:50px;
+	width:100vw;
+	background: #808080;
+	background-image: -webkit-linear-gradient(top, #4D4D4D, #1a1a1a);
+	background-image: -moz-linear-gradient(top, #4D4D4D, #1a1a1a);
+	background-image: -ms-linear-gradient(top, #4D4D4D, #1a1a1a);
+	background-image: -o-linear-gradient(top, #4D4D4D, #1a1a1a);
+	background-image: linear-gradient(to bottom, #4D4D4D, #1a1a1a);
+	text-align:center;
 }
 #content-cancion{
 	position:absolute;
-	top:50px;
+	top:53px;
 	bottom:50px;
 	width:100%;
 	background-color:white;
 }
 #cancion{
-	width:90%;
-	height:80vh !important;
+	position:absolute;
+	width:99vw;
+	top:0px;
+	bottom:0px;
 	resize:none;
-	//overflow:scroll;
+	overflow:scroll;
 	border:none;
 }
-
- 
- 
- 
- 
+#t-can{
+	position:relative;
+	top:15px;
+	color:white;
+}
+#boton-editar{
+	position:absolute;
+	width:20vw;
+	right:0px;
+}
+#boton-back{
+	position:absolute;
+	left:0px;
+}
+#boton-play{
+	border-radius:35px;
+	width:25vw;
+}
+#boton-stop{
+	border-radius:35px;
+	width:24vw;
+}
+#boton-pause{
+	border-radius:35px;
+	width:24vw;
+}
+#boton-menos{
+	border-radius:35px;
+	width:24vw;
+}
+#boton-mas{
+	border-radius:35px;
+	width:24vw;
+}
+.disnone{
+	display:none;
+}
  
  
  

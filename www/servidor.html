@@ -36,20 +36,23 @@
 						 'httpFields' : {...},
 						 'resource' : '/?param1=value1&param2=value2'
 						 } */
+						alert ("opne....");
 						console.log('A user connected from %s', conn.remoteAddr);
 						document.getElementById('log').innerHTML="A user conecctado-:"+conn.remoteAddr+" ---";
 					},
 					'onMessage' : function(conn, msg) {
 						console.log(conn, msg);
 						document.getElementById('log').innerHTML="mensaje-:"+msg+" fin.";
+						alert ("mensaje....");
+			
 					},
 					'onClose' : function(conn, code, reason, wasClean) {
 						console.log('A user disconnected from %s', conn.remoteAddr);
 						document.getElementById('log').innerHTML="A user desconectado-";
 					},
 					// Other options
-					'origins' : [ 'http://' ], // validates the 'Origin' HTTP Header.
-					'protocols' : [ 'TCP'], // validates the 'Sec-WebSocket-Protocol' HTTP Header.
+					'origins' : [ 'ws://' ], // validates the 'Origin' HTTP Header.
+					//'protocols' : [ 'TCP'], // validates the 'Sec-WebSocket-Protocol' HTTP Header.
 					'tcpNoDelay' : true // disables Nagle's algorithm.
 				}, function onStart(addr, port) {
 					console.log('Listening on %s:%d', addr, port);
@@ -100,6 +103,11 @@
 </p>
 <p>
  <div id="log">waiting...</div></p>
+<p>
+  <label for="mensaje">Mensaje</label>
+  <input name="mensaje" type="text" id="mensaje" size="20" maxlength="20" />
+</p>
+
 <script type="text/javascript">
 document.addEventListener("deviceready", lectura_ip, false);
 function lectura_ip()

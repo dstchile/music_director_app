@@ -44,10 +44,9 @@ function lista_programas(db){
 				var row = result.rows.item(index);
 				var id_cancion=row['id'];
 				var titulo=row['titulo_cancion'];
-				titulo=titulo.toUpperCase();
 				var cantante=row['cantante'];
-				cantante=cantante.toUpperCase();
-				tituloc.textContent=cantante+" - "+titulo;
+				titulo=titulo.toUpperCase();
+				document.getElementById('t-can').textContent=titulo;
 				var velocidad=row['velocidad'];
 				var compas=row['compas'];
 				var letra_cancion=row['letra_cancion'];
@@ -59,6 +58,26 @@ function lista_programas(db){
 	}
 
 
+function repro(estado){
+	if(estado=="play")
+		{
+			document.getElementById('boton-play').className +=" disnone";
+			document.getElementById('boton-pause').className="boton2";
+			document.getElementById('boton-stop').className="boton2";
+			document.getElementById('boton-menos').className="boton2";
+			document.getElementById('boton-mas').className="boton2";
+		}
+	if(estado=="stop")
+		{
+			document.getElementById('boton-play').className="boton2";
+			document.getElementById('boton-pause').className +=" disnone";
+			document.getElementById('boton-stop').className +=" disnone";
+			document.getElementById('boton-menos').className +=" disnone";
+			document.getElementById('boton-mas').className +=" disnone";
+		}
+	
+}
+
 </script>
 </head>
 
@@ -66,12 +85,17 @@ function lista_programas(db){
 <script type="text/javascript" src="cordova.js"></script>
 <div id="principal">
     <div id="menu-superior">
-    	<a href="listado.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled><span id="tituloc"></span>&nbsp;</button>
+    	<a href="listado.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><button id="boton-editar" class="boton2" value="haaaaaa" ><span class="icon-edit"></span></button>
     </div>
     <div id="content-cancion">
-        <div id="le-can"><textarea id="cancion" readonly></textarea></div>
+        <textarea id="cancion" readonly></textarea>
     </div>
     <div id="menu-inferior">
+    	<button id="boton-play" class="boton2" onClick="repro('play')"><span class="icon-play"></span></button>
+        <button id="boton-pause" class="boton2 disnone"><span class="icon-pause"></span></button>
+        <button id="boton-stop" class="boton2 disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
+        <button id="boton-menos" class="boton2 disnone"><span class="icon-minus"></span></button>
+        <button id="boton-mas" class="boton2 disnone"><span class="icon-plus"></span></button>
     </div>
 </div>
 </body>
