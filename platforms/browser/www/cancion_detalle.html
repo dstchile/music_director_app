@@ -70,12 +70,12 @@ function repro(estado){
 			document.getElementById('boton-menos').className="color-boton";
 			document.getElementById('text-velocidad').className="";
 			document.getElementById('boton-mas').className="color-boton";
-			$('#menu-superior').slideUp(1000);
+			//$('#menu-superior').slideUp(1000);
 			document.getElementById('content-cancion').className="content-cancion";
 			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
 			document.getElementById('estado').value="PLAY";
 			var sh = document.getElementById('cancion').scrollHeight;
-			var i=1;
+			var i=-50;
 			delay(i,sh);
 		}
 	if(estado=="stop")
@@ -89,7 +89,7 @@ function repro(estado){
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
 			document.getElementById('estado').value="STOP";
-			$('#menu-superior').slideDown(1000);
+			//$('#menu-superior').slideDown(1000);
 			document.getElementById('content-cancion').className="";
 			document.getElementById('cancion').scrollTo(0,0);
 		}
@@ -100,8 +100,6 @@ function delay(i,sh){
 	if(i<sh)
 		{
 			var vel=document.getElementById('text-velocidad').value;
-			if(vel>210){vel=210;}
-			if(vel<40){vel=40;}
 			var est = document.getElementById('estado').value;
 			if(est=="PLAY")
 				{
@@ -159,15 +157,6 @@ function velo(z){
 			var dato = document.getElementById('text-velocidad').value;
 			vel=parseInt(dato)*100;
 		}
-	else
-		{
-			var x = document.getElementById('text-velocidad').value;
-			if(x>210){x=210;}
-			else if(x<40){x=40;}
-			document.getElementById('text-velocidad').value=x;
-			var dato = document.getElementById('text-velocidad').value;
-			vel=parseInt(dato)*100;
-		}
 }
 
 </script>
@@ -187,7 +176,7 @@ function velo(z){
     	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
         <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
-        <input type="number" onFocus="this.select();" onBlur="velo()" id="text-velocidad" class="disnone">
+        <input type="number" readonly id="text-velocidad" class="disnone">
         <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
         <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
     </div>
