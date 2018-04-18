@@ -48,6 +48,7 @@ function lista_programas(db){
 				titulo=titulo.toUpperCase();
 				document.getElementById('t-can').textContent=titulo;
 				var velocidad=row['velocidad'];
+				document.getElementById('text-velocidad').value=velocidad;
 				var compas=row['compas'];
 				var letra_cancion=row['letra_cancion'];
 				var tono=row['tono'];
@@ -62,22 +63,38 @@ function repro(estado){
 	if(estado=="play")
 		{
 			document.getElementById('boton-play').className +=" disnone";
-			document.getElementById('boton-pause').className="boton2";
-			document.getElementById('boton-stop').className="boton2";
-			document.getElementById('boton-menos').className="boton2";
+			document.getElementById('boton-pause').className="color-boton";
+			document.getElementById('boton-stop').className="color-boton";
+			document.getElementById('boton-menos').className="color-boton";
 			document.getElementById('text-velocidad').className="";
-			document.getElementById('boton-mas').className="boton2";
+			document.getElementById('boton-mas').className="color-boton";
+			$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
 		}
 	if(estado=="stop")
 		{
-			document.getElementById('boton-play').className="boton2";
+			document.getElementById('boton-play').className="color-boton";
 			document.getElementById('boton-pause').className +=" disnone";
 			document.getElementById('boton-stop').className +=" disnone";
 			document.getElementById('boton-menos').className +=" disnone";
 			document.getElementById('text-velocidad').className="disnone";
 			document.getElementById('boton-mas').className +=" disnone";
+			$('#cancion').animate();
 		}
 	
+}
+
+function pau(){
+	var x=document.getElementById('boton-pause').value;
+	if(x==1)
+		{
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+		}
+	if(x=='')
+		{
+			document.getElementById('pausa').className="icon-play";
+			document.getElementById('boton-pause').value=1;
+		}
 }
 
 </script>
@@ -93,12 +110,12 @@ function repro(estado){
         <textarea id="cancion" readonly></textarea>
     </div>
     <div id="menu-inferior">
-    	<button id="boton-play" class="boton2" onClick="repro('play')"><span class="icon-play"></span></button>
-        <button id="boton-pause" class="boton2 disnone"><span class="icon-pause"></span></button>
-        <button id="boton-stop" class="boton2 disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
-        <button id="boton-menos" class="boton2 disnone"><span class="icon-minus"></span></button>
+    	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
+        <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
+        <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
+        <button id="boton-menos" class="color-boton disnone"><span class="icon-minus"></span></button>
         <input type="text" readonly id="text-velocidad" class="disnone">
-        <button id="boton-mas" class="boton2 disnone"><span class="icon-plus"></span></button>
+        <button id="boton-mas" class="color-boton disnone"><span class="icon-plus"></span></button>
     </div>
 </div>
 </body>
