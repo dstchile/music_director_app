@@ -72,8 +72,26 @@ function repro(estado){
 			document.getElementById('boton-mas').className="color-boton";
 			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
 			var sh = document.getElementById('cancion').scrollHeight;
-			var scrol=document.getElementById('cancion');
-			scrol.scrollTo(0,sh);
+			var i=1;
+			delay(i,sh);
+			function delay(i,sh){
+				if(i<sh)
+					{
+						vel=document.getElementById('text-velocidad').value;
+						if(vel>210){vel=210}
+						if(vel<40){vel=40}
+						setTimeout(function(){
+						document.getElementById('cancion').scrollTo(0,i);
+						console.log("i= "+i);
+						i++;
+						delay(i,sh);
+						},vel);
+					}
+				else
+					{
+						alert("termino")
+					}
+			}
 		}
 	if(estado=="stop")
 		{

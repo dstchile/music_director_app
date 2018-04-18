@@ -17,37 +17,25 @@ function conectar_servidor()
 		alert("conectando");
 		var direccion= document.getElementById('ip_servidor').value;
 		
-		var accessToken = "abcdefghiklmnopqrstuvwxyz";
-		var wsOptions = {
-			url: direccion,
-			timeout: 5000,
-			pingInterval: 10000
-			//,headers: {"Authorization": "my-protocol-v1"}
-			//,acceptAllCerts: false
-			}
-		 
-		CordovaWebsocketPlugin.wsConnect(wsOptions,
-						function(recvEvent) {
-							console.log("Received callback from WebSocket: "+recvEvent["callbackMethod"]);
-							document.getElementById('log').innerHTML='Received callback from WebSocket: '+recvEvent["callbackMethod"];
-						},
-						function(success) {
-							console.log("Connected to WebSocket with id: " + success.webSocketId);
-							document.getElementById('log').innerHTML="Connected to WebSocket with id: " + success.webSocketId;
-							document.getElementById('id_socket').value=success.webSocketId;
-						},
-						function(error) {
-							console.log("Failed to connect to WebSocket: "+
-										"code: "+error["code"]+
-										", reason: "+error["reason"]+
-										", exception: "+error["exception"]);
-							document.getElementById('log').innerHTML="Failed to connect to WebSocket: "+
-										"code: "+error["code"]+
-										", reason: "+error["reason"]+
-										", exception: "+error["exception"];
-						
-						}
-					);
+		var ws = new WebSocket('ws://'+direccion);
+ 
+		ws.onopen = function () {
+			console.log('open');
+			this.send('hello');         // transmit "hello" after connecting 
+		};
+	 
+		ws.onmessage = function (event) {
+			console.log(event.data);    // will be "hello" 
+			this.close();
+		};
+	 
+		ws.onerror = function () {
+			console.log('error occurred!');
+		};
+	 
+		ws.onclose = function (event) {
+			console.log('close code=' + event.code);
+		};
 		
 		}
 	}
