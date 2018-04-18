@@ -36,7 +36,6 @@
 						 'httpFields' : {...},
 						 'resource' : '/?param1=value1&param2=value2'
 						 } */
-						alert ("opne....");
 						console.log('A user connected from %s', conn.remoteAddr);
 						document.getElementById('log').innerHTML="A user conecctado-:"+conn.remoteAddr+" ---";
 						document.getElementById('uuid').value=conn.uuid;
@@ -86,9 +85,15 @@
 		}
 	function enviar_mensaje()
 		{
+		document.addEventListener("deviceready", envmsg, false);
+		function envmsg()
+			{
+			var wsserver = cordova.plugins.wsserver;	
 			var id_user=document.getElementById('uuid').value;
 			var msg=document.getElementById('mensaje').value;
 			wsserver.send({'uuid':id_user}, msg);
+			alert ("mensaje:"+msg+" uid:"+id_user+"---")
+			}
 		}
 </script>
 </head>
