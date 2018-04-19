@@ -3,7 +3,13 @@
 document.addEventListener("deviceready", iniciando_servidor, false);
 function iniciando_servidor()
 	{	
-	addEventListener('exit', function() { alert("saliendo"); });
+	addEventListener('exit', 
+	function() { 
+		var wsserver = cordova.plugins.wsserver;	
+		wsserver.stop(function onStop(addr, port) {
+			console.log('Stopped listening on %s:%d', addr, port);
+			});
+		});
     //busca el nombrey numero de telefono del director
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
@@ -57,6 +63,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			alert("servidor iniciado en:"+addr+" por:"+port+"---");
 		}, function onDidNotStart(reason) {
 			console.log('Did not start. Reason: %s', reason);
+			alert("error no iniciado:"+reason)
 		});
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
