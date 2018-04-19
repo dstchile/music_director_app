@@ -3,7 +3,8 @@
 document.addEventListener("deviceready", iniciando_servidor, false);
 function iniciando_servidor()
 	{	
-	//busca el nombrey numero de telefono del director
+	addEventListener('exit', function() { alert("saliendo"); });
+    //busca el nombrey numero de telefono del director
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
