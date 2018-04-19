@@ -74,6 +74,11 @@ function conectar_servidor()
 
 	function desconectar_servidor()
 		{
+		document.addEventListener("deviceready", descon, false);
+		function descon()
+			{
+				this.close();
+			}
 		}
 
 </script>

@@ -44,6 +44,7 @@
 						console.log(conn, msg);
 						document.getElementById('log').innerHTML="mensaje-:"+msg+" fin.";
 						document.getElementById('respuesta').innerHTML=msg;	
+						mensajes_servidor(conn,msg);
 					},
 					'onClose' : function(conn, code, reason, wasClean) {
 						console.log('A user disconnected from %s', conn.remoteAddr);
@@ -94,6 +95,13 @@
 			wsserver.send({'uuid':id_user}, msg);
 			}
 		}
+	function mensajes_servidor(conn,msg)
+	{
+	if (msg=='001')
+		{
+		wsserver.send({'uuid':conn.uuid}, 'nick:');
+		}
+	}
 </script>
 </head>
 
