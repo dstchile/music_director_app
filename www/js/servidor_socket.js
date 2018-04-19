@@ -42,30 +42,36 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		console.log('Stopped listening on %s:%d', addr, port);
 		alert ("servidor detenido"+addr+"  "+port+"--")
 		});
-
-	wsserver.start(puerto, {
-			'onFailure' :  function(addr,port, reason) {
-				console.log('Server detenido Rason:', addr, port, reason);
-			},
-			'onOpen' : function(conn) {
-			//'uuid'=conn.uuid;
-			//'direccion del cliente'=conn.remoteAddr;
-			console.log('A user connected', conn.remoteAddr);
-			},
-			'onMessage' : function(conn, msg) {
-				console.log(conn, msg);
-			mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
-			},
-			'onClose' : function(conn, code, reason, wasClean) {
-				console.log('A user disconnected from %s', conn.remoteAddr);
-			}
-		}, function onStart(addr, port) {
-			console.log('Listening on %s:%d', addr, port);
-			alert("servidor iniciado en:"+addr+" por:"+port+"---");
-		}, function onDidNotStart(reason) {
-			console.log('Did not start. Reason: %s', reason);
-			alert("error no iniciado:"+reason)
-		});
+	setTimeout(function()
+		{
+		wsserver.start(puerto, {
+				'onFailure' :  function(addr,port, reason) {
+					console.log('Server detenido Rason:', addr, port, reason);
+				},
+				'onOpen' : function(conn) {
+				//'uuid'=conn.uuid;
+				//'direccion del cliente'=conn.remoteAddr;
+				console.log('A user connected', conn.remoteAddr);
+				},
+				'onMessage' : function(conn, msg) {
+					console.log(conn, msg);
+				mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
+				},
+				'onClose' : function(conn, code, reason, wasClean) {
+					console.log('A user disconnected from %s', conn.remoteAddr);
+				}
+			}, function onStart(addr, port) {
+				console.log('Listening on %s:%d', addr, port);
+				alert("servidor iniciado en:"+addr+" por:"+port+"---");
+			}, function onDidNotStart(reason) {
+				console.log('Did not start. Reason: %s', reason);
+				alert("error no iniciado:"+reason)
+			});
+		
+	
+		},1000);
+			
+	
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
