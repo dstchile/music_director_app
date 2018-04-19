@@ -5,10 +5,6 @@ function iniciando_servidor()
 	{	
 	addEventListener('exit', 
 	function() { 
-		var wsserver = cordova.plugins.wsserver;	
-		wsserver.stop(function onStop(addr, port) {
-			console.log('Stopped listening on %s:%d', addr, port);
-			});
 		});
     //busca el nombrey numero de telefono del director
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
@@ -42,6 +38,11 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 	var wsserver = cordova.plugins.wsserver;	
 	var puerto=8888;
+	wsserver.stop(function onStop(addr, port) {
+		console.log('Stopped listening on %s:%d', addr, port);
+		alert ("servidor detenido"+addr+"  "+port+"--")
+		});
+
 	wsserver.start(puerto, {
 			'onFailure' :  function(addr,port, reason) {
 				console.log('Server detenido Rason:', addr, port, reason);
