@@ -78,4 +78,8 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		{
 		wsserver.send({'uuid':conn.uuid}, 'nick:'+nombre_usuario);
 		}
+	if (msg=='002')
+		{
+		wsserver.send({'uuid':conn.uuid}, 'nick:'+numero_telefono);
+		}
 	}
