@@ -40,7 +40,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	var puerto=8888;
 	wsserver.stop(function onStop(addr, port) {
 		console.log('Stopped listening on %s:%d', addr, port);
-		alert ("servidor detenido"+addr+"  "+port+"--")
 		});
 	setTimeout(function()
 		{
