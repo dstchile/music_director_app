@@ -46,7 +46,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			},
 			'onMessage' : function(conn, msg) {
 				console.log(conn, msg);
-			mensajes_servidor(wsserver,conn,msg);
+			mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
 			},
 			'onClose' : function(conn, code, reason, wasClean) {
 				console.log('A user disconnected from %s', conn.remoteAddr);
@@ -58,10 +58,10 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			console.log('Did not start. Reason: %s', reason);
 		});
 	}
-function mensajes_servidor(wsserver,conn,msg)
+function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
-	wsserver.send({'uuid':conn.uuid}, 'nick:');
 	if (msg=='001')
 		{
+		wsserver.send({'uuid':conn.uuid}, 'nick:'+nombre_usuario);
 		}
 	}
