@@ -46,7 +46,8 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			},
 			'onMessage' : function(conn, msg) {
 				console.log(conn, msg);
-			mensajes_servidor(conn,msg);
+				wsserver.send({'uuid':conn.uuid}, 'nick:'+nombre_usuario);
+			//mensajes_servidor(conn,msg);
 			},
 			'onClose' : function(conn, code, reason, wasClean) {
 				console.log('A user disconnected from %s', conn.remoteAddr);
