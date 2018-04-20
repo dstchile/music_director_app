@@ -50,10 +50,6 @@
 				{
 				var address=dir[0]+"."+dir[1]+"."+dir[2]+"."+ip;
 				var ws = new WebSocket('ws://'+address+':8888');
-				$('#Listado_directores').append('<li><a href="#"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">error :'+address+'</font></span></p></a></li>');
-			
-			
-				
 				ws.onopen = function () {
 					console.log('open');
 					this.send('001');         // transmit "hello" after connecting 
