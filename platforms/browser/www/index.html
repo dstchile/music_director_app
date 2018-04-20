@@ -27,15 +27,19 @@
 		document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
+			alert("lectura");
 				lectura_datos();
 				console.log("carga de BD");
 			}
 		function lectura_datos(db)
 			{
+			alert("lectura base");
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
 			db.transaction(queryDB,errorCB);
 			function queryDB(tx)
 				{
+				alert("ejecutando consulta");
+				
 				tx.executeSql('CREATE TABLE IF NOT EXISTS director (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo_cancion TEXT NOT NULL, cantante TEXT NOT NULL, velocidad INTEGER NOT NULL, tono TEXT NOT NULL, compas TEXT NOT NULL, letra_cancion TEXT NOT NULL)');
 				tx.executeSql('CREATE TABLE IF NOT EXISTS datos_director (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario TEXT NOT NULL, numero_telefono TEXT NOT NULL)');
 				tx.executeSql('SELECT * FROM datos_director ',[],querySuccess,errorCB);
@@ -50,7 +54,8 @@
 				}
 				function querySuccess(tx,result)
 				{
-				
+				alert("generando query");
+			
 				console.log( "generando query." );
 				var existen_datos=false;
 				$.each(result.rows,function(index)
