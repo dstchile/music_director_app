@@ -7,7 +7,20 @@
     <script src="js/jquery-3.1.1.js"></script>
 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="cordova.js"></script>
-        <script>
+    </head>
+    <body>
+    <div class="content">
+		<div class="content-menu">
+			<ul>
+				<li><a href="" id="director" class="boton1">DIRECTOR</a></li>
+				<li><a href="busca_director.html" title="lista" class="boton1">MÚSICO</a></li>
+			</ul>
+	<a href="servidor.html" style="color:#FFF" >SERVIDOR</a>
+	<a href="cliente.html" >CLIENTE</a>
+		</div>
+	</div>
+    </body>
+     <script>
         document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
@@ -40,19 +53,6 @@
 				$.each(result.rows,function(index)
 					{
 					var row = result.rows.item(index);
-					var titulo=row['titulo_cancion'];
-					var cantante=row['cantante'];
-					var velocidad=row['velocidad'];
-					var compas=row['compas'];
-					var letra_cancion=row['letra_cancion'];
-					var tono=row['tono'];
-					console.log("titulo:"+titulo+" --");
-					console.log("cantante:"+cantante+" --");
-					console.log("velocidad:"+velocidad+" --");
-					console.log("tono:"+tono+" --");
-					console.log("compas:"+compas+" --");
-					console.log("letra_cancion:"+letra_cancion+" --");
-					//mueveReloj(ip,nombre_bd,usuariobd,passbd);
 					var existen_datos=true;
 					});
 				console.log("regisotr:"+result.rows.length);
@@ -73,17 +73,5 @@
 				}
 			}        
         </script>
-    </head>
-    <body>
-    <div class="content">
-		<div class="content-menu">
-			<ul>
-				<li><a href="" id="director" class="boton1">DIRECTOR</a></li>
-				<li><a href="busca_director.html" title="lista" class="boton1">MÚSICO</a></li>
-			</ul>
-	<a href="servidor.html" style="color:#FFF" >SERVIDOR</a>
-	<a href="cliente.html" >CLIENTE</a>
-		</div>
-	</div>
-    </body>
+   
 </html>
