@@ -57,13 +57,13 @@
 				
 				console.log( "generando query." );
 				var existen_datos=false;
+				alert("generando query "+result.rows.length+"--");
 				$.each(result.rows,function(index)
 					{
 					var row = result.rows.item(index);
 					var existen_datos=true;
 					});
 				console.log("regisotr:"+result.rows.length);
-				alert("generando query "+result.rows.length+"--");
 				if (result.rows.length>=1)
 					{
 					console.log("con datos director");
