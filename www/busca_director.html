@@ -8,19 +8,31 @@
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script type="text/javascript" src="cordova.js"></script>
     <script src="js/jquery-3.1.1.js"></script>
+</head>
+
+<body>
+<a href="index.html" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>BUSCANDO DIRECTORES</button>
+<div class="titulo_cancion">
+	<font color="white">Buscando Directores en la red</font>
+</div>
+    <div id="list" class="listado">
+    <ul id="Listado_directores" class="listado_directores"></ul>
+    </div>
+<div id="boton_guardar" class="base_cancion" align="center"></div>
+</body>
 	<script>
 	document.addEventListener("deviceready", lectura_ip, false);
 	function lectura_ip()
 		{
-		var direccion="192.168.1.36";
-		busca_director(direccion)
+		//var direccion="192.168.1.36";
+		//busca_director(direccion)
 			
 		function onSuccess( ipInformation ) 
 			{
 			//ipInformation.ip
 			//ipInformation.subnet
-			var mi_ip=ipInformation.ip;
-			//busca_director(mi_ip)
+			var direccion=ipInformation.ip;
+			busca_director(direccion)
 			}
 		function onError( error ) 
 			{
@@ -38,7 +50,10 @@
 				{
 				var address=dir[0]+"."+dir[1]+"."+dir[2]+"."+ip;
 				var ws = new WebSocket('ws://'+address+':8888');
+				$('#Listado_directores').append('<li><a href="#"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">error :'+address+'</font></span></p></a></li>');
 			
+			
+				
 				ws.onopen = function () {
 					console.log('open');
 					this.send('001');         // transmit "hello" after connecting 
@@ -67,16 +82,5 @@
 				
 		}
 	</script>
-</head>
 
-<body>
-<a href="index.html" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>BUSCANDO DIRECTORES</button>
-<div class="titulo_cancion">
-	<font color="white">Buscando Directores en la red</font>
-</div>
-    <div id="list" class="listado">
-    <ul id="Listado_directores" class="listado_directores"></ul>
-    </div>
-<div id="boton_guardar" class="base_cancion" align="center"></div>
-</body>
 </html>
