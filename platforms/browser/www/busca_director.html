@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+ <title>Documento sin título</title>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<script type="text/javascript" src="cordova.js"></script>
+    <script src="js/jquery-3.1.1.js"></script>
+	<script>
+	document.addEventListener("deviceready", lectura_ip, false);
+	function lectura_ip()
+		{
+		var direccion="192.168.1.36";
+		busca_director(direccion)
+			
+		function onSuccess( ipInformation ) 
+			{
+			//ipInformation.ip
+			//ipInformation.subnet
+			var mi_ip=ipInformation.ip;
+			//busca_director(mi_ip)
+			}
+		function onError( error ) 
+			{
+			// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
+			//alert( error );
+			}
+		networkinterface.getWiFiIPAddress( onSuccess, onError );
+		networkinterface.getCarrierIPAddress( onSuccess, onError );
+		}
+	function busca_director(direccion)
+		{
+			var dir=direccion.split(".");
+	 		var ip=1;
+			while(ip<=255)
+				{
+				var address=dir[0]+"."+dir[1]+"."+dir[2]+"."+ip;
+				var ws = new WebSocket('ws://'+address+':8888');
+			
+				ws.onopen = function () {
+					console.log('open');
+					this.send('001');         // transmit "hello" after connecting 
+				};
+			 
+				ws.onmessage = function (event) {
+					console.log(event.data);    // will be "hello" 
+				
+				$('#Listado_directores').append('<li><a href="cancion_detalle_musico.html?v1='+address+'&v2='+event.data+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+event.data+'</font></span></p></a></li>');
+				
+					this.close();
+				};
+			 
+				ws.onerror = function () {
+					console.log('error occurred!');
+				};
+			 
+				ws.onclose = function (event) {
+					console.log('close code=' + event.code);
+				};
+			
+			
+				
+				ip++;
+				}
+				
+		}
+	</script>
+</head>
+
+<body>
+<a href="index.html" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>DATOS DIRECTOR</button>
+<div class="titulo_cancion">
+	<font color="white">Buscando Directores en la red</font>
+</div>
+    <div id="list" class="listado">
+    <ul id="Listado_directores" class="listado_directores"></ul>
+    </div>
+<div id="boton_guardar" class="base_cancion" align="center"></div>
+</body>
+</html>

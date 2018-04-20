@@ -76,10 +76,10 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
 	if (msg=='001')
 		{
-		wsserver.send({'uuid':conn.uuid}, 'nick:'+nombre_usuario);
+		wsserver.send({'uuid':conn.uuid}, nombre_usuario);
 		}
 	if (msg=='002')
 		{
-		wsserver.send({'uuid':conn.uuid}, 'nick:'+numero_telefono);
+		wsserver.send({'uuid':conn.uuid}, numero_telefono);
 		}
 	}
