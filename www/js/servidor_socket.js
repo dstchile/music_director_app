@@ -24,13 +24,20 @@ function iniciando_servidor()
 	function querySuccess(tx,result)
 		{
 		console.log( "generando query." );
-		$.each(result.rows,function(index)
+		for (var i=0; i<result.rows.length; i++) 
+		  {
+		  var row = result.rows.item(i);
+		  var nombre_usuario=row['nombre_usuario'];
+		  var numero_telefono=row['numero_telefono'];
+		  inicio_proceso(nombre_usuario,numero_telefono)
+		  }
+		/*$.each(result.rows,function(index)
 			{
 			var row = result.rows.item(index);
 			var nombre_usuario=row['nombre_usuario'];
 			var numero_telefono=row['numero_telefono'];
 			inicio_proceso(nombre_usuario,numero_telefono)
-			});
+			});*/
 		}
 			
 	}
