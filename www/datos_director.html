@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script type="text/javascript" src="cordova.js"></script>
     <script src="js/jquery-3.1.1.js"></script>
+	<script src="js/mensajes.js"></script>
 	<script>
 	document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
@@ -39,6 +40,11 @@
 				$.each(result.rows,function(index)
 					{
 					var existen_datos=true;
+					var row = result.rows.item(index);
+					document.getElementById('nombre_director').value=row['nombre_usuario'];
+					document.getElementById('numero_telefono').value=row['numero_telefono'];
+					document.getElementById('memoid').value=row['id'];
+					
 					});
 				if (result.rows.length>=1)
 					{
@@ -59,17 +65,18 @@
 function guardar_datos(){
 	var nombre_director = document.getElementById('nombre_director').value;
 	var numero_telefono = document.getElementById('numero_telefono').value;
+	var memoid = document.getElementById('memoid').value;
 	
 	var nombre_directorv = nombre_director.replace(/'/g,"''");
 	var numero_telefonov = numero_telefono.replace(/'/g,"''");
 	
 	if(nombre_director=='')
 		{
-		alert("Debe especificar el nombre del Director");
+		mensaje_texto("Debe especificar el nombre del Director");	
 		}
 	else if(numero_telefono=='')
 		{
-			alert("Debe especificar el cantente o grupo de la Cancion "+titulo);
+			mensaje_texto("Debe especificar un número de teléfono");	
 		}
 	else
 		{
@@ -77,7 +84,14 @@ function guardar_datos(){
 		db.transaction(populateDB, errorCB, successCB);
 		function populateDB(tx) 
 			{
-			tx.executeSql("INSERT INTO datos_director (nombre_usuario,numero_telefono)VALUES('"+nombre_directorv+"','"+numero_telefonov+"')");														
+			if (memoid!='')
+				{
+				tx.executeSql("UPDATE datos_director set nombre_usuario='"+nombre_directorv+"' , numero_telefono='"+numero_telefonov+"' where id='"+memoid+"'");
+				}
+			else
+				{
+				tx.executeSql("INSERT INTO datos_director (nombre_usuario,numero_telefono)VALUES('"+nombre_directorv+"','"+numero_telefonov+"')");														
+				}
 			}
 		function errorCB(err) 
 			{
@@ -85,8 +99,11 @@ function guardar_datos(){
 			}
 		function successCB() 
 			{
-				alert("Datos guardados correctamente!")
-				location.href="listado.html";
+			mensaje_texto('Datos guardados correctamente!');	
+				if (memoid=='')
+					{
+					location.href="listado.html";
+					}
 			}
 		}
 	}
@@ -96,28 +113,28 @@ function guardar_datos(){
 </head>
 
 <body>
-<a href="" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>DATOS DIRECTOR</button>
+<a href="" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-disk"></span></a>
 <div class="titulo_cancion">
 	<font color="white">Nombre Director(use un nickname sencillo)</font>
 </div>
 <div class="titulo_cancion centrado">
-	<input type="text" id="nombre_director" name="nombre_director" >
+	<input type="text" id="nombre_director" name="nombre_director" class="entrada_texto" >
+</div>
+<div class="parrafo">
+El nombre de Director es usado por la Aplicación para conectarse con los músicos, es recomendable usar un nombre facil de identificar por tus músicos para que puedan sincronizar facilmente.
 </div>
 <div class="titulo_cancion">
 	<font color="white">Número de teléfono</font>
 </div>
 <div class="titulo_cancion centrado">
-	<input type="text" id="numero_telefono" name="numero_telefono" >
+	<input type="text" id="numero_telefono" name="numero_telefono" class="entrada_texto" >
 </div>
-<div class="titulo_cancion">
-</div>
-<div id="letra_can" class="letra_cancion">
-	<div style="width: 45%;"><span class="icon-edit"></span>El nombre de Director es usado por la Aplicación para conectarse con los músicos, es recomendable usar un nombre facil de identificar por tus músicos para que puedan sincronizar facilmente</div>
-	<div style="width: 45%;"><span class="icon-edit"></span>El número de teléfono es usado por la Aplicación para descargar las canciones creadas desde la página web, te ayudará a ahorrar tiempo en la creación de canciones, de esta manera será mucho más rápido subir tus canciones a la aplicación</div>
-  <div style="width: 55%;" align="right"><input type="checkbox" id="check"><label id="lab" onClick="reajustar()" for="check"></label></div>
-</div>
+<div class="parrafo">
+El número de teléfono es usado por la Aplicación para descargar las canciones creadas desde la página web, te ayudará a ahorrar tiempo en la creación de canciones, de esta manera será mucho más rápido subir tus canciones a la aplicación.
+</div>	
 <div id="boton_guardar" class="base_cancion" align="center">
 	<input type="button" id="guardar" name="guardar" onClick="guardar_datos()" value="Guardar">	
 </div>
+<input name="memoid" id="memoid" type="hidden">
 </body>
 </html>

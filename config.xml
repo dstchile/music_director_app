@@ -11,6 +11,7 @@
     <plugin name="cordova-plugin-websocket-server" source="npm" />
     <plugin name="cordova-plugin-websocket" source="npm"/>
     <plugin name="cordova-plugin-whitelist" source="npm"/>
+    <plugin name="cordova-plugin-dialogs" source="npm"/>
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm"/>
 	<content src="index.html" />
     <access origin="*" />

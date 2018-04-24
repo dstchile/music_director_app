@@ -71,3 +71,7 @@
 .icon-th-list:before { content: '\f009'; } /* '' */
 .icon-th-thumb:before { content: '\f00a'; } /* '' */
 .icon-search:before { content: '\f50d'; } /* '' */
+.icon-user:before { content: '\e80d'; } /* '' */
+.icon-text:before { content: '\e80e'; } /* '' */
+.icon-cloud:before { content: '\f0ed'; } /* '' */
+.icon-disk:before { content: '\e80f'; } /* '' */

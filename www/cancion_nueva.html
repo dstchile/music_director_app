@@ -6,8 +6,78 @@
  <title>Documento sin título</title>
     <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
-	<script src="js/jquery-3.1.1.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+   	<script src="js/jquery-3.1.1.js"></script>
 	<script>
+	function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+
+	document.addEventListener("deviceready", lectura_inicial, false);
+		function lectura_inicial()
+			{
+				var id_cancion = getParameterByName('v1');
+				if (id_cancion!='')
+					{
+					lectura_datos();
+					}
+				console.log("carga de BD");
+			}
+		function lectura_datos(db)
+			{
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+			db.transaction(queryDB,errorCB);
+			function queryDB(tx)
+				{
+				var id_cancion = getParameterByName('v1');
+				tx.executeSql('SELECT * FROM director where id='+id_cancion+' ',[],querySuccess,errorCB);
+				console.log( "Leyendo datos guardados." );
+				}
+				function errorCB(err) 
+				{
+				if (err.code!=0)
+					{
+					alert("1Error processing SQL: "+err.code);
+					}
+				}
+				function querySuccess(tx,result)
+				{
+				
+				console.log( "generando query." );
+				var existen_datos=false;
+				$.each(result.rows,function(index)
+					{
+					var existen_datos=true;
+					var row = result.rows.item(index);
+					document.getElementById('titulo_cancion').value=row['titulo_cancion'];
+					document.getElementById('cantante_grupo').value=row['cantante'];
+					document.getElementById('velocidad').value=row['velocidad'];
+					document.getElementById('tono').value=row['tono'];
+					document.getElementById('compas').value=row['compas'];
+					document.getElementById('l_cancion').value=row['letra_cancion'];
+					});
+				if (result.rows.length>=1)
+					{
+					console.log("con datos");
+					var ruta="listado.html";
+					document.getElementById("retorno").href = ruta;
+					}
+				else
+					{
+					console.log("sin datos");
+					var ruta="index.html";
+					document.getElementById("retorno").href = ruta;
+					}
+				
+				}
+			}        
+
+
 			$(window).resize(function(){
 			   //aqui el codigo que se ejecutara cuando se redimencione la ventana
 			   var alto=$(window).height();
@@ -93,7 +163,15 @@ function guardar_cancion(){
 				db.transaction(populateDB, errorCB, successCB);
 				function populateDB(tx) 
 					{
-					tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulov+"','"+cantantev+"','"+velo+"','"+ton+"','"+comp+"','"+letrav+"')");														
+					var id_cancion = getParameterByName('v1');
+					if (id_cancion!='')
+						{
+						tx.executeSql("UPDATE director set titulo_cancion='"+titulov+"' , cantante='"+cantantev+"', velocidad='"+velo+"' , tono='"+ton+"' , compas='"+comp+"' , letra_cancion='"+letrav+"' where id='"+id_cancion+"'");
+						}
+					else
+						{
+						tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulov+"','"+cantantev+"','"+velo+"','"+ton+"','"+comp+"','"+letrav+"')");														
+						}
 					}
 				function errorCB(err) 
 					{
@@ -114,24 +192,22 @@ function guardar_cancion(){
 </head>
 
 <body>
-<a href="listado.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>CANCION NUEVA</button>
+<a href="listado.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>CANCION</button>
 <div class="titulo_cancion">
-	<span class="icon-headphones"></span><font color="white">Titulo Cancion :</font>
-</div>
+	<span class="icon-headphones"></span><font color="white">Titulo Cancion </font></div>
 <div class="titulo_cancion centrado">
 	<input type="text" id="titulo_cancion" name="titulo_cancion" >
 </div>
 <div class="titulo_cancion">
-	<span class="icon-mic"></span><font color="white">Cantante/Grupo :</font>
-</div>
+	<span class="icon-mic"></span><font color="white">Cantante/Grupo </font></div>
 <div class="titulo_cancion centrado">
 	<input type="text" id="cantante_grupo" name="cantante_grupo" >
 </div>
 <div class="titulo_cancion">
-	<div style="width: 35%; line-height: 30px"><span class="icon-play"></span>Velocidad :</div><div class="sel_css"><input type="button" id="menos" name="menos" class="boton3" onClick="vel('menos')" value="-"><input type="number" class="n_velocidad" name="velocidad" id="velocidad" onFocus="this.select()" onBlur="vel(this.value)" value="120"><input type="button" id="mas" name="mas" class="boton3" onClick="vel('mas')" value="+"></div>
+	<div style="width: 35%; line-height: 30px"><span class="icon-play"></span>Velocidad </div><div class="sel_css"><input type="button" id="menos" name="menos" class="boton3" onClick="vel('menos')" value="-"><input type="number" class="n_velocidad" name="velocidad" id="velocidad" onFocus="this.select()" onBlur="vel(this.value)" value="120"><input type="button" id="mas" name="mas" class="boton3" onClick="vel('mas')" value="+"></div>
 </div>
 <div class="titulo_cancion">
-	<div style="width: 35%;"><span class="icon-music"></span>Tono : </div>
+	<div style="width: 35%;"><span class="icon-music"></span>Tono </div>
 	<div class="sel_css">
 	<select name="tono" id="tono">
 		<option value="C">C</option>
@@ -168,7 +244,7 @@ function guardar_cancion(){
 	</div>
 </div>
 <div class="titulo_cancion">
-	<div style="width: 35%;">&nbsp;¾ Compás : </div>
+	<div style="width: 35%;">&nbsp;¾ Compás </div>
 	<div class="sel_css">
 	<select name="compas" id="compas">
 		<option value="2/4">2/4</option>

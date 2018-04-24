@@ -53,6 +53,9 @@
         },
         "cordova-plugin-websocket": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {},
@@ -141,6 +144,22 @@
             "clobbers": [
                 "chrome.socket"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/browser/notification.js",
+            "id": "cordova-plugin-dialogs.notification_browser",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -155,6 +174,7 @@
         "cordova-plugin-chrome-apps-common": "1.0.7",
         "cordova-plugin-chrome-apps-system-network": "1.1.2",
         "cordova-plugin-chrome-apps-socket": "1.2.3",
-        "cordova-plugin-websocket": "0.12.2"
+        "cordova-plugin-websocket": "0.12.2",
+        "cordova-plugin-dialogs": "2.0.1"
     }
 }
