@@ -37,6 +37,8 @@
 				
 				console.log( "generando query." );
 				var existen_datos=false;
+				/*
+				//////este codigo falla en android 5.0
 				$.each(result.rows,function(index)
 					{
 					var existen_datos=true;
@@ -45,7 +47,14 @@
 					document.getElementById('numero_telefono').value=row['numero_telefono'];
 					document.getElementById('memoid').value=row['id'];
 					
-					});
+					});*/
+				for (var i=0; i<result.rows.length; i++) 
+			   		{
+					var row = result.rows.item(i);
+				  	document.getElementById('nombre_director').value=row['nombre_usuario'];
+					document.getElementById('numero_telefono').value=row['numero_telefono'];
+					document.getElementById('memoid').value=row['id'];
+					}
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");

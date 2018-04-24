@@ -39,9 +39,9 @@ function lista_programas(db){
 		function querySuccess(tx,result)
 		{
 		console.log( "generando query." );
-		$.each(result.rows,function(index)
+		for (var i=0; i<result.rows.length; i++) 
 			{
-				var row = result.rows.item(index);
+				var row = result.rows.item(i);
 				var id_cancion=row['id'];
 				var titulo=row['titulo_cancion'];
 				var cantante=row['cantante'];
@@ -56,8 +56,7 @@ function lista_programas(db){
 				document.getElementById('cancion').innerHTML=letra_cancion;
 				var ruta="cancion_nueva.html?v1="+id_cancion;
 				document.getElementById("boton-editar").href = ruta;
-					
-	 		});
+			};
  		}
 	}
 

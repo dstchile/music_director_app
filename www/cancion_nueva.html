@@ -50,17 +50,17 @@
 				
 				console.log( "generando query." );
 				var existen_datos=false;
-				$.each(result.rows,function(index)
+				for (var i=0; i<result.rows.length; i++) 
 					{
 					var existen_datos=true;
-					var row = result.rows.item(index);
+					var row = result.rows.item(i);
 					document.getElementById('titulo_cancion').value=row['titulo_cancion'];
 					document.getElementById('cantante_grupo').value=row['cantante'];
 					document.getElementById('velocidad').value=row['velocidad'];
 					document.getElementById('tono').value=row['tono'];
 					document.getElementById('compas').value=row['compas'];
 					document.getElementById('l_cancion').value=row['letra_cancion'];
-					});
+					};
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");
