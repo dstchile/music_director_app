@@ -114,6 +114,10 @@ function delay(i,sh){
 					if (i<0)
 						{
 						var con=(Math.round(i/10))*-1;	
+						if (i==-40)
+							{
+								alert('con:'+con+"--")
+							}
 						document.getElementById('contador').innerHTML=con;
 						}
 					else
