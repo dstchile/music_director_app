@@ -99,7 +99,7 @@
 	{
 	if (msg=='001')
 		{
-		var send_data = JSON.stringify({"direccion":"111.111.111.111" , "nombre":"valor dado" });
+		var send_data = JSON.stringify('{"direccion":"111.111.111.111" , "nombre":"valor dado" }');
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		}
 	}
