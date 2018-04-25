@@ -4,7 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
  <title>Documento sin título</title>
-    <script src="js/jquery-3.1.1.js"></script>
+ <script type="text/javascript" src="js/servidor_socket.js"></script>
+ <script src="js/jquery-3.1.1.js"></script>
 <link href="css/estilos.css" rel="stylesheet" type="text/css" />
 <link href="css/fontello.css" rel="stylesheet" type="text/css" />
 <script>
@@ -62,6 +63,7 @@ function lista_programas(db){
 
 
 function repro(estado){
+	
 	var vel=document.getElementById('text-velocidad').value;
 	vel=parseInt(vel)*100;
 	if(estado=="play")
@@ -93,7 +95,8 @@ function repro(estado){
 			document.getElementById('estado').value="STOP";
 			//$('#menu-superior').slideDown(1000);
 			document.getElementById('content-cancion').className="";
-			document.getElementById('cancion').scrollTo(0,0);
+			$('#cancion').scrollTop(0);			
+			//document.getElementById('cancion').scrollTo(0,0);
 			document.getElementById('contador').innerHTML='';
 		}
 	
@@ -108,21 +111,20 @@ function delay(i,sh){
 			if(est=="PLAY")
 				{
 					setTimeout(function(){
-					document.getElementById('cancion').scrollTo(0,i);
 					console.log("i= "+i);
 					//////codigo para contador/////
 					if (i<0)
 						{
 						var con=(Math.round(i/10))*-1;	
-						if (i==-40)
-							{
-								alert('con:'+con+"--")
-							}
+						document.getElementById('contador').style.display='';
 						document.getElementById('contador').innerHTML=con;
 						}
 					else
 						{
+						$('#cancion').scrollTop(i);			
+						//document.getElementById('cancion').scrollTo(0,100);
 						document.getElementById('contador').innerHTML='';
+						document.getElementById('contador').style.display='none';
 						}
 					//////////////////////////////	
 					i++;
@@ -131,8 +133,11 @@ function delay(i,sh){
 				}
 			if(est=="STOP")
 				{
-					document.getElementById('cancion').scrollTo(0,0);
+					//document.getElementById('cancion').scrollTo(0,0);
+					$('#cancion').scrollTop(0);			
 					document.getElementById('contador').innerHTML='';
+					document.getElementById('contador').style.display='none';
+						
 				}
 		}
 	else
@@ -148,8 +153,9 @@ function delay(i,sh){
 			document.getElementById('estado').value="STOP";
 			//$('#menu-superior').slideDown(1000);
 			document.getElementById('content-cancion').className="";
-			document.getElementById('cancion').scrollTo(0,0);
-								
+			//document.getElementById('cancion').scrollTo(0,0);
+			$('#cancion').scrollTop(0);			
+										
 		}
 }
 

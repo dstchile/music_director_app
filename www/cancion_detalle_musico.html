@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
  <title>Documento sin título</title>
- <script type="text/javascript" src="js/servidor_socket.js"></script>
+ <script type="text/javascript" src="js/cliente_socket.js"></script>
  <script src="js/jquery-3.1.1.js"></script>
 <link href="css/estilos.css" rel="stylesheet" type="text/css" />
 <link href="css/fontello.css" rel="stylesheet" type="text/css" />
@@ -17,50 +17,8 @@ function getParameterByName(name)
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-var id_cancion = getParameterByName('v1');
-console.log("ID cancion: "+id_cancion)
-document.addEventListener("deviceready", lectura_inicial, false);
-	function lectura_inicial()
-		{
-			console.log("LLego aqui")
-			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
-			lista_programas(db);
-		}
-function lista_programas(db){
-	db.transaction(queryDB,errorCB);
-	function queryDB(tx)
-		{
-		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
-		console.log( "Leyendo datos guardados." );
-		}
-		function errorCB(err) 
-		{
-		alert("Error processing SQL: "+err.code);
-		}
-		function querySuccess(tx,result)
-		{
-		console.log( "generando query." );
-		for (var i=0; i<result.rows.length; i++) 
-			{
-				var row = result.rows.item(i);
-				var id_cancion=row['id'];
-				var titulo=row['titulo_cancion'];
-				var cantante=row['cantante'];
-				titulo=titulo.toUpperCase();
-				document.getElementById('t-can').textContent=titulo;
-				var velocidad=row['velocidad'];
-				document.getElementById('text-velocidad').value=velocidad;
-				var compas=row['compas'];
-				var letra_cancion=''+row['titulo_cancion']+'\n\n'+row['cantante']+'\n\n\n\n\n\n'+row['letra_cancion'];
-				var tono=row['tono'];
-				console.log("Titulo cancion: "+titulo);
-				document.getElementById('cancion').innerHTML=letra_cancion;
-				var ruta="cancion_nueva.html?v1="+id_cancion;
-				document.getElementById("boton-editar").href = ruta;
-			};
- 		}
-	}
-
+var address_server = getParameterByName('v1');
+console.log("dirección servidor: "+address_server)
 
 function repro(estado){
 	
@@ -223,6 +181,8 @@ function velo(z){
         <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
     </div>
     <div id="contador">
+    </div>
+    <div id="mensajeria">
     </div>
 </div>
 </body>
