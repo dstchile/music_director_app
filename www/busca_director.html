@@ -57,8 +57,8 @@
 			 
 				ws.onmessage = function (event) {
 					console.log(event.data);    // will be "hello" 
-				
-				$('#Listado_directores').append('<li><a href="cancion_detalle_musico.html?v1='+address+'&v2='+event.data+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+event.data+'</font></span></p></a></li>');
+					var obj = JSON.parse(event.data);
+					$('#Listado_directores').append('<li><a href="cancion_detalle_musico.html?v1='+obj.direccion+'&v2='+obj.nombre+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+obj.nombre+'</font></span></p></a></li>');
 				
 					this.close();
 				};

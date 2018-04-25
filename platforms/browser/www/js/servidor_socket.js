@@ -83,7 +83,8 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
 	if (msg=='001')
 		{
-		wsserver.send({'uuid':conn.uuid}, nombre_usuario);
+		var send_data = JSON.stringify({"direccion":""+conn.remoteAddr+"" , "nombre_usuario":nombre_usuario});
+		wsserver.send({'uuid':conn.uuid}, send_data);
 		}
 	if (msg=='002')
 		{
