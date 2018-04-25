@@ -23,8 +23,7 @@ function iniciando_cliente()
 				 
 					ws.onmessage = function (event) {
 						console.log(event.data);    // will be "hello" 
-					
-						alert (event.data);
+						alert(event.data)
 						this.close();
 					};
 				 
@@ -42,7 +41,7 @@ function iniciando_cliente()
 					document.getElementById('mensajeria').innerHTML="--"+i+"--add:"+address_server+"----";
 					i++;
 					partida_cliente(i);
-					},5000);
+					},10000);
 		}
 
 	
