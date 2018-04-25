@@ -92,7 +92,7 @@
 			var wsserver = cordova.plugins.wsserver;	
 			var id_user=document.getElementById('uuid').value;
 			var msg=document.getElementById('mensaje').value;
-			var send_data = JSON.stringify({"direccion":"111.111.111.111" , "nombre":"valor dado"});
+			var send_data = JSON.stringify({"direccion":"111.111.111.11" , "nombre":"valor dado"});
 			wsserver.send({'uuid':id_user}, send_data);
 			}
 		}
