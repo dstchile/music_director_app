@@ -13,12 +13,36 @@ function iniciando_cliente()
 		
 					setTimeout(function(){
 					var address_server = getParameterByName('v1');
-
+					
+					////llamada al servidor
+					var ws = new WebSocket('ws://'+address_server+':8888');
+					ws.onopen = function () {
+						console.log('open');
+						this.send('001');         // transmit "hello" after connecting 
+					};
+				 
+					ws.onmessage = function (event) {
+						console.log(event.data);    // will be "hello" 
+					
+						alert (event.data);
+						this.close();
+					};
+				 
+					ws.onerror = function () {
+						console.log('error occurred!');
+					};
+				 
+					ws.onclose = function (event) {
+						console.log('close code=' + event.code);
+					};
+					////////////////////////////////////
+					
+					
 					console.log("i= "+i);
 					document.getElementById('mensajeria').innerHTML="--"+i+"--add:"+address_server+"----";
 					i++;
 					partida_cliente(i);
-					},1000);
+					},5000);
 		}
 
 	

@@ -537,6 +537,17 @@ input[type=number] { -moz-appearance:textfield; }
 	font-size:36px;
 	z-index:999;
 }
+#mensajeria{
+	background:url(../img/Eclipse77px.gif) center;
+	background-repeat:no-repeat;
+	position:fixed;
+	width:100%;
+	text-align:center;
+	line-height:77px;
+	top:40vh;
+	font-size:36px;
+	z-index:999;
+}
 #content-cancion{
 	position:absolute;
 	top:53px;
