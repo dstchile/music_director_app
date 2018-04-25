@@ -4,7 +4,8 @@ document.addEventListener("deviceready", iniciando_cliente, false);
 function iniciando_cliente()
 	{	
 	console.log("iniciando cliente");
-	
+	window.plugins.insomnia.keepAwake();
+				
 	
 	var i=0;
 	partida_cliente(i)
@@ -18,7 +19,7 @@ function iniciando_cliente()
 					var ws = new WebSocket('ws://'+address_server+':8888');
 					ws.onopen = function () {
 						console.log('open');
-						this.send('001');         // transmit "hello" after connecting 
+						this.send('003');         // transmit "hello" after connecting 
 					};
 				 
 					ws.onmessage = function (event) {
