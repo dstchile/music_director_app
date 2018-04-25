@@ -92,14 +92,16 @@
 			var wsserver = cordova.plugins.wsserver;	
 			var id_user=document.getElementById('uuid').value;
 			var msg=document.getElementById('mensaje').value;
-			wsserver.send({'uuid':id_user}, msg);
+			var send_data = JSON.stringify({"direccion":"111.111.111.111" , "nombre":"valor dado"});
+			wsserver.send({'uuid':id_user}, send_data);
 			}
 		}
 	function mensajes_servidor(conn,msg)
 	{
 	if (msg=='001')
 		{
-		var send_data = JSON.stringify('{"direccion":"111.111.111.111" , "nombre":"valor dado" }');
+		//var send_data = ({"direccion":"111.111.111.111" , "nombre":"valor dado"});
+		var send_data="prueba";
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		}
 	}
