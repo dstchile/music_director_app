@@ -24,7 +24,22 @@ function iniciando_cliente()
 				 
 					ws.onmessage = function (event) {
 						console.log(event.data);    // will be "hello" 
-						alert(event.data)
+						//alert(event.data)
+						var obj = JSON.parse(event.data);
+						if (obj.titulo=='')
+							{
+							document.getElementById('mensajeria').style.display='';
+							document.getElementById('mensajeria').innerHTML="Esperando a Servidor";
+							}
+						else
+							{
+							document.getElementById('mensajeria').style.display='none';
+							document.getElementById('mensajeria').innerHTML="";
+							document.getElementById('t-can').textContent=obj.titulo;
+							document.getElementById('text-velocidad').value=obj.velocidad;
+							var letra_cancion=''+obj.titulo+'\n\n'+obj.titulo+'\n\n\n\n\n\n'+obj.letra;
+							document.getElementById('cancion').innerHTML=letra_cancion;
+							}
 						this.close();
 					};
 				 
@@ -39,7 +54,6 @@ function iniciando_cliente()
 					
 					
 					console.log("i= "+i);
-					document.getElementById('mensajeria').innerHTML="--"+i+"--add:"+address_server+"----";
 					i++;
 					partida_cliente(i);
 					},10000);
