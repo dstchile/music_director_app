@@ -58,7 +58,9 @@ function conectar_servidor()
 		 
 			ws.onmessage = function (event) {
 				console.log(event.data);    // will be "hello" 
-				document.getElementById('respuesta').innerHTML=event.data;
+				var obj = JSON.parse(even.data);
+				document.getElementById('respuesta').innerHTML=event.data+".."+obj.direccion+"--";
+				alert ("."+obj.direccion+"--"+obj.nombre+"--")
 				this.close();
 			};
 		 
