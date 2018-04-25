@@ -56,9 +56,9 @@
 				};
 			 
 				ws.onmessage = function (event) {
-					console.log(event.data);    // will be "hello" 
 					var obj = JSON.parse(event.data);
-					$('#Listado_directores').append('<li><a href="cancion_detalle_musico.html?v1='+obj.direccion+'&v2='+obj.nombre+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+obj.nombre+'</font></span></p></a></li>');
+					console.log(obj.direccion);    // will be "hello" 
+					$('#Listado_directores').append('<li><a href="cancion_detalle_musico.html?v1='+obj.direccion+'&v2='+obj.nombre_usuario+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+obj.nombre_usuario+'</font></span></p></a></li>');
 				
 					this.close();
 				};

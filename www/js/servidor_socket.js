@@ -3,10 +3,7 @@
 document.addEventListener("deviceready", iniciando_servidor, false);
 function iniciando_servidor()
 	{	
-	addEventListener('exit', 
-	function() { 
-		});
-    //busca el nombrey numero de telefono del director
+	//busca el nombrey numero de telefono del director
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
@@ -83,8 +80,17 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
 	if (msg=='001')
 		{
-		var send_data = JSON.stringify({"direccion":""+conn.remoteAddr+"" , "nombre_usuario":nombre_usuario});
-		wsserver.send({'uuid':conn.uuid}, send_data);
+		wsserver.getInterfaces(function(result) 
+			{
+			for (var interface in result) 
+				{
+				if (result.hasOwnProperty(interface)) 
+					{
+					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
+					wsserver.send({'uuid':conn.uuid}, send_data);
+					}
+				}
+			})
 		}
 	if (msg=='002')
 		{
