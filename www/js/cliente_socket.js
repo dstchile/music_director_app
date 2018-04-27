@@ -29,7 +29,7 @@ function iniciando_cliente()
 						if (obj.titulo=='')
 							{
 							document.getElementById('mensajeria').style.display='';
-							document.getElementById('mensajeria').innerHTML="Esperando a Servidor";
+							document.getElementById('mensajeria').innerHTML="Esperando";
 							}
 						else
 							{
@@ -37,20 +37,31 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').innerHTML="";
 							document.getElementById('t-can').textContent=obj.titulo;
 							document.getElementById('text-velocidad').value=obj.velocidad;
-							var letra_cancion=''+obj.titulo+'\n\n'+obj.titulo+'\n\n\n\n\n\n'+obj.letra;
-							document.getElementById('cancion').innerHTML=letra_cancion;
+							document.getElementById('cancion').innerHTML=obj.letra;
+							}
+						if(obj.estado=='PLAY')
+							{
+							repro('play')
+							}
+						if(obj.estado=='STOP')
+							{
+							repro('stop')
+							}
+						if(obj.estado=='PAUSE')
+							{
+							pau()
 							}
 						this.close();
 					};
 				 
 					ws.onerror = function () {
 						console.log('error occurred!');
+							document.getElementById('mensajeria').style.display='';
+							document.getElementById('mensajeria').innerHTML="Error";
 					};
 				 
 					ws.onclose = function (event) {
 						console.log('close code=' + event.code);
-							document.getElementById('mensajeria').style.display='';
-							document.getElementById('mensajeria').innerHTML="Error";
 					};
 					////////////////////////////////////
 					
@@ -58,7 +69,7 @@ function iniciando_cliente()
 					console.log("i= "+i);
 					i++;
 					partida_cliente(i);
-					},10000);
+					},1000);
 		}
 
 	
