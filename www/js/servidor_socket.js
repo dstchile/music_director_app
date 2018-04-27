@@ -100,7 +100,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		{
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
-		var titulo=document.getElementById('t-can').value;
+		var titulo=document.getElementById('t-can').textContent;
 		var velocidad=document.getElementById('text-velocidad').value;
 		var letra_cancion=document.getElementById('cancion').value;
 		var estado=document.getElementById('estado').value;

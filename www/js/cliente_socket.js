@@ -49,6 +49,8 @@ function iniciando_cliente()
 				 
 					ws.onclose = function (event) {
 						console.log('close code=' + event.code);
+							document.getElementById('mensajeria').style.display='';
+							document.getElementById('mensajeria').innerHTML="Error";
 					};
 					////////////////////////////////////
 					
