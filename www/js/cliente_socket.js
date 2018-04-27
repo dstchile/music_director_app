@@ -38,6 +38,8 @@ function iniciando_cliente()
 							document.getElementById('t-can').textContent=obj.titulo;
 							document.getElementById('text-velocidad').value=obj.velocidad;
 							document.getElementById('cancion').innerHTML=obj.letra;
+							$('#cancion').scrollTop(obj.posicion);			
+			
 							}
 						var estado_actual=document.getElementById('estado').value;
 						if(obj.estado=='PLAY' && estado_actual!='PLAY')
@@ -58,7 +60,7 @@ function iniciando_cliente()
 					ws.onerror = function () {
 						console.log('error occurred!');
 							document.getElementById('mensajeria').style.display='';
-							document.getElementById('mensajeria').innerHTML="Error";
+							document.getElementById('mensajeria').innerHTML="Esperando";
 					};
 				 
 					ws.onclose = function (event) {
