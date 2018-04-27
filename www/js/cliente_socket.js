@@ -39,15 +39,16 @@ function iniciando_cliente()
 							document.getElementById('text-velocidad').value=obj.velocidad;
 							document.getElementById('cancion').innerHTML=obj.letra;
 							}
-						if(obj.estado=='PLAY')
+						var estado_actual=document.getElementById('estado').value;
+						if(obj.estado=='PLAY' && estado_actual!='PLAY')
 							{
 							repro('play')
 							}
-						if(obj.estado=='STOP')
+						if(obj.estado=='STOP' && estado_actual!='STOP')
 							{
 							repro('stop')
 							}
-						if(obj.estado=='PAUSE')
+						if(obj.estado=='PAUSE' && estado_actual!='PAUSE')
 							{
 							pau()
 							}
