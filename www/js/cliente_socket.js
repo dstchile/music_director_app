@@ -30,6 +30,7 @@ function iniciando_cliente()
 							{
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
+							document.getElementById('cancion').innerHTML="";
 							}
 						else
 							{
@@ -38,12 +39,12 @@ function iniciando_cliente()
 							document.getElementById('t-can').textContent=obj.titulo;
 							document.getElementById('text-velocidad').value=obj.velocidad;
 							document.getElementById('cancion').innerHTML=obj.letra;
-							$('#cancion').scrollTop(obj.posicion);			
-			
+							
 							}
 						var estado_actual=document.getElementById('estado').value;
 						if(obj.estado=='PLAY' && estado_actual!='PLAY')
 							{
+							$('#cancion').scrollTop(obj.posicion);			
 							repro('play')
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')
@@ -61,6 +62,8 @@ function iniciando_cliente()
 						console.log('error occurred!');
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
+							document.getElementById('cancion').innerHTML="";
+							
 					};
 				 
 					ws.onclose = function (event) {
