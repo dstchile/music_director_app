@@ -9,13 +9,6 @@
 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script>
-		 window.addEventListener('beforeunload', onbeforeunload);
-		function onbeforeunload(e) 
-			{
-			console.log('>>>> onbeforeunload called');
-			cierre_servidor();
-			return false;
-			};
 		$(window).resize(function(){
 		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
 		   var alto=$(window).height();
@@ -127,7 +120,7 @@
     </head>
     <body>
       <script type="text/javascript" src="cordova.js"></script>
-      <a href="index.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+      <a href="index.html" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
 	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)"></div>
     <div id="list" class="listado">
     <ul id="Listado_canciones" class="listado_canciones"></ul>

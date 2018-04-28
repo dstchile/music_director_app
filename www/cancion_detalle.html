@@ -9,13 +9,6 @@
 <link href="css/estilos.css" rel="stylesheet" type="text/css" />
 <link href="css/fontello.css" rel="stylesheet" type="text/css" />
 <script>
- window.addEventListener('beforeunload', onbeforeunload);
-	function onbeforeunload(e) 
-		{
-		console.log('>>>> onbeforeunload called');
-		cierre_servidor();
-		return false;
-		};
 
 function getParameterByName(name) 
 	{
