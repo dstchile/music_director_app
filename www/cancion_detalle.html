@@ -9,6 +9,14 @@
 <link href="css/estilos.css" rel="stylesheet" type="text/css" />
 <link href="css/fontello.css" rel="stylesheet" type="text/css" />
 <script>
+ window.addEventListener('beforeunload', onbeforeunload);
+	function onbeforeunload(e) 
+		{
+		console.log('>>>> onbeforeunload called');
+		cierre_servidor();
+		return false;
+		};
+
 function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -170,7 +178,8 @@ function pau(){
 			document.getElementById('boton-pause').value="";
 			document.getElementById('estado').value="PLAY";
 			var sh = document.getElementById('cancion').scrollHeight;
-			var i = document.getElementById('cancion').scrollTop;
+			//var i = document.getElementById('cancion').scrollTop;
+			var i = $('#cancion').scrollTop();			
 			delay(i,sh);
 		}
 	if(x=='')

@@ -9,6 +9,13 @@
 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script>
+		 window.addEventListener('beforeunload', onbeforeunload);
+		function onbeforeunload(e) 
+			{
+			console.log('>>>> onbeforeunload called');
+			cierre_servidor();
+			return false;
+			};
 		$(window).resize(function(){
 		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
 		   var alto=$(window).height();
