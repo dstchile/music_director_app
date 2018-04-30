@@ -96,7 +96,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 					{
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
-					webserver.close({'uuid':conn.uuid});
+					wsserver.close({'uuid':conn.uuid});
 					}
 				}
 			})
@@ -104,7 +104,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	if (msg=='002')
 		{
 		wsserver.send({'uuid':conn.uuid}, numero_telefono);
-		webserver.close({'uuid':conn.uuid});
+		wsserver.close({'uuid':conn.uuid});
 		}
 	if (msg=='003')
 		{
@@ -121,6 +121,6 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		////////////////codigo lectura base de datos
 		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante});
 		wsserver.send({'uuid':conn.uuid}, send_data);
-		webserver.close({'uuid':conn.uuid});
+		wsserver.close({'uuid':conn.uuid});
 		}
 	}
