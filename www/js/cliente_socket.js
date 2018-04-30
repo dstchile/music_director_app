@@ -40,12 +40,19 @@ function iniciando_cliente()
 							document.getElementById('text-velocidad').value=obj.velocidad;
 							document.getElementById('cancion').value=obj.letra;
 							document.getElementById('ncantante').value=obj.cantante;
+							document.getElementById('boton-pause').value=obj.pause;
 							}
 						var estado_actual=document.getElementById('estado').value;
-						if(obj.estado=='PLAY' && estado_actual!='PLAY')
+						var x=document.getElementById('boton-pause').value;
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x=='')
 							{
 							$('#cancion').scrollTop(obj.posicion);			
 							repro('play')
+							}
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x==1)
+							{
+							$('#cancion').scrollTop(obj.posicion);			
+							pau()
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')
 							{

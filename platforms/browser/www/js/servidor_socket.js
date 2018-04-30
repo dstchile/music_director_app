@@ -115,11 +115,12 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		var letra_cancion=document.getElementById('cancion').value;
 		var estado=document.getElementById('estado').value;
 		var n_cantante=document.getElementById('ncantante').value;
+		var x=document.getElementById('boton-pause').value;
 		var pos_scroll = $('#cancion').scrollTop();			
 			
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
-		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante});
+		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		wsserver.close({'uuid':conn.uuid});
 		}
