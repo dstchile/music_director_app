@@ -81,7 +81,7 @@
 			var compas=row['compas'];
 			var letra_cancion=row['letra_cancion'];
 			var tono=row['tono'];
-	 		$('#Listado_canciones').append('<li><a href="cancion_detalle.html?v1='+id_cancion+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+row['titulo_cancion']+'</font></span></p><p><span class="icon-mic"> - '+row['cantante']+'</span></p><p><span class="icon-music"> - '+row['tono']+'</span></p></a></li>');
+	 		$('#Listado_canciones').append('<li><a href="cancion_detalle.html?v1='+id_cancion+'" onClick="cierre_servidor()"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+row['titulo_cancion']+'</font></span></p><p><span class="icon-mic"> - '+row['cantante']+'</span></p><p><span class="icon-music"> - '+row['tono']+'</span></p></a></li>');
 			}
 		
 		}
@@ -120,7 +120,7 @@
     </head>
     <body>
       <script type="text/javascript" src="cordova.js"></script>
-      <a href="index.html" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+      <a href="index.html" class="boton2 ancho-back" onClick="cierre_servidor()"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" onClick="cierre_servidor()" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" onClick="cierre_servidor()" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
 	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)"></div>
     <div id="list" class="listado">
     <ul id="Listado_canciones" class="listado_canciones"></ul>
