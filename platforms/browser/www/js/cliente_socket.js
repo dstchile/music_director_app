@@ -55,6 +55,7 @@ function iniciando_cliente()
 							{
 							pau()
 							}
+						console.log('close');
 						this.close();
 					};
 				 
@@ -63,6 +64,7 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
 							document.getElementById('cancion').innerHTML="";
+							console.log('close 2');
 							
 					};
 				 
