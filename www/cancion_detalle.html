@@ -48,6 +48,8 @@ function lista_programas(db){
 				var id_cancion=row['id'];
 				var titulo=row['titulo_cancion'];
 				var cantante=row['cantante'];
+				document.getElementById('ncantante').value=cantante;
+				
 				titulo=titulo.toUpperCase();
 				document.getElementById('t-can').textContent=titulo;
 				var velocidad=row['velocidad'];
@@ -210,9 +212,10 @@ function velo(z){
 <body>
 <script type="text/javascript" src="cordova.js"></script>
 <input type="hidden" id="estado">
+<input type="hidden" id="ncantante">
 <div id="principal">
     <div id="menu-superior">
-    	<a href="listado.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    	<a href="listado.html" title="lista" id="boton-back" onClick="cierre_servidor()" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" onClick="cierre_servidor()" class="boton2" ><span class="icon-edit"></span></a>
     </div>
     <div id="content-cancion">
         <textarea id="cancion" readonly></textarea>

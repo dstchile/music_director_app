@@ -557,6 +557,15 @@ input[type=number] { -moz-appearance:textfield; }
 	width:100%;
 	background-color:white;
 }
+#content-cancion-musico{
+	position:absolute;
+	top:53px;
+	z-index:99;
+	transition:all 1200ms;
+	bottom:0px;
+	width:100%;
+	background-color:white;
+}
 .content-cancion{
 	z-index:99;
 	top:0 !important;

@@ -39,7 +39,7 @@ function iniciando_cliente()
 							document.getElementById('t-can').textContent=obj.titulo;
 							document.getElementById('text-velocidad').value=obj.velocidad;
 							document.getElementById('cancion').innerHTML=obj.letra;
-							
+							document.getElementById('ncantante').innerHTML=obj.cantante;
 							}
 						var estado_actual=document.getElementById('estado').value;
 						if(obj.estado=='PLAY' && estado_actual!='PLAY')

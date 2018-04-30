@@ -112,8 +112,7 @@ function delay(i,sh){
 			//$('#menu-superior').slideDown(1000);
 			document.getElementById('content-cancion').className="";
 			//document.getElementById('cancion').scrollTo(0,0);
-			$('#cancion').scrollTop(0);			
-										
+			$('#cancion').scrollTop(0);
 		}
 }
 
@@ -159,6 +158,36 @@ function velo(z){
 		}
 }
 
+function guardar_cancion(){
+	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		console.log( "Leyendo datos guardados." );
+		}
+		function errorCB(err) 
+		{
+			alert("Error processing SQL: "+err.code);
+		}
+		function querySuccess(tx,result)
+			{
+				console.log( "generando query." );
+				for (var i=0; i<result.rows.length; i++) 
+					{
+						var row = result.rows.item(i);
+						var id_cancion=row['id'];
+						var titulo=row['titulo_cancion'];
+						var cantante=row['cantante'];
+						var velocidad=row['velocidad'];
+						var compas=row['compas'];
+						var letra_cancion=row['letra_cancion'];
+						var tono=row['tono'];
+						var ruta="cancion_nueva.html?v1="+id_cancion;
+						document.getElementById("boton-editar").href = ruta;
+					};
+			}
+}
 </script>
 </head>
 
@@ -167,11 +196,12 @@ function velo(z){
 <input type="hidden" id="estado">
 <div id="principal">
     <div id="menu-superior">
-    	<a href="index.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    	<a href="index.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" onClick="guardar_cancion()" ><span class="icon-disk"></span></a>
     </div>
-    <div id="content-cancion">
+    <div id="content-cancion-musico">
         <textarea id="cancion" readonly></textarea>
     </div>
+    <!--
     <div id="menu-inferior">
     	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
@@ -180,10 +210,9 @@ function velo(z){
         <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
         <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
     </div>
-    <div id="contador">
-    </div>
-    <div id="mensajeria">Esperando a Servidor
-    </div>
+    -->
+    <div id="contador"></div>
+    <div id="mensajeria">Esperando a Servidor</div>
 </div>
 </body>
 </html>

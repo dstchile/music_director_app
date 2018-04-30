@@ -55,17 +55,20 @@
 					document.getElementById('numero_telefono').value=row['numero_telefono'];
 					document.getElementById('memoid').value=row['id'];
 					}
+				$('#superior').empty();
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");
-					var ruta="listado.html";
-					document.getElementById("retorno").href = ruta;
+					$('#superior').html('<a href="listado.html" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-disk"></span></a>');
+					//var ruta="listado.html";
+					//document.getElementById("retorno").href = ruta;
 					}
 				else
 					{
 					console.log("sin datos");
-					var ruta="index.html";
-					document.getElementById("retorno").href = ruta;
+					$('#superior').html('<a href="index.html" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2" style="width:90vw"><span class="icon-user"> Nuevo Director</span></a>');
+					//var ruta="index.html";
+					//document.getElementById("retorno").href = ruta;
 					}
 				
 				}
@@ -120,9 +123,8 @@ function guardar_datos(){
 
 	</script>
 </head>
-
 <body>
-<a href="" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-disk"></span></a>
+<div id="superior" style="min-height:20px; height:52px"></div>
 <div class="titulo_cancion">
 	<font color="white">Nombre Director(use un nickname sencillo)</font>
 </div>
@@ -132,6 +134,7 @@ function guardar_datos(){
 <div class="parrafo">
 El nombre de Director es usado por la Aplicación para conectarse con los músicos, es recomendable usar un nombre facil de identificar por tus músicos para que puedan sincronizar facilmente.
 </div>
+<div style="background-color:#666; height:40px"></div>
 <div class="titulo_cancion">
 	<font color="white">Número de teléfono</font>
 </div>
@@ -140,7 +143,8 @@ El nombre de Director es usado por la Aplicación para conectarse con los músic
 </div>
 <div class="parrafo">
 El número de teléfono es usado por la Aplicación para descargar las canciones creadas desde la página web, te ayudará a ahorrar tiempo en la creación de canciones, de esta manera será mucho más rápido subir tus canciones a la aplicación.
-</div>	
+</div>
+<div style="background-color:#666; height:100px"></div>
 <div id="boton_guardar" class="base_cancion" align="center">
 	<input type="button" id="guardar" name="guardar" onClick="guardar_datos()" value="Guardar">	
 </div>
