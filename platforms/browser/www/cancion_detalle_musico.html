@@ -33,7 +33,7 @@ function repro(estado){
 			document.getElementById('text-velocidad').className="";
 			document.getElementById('boton-mas').className="color-boton";
 			//$('#menu-superior').slideUp(1000);
-			document.getElementById('content-cancion').className="content-cancion";
+			document.getElementById('content-cancion-musico').className="content-cancion";
 			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
 			document.getElementById('estado').value="PLAY";
 			var sh = document.getElementById('cancion').scrollHeight;
@@ -52,7 +52,7 @@ function repro(estado){
 			document.getElementById('boton-pause').value="";
 			document.getElementById('estado').value="STOP";
 			//$('#menu-superior').slideDown(1000);
-			document.getElementById('content-cancion').className="";
+			document.getElementById('content-cancion-musico').className="";
 			$('#cancion').scrollTop(0);			
 			//document.getElementById('cancion').scrollTo(0,0);
 			document.getElementById('contador').innerHTML='';
@@ -110,7 +110,7 @@ function delay(i,sh){
 			document.getElementById('boton-pause').value="";
 			document.getElementById('estado').value="STOP";
 			//$('#menu-superior').slideDown(1000);
-			document.getElementById('content-cancion').className="";
+			document.getElementById('content-cancion-musico').className="";
 			//document.getElementById('cancion').scrollTo(0,0);
 			$('#cancion').scrollTop(0);
 		}
@@ -195,7 +195,6 @@ function guardar_cancion(){
 <script type="text/javascript" src="cordova.js"></script>
 <input type="hidden" id="estado">
 <input type="hidden" id="ncantante">
-<input type="hidden" id="text-velocidad">
 <div id="principal">
     <div id="menu-superior">
     	<a href="index.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" onClick="guardar_cancion()" ><span class="icon-disk"></span></a>
@@ -203,7 +202,7 @@ function guardar_cancion(){
     <div id="content-cancion-musico">
         <textarea id="cancion" readonly></textarea>
     </div>
-    <!--
+   
     <div id="menu-inferior">
     	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
@@ -212,7 +211,6 @@ function guardar_cancion(){
         <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
         <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
     </div>
-    -->
     <div id="contador"></div>
     <div id="mensajeria">Esperando a Servidor</div>
 </div>

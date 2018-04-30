@@ -560,7 +560,7 @@ input[type=number] { -moz-appearance:textfield; }
 #content-cancion-musico{
 	position:absolute;
 	top:53px;
-	z-index:99;
+	z-index:100;
 	transition:all 1200ms;
 	bottom:0px;
 	width:100%;
