@@ -80,6 +80,8 @@ function cierre_servidor()
 	{
 	var wsserver = cordova.plugins.wsserver;	
 	var puerto=8888;
+	var wss = new WebSocketServer(puerto);
+	wss.close();
 	wsserver.stop(function onStop(addr, port) {
 		console.log('Stopped listening on %s:%d', addr, port);
 		});
