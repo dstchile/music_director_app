@@ -118,7 +118,7 @@
 	}
 	</script>
     </head>
-    <body>
+    <body onUnload="cierre_servidor()">
       <script type="text/javascript" src="cordova.js"></script>
       <a href="index.html" class="boton2 ancho-back" onClick="cierre_servidor()"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
 	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)"></div>
