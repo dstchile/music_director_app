@@ -38,7 +38,7 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').innerHTML="";
 							document.getElementById('t-can').textContent=obj.titulo;
 							document.getElementById('text-velocidad').value=obj.velocidad;
-							document.getElementById('cancion').innerHTML=obj.letra;
+							document.getElementById('cancion').value=obj.letra;
 							document.getElementById('ncantante').innerHTML=obj.cantante;
 							}
 						var estado_actual=document.getElementById('estado').value;
