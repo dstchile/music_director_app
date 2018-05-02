@@ -44,23 +44,23 @@ function iniciando_cliente()
 							}
 						var estado_actual=document.getElementById('estado').value;
 						var x=document.getElementById('boton-pause').value;
-						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x=='')
+						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x)
+						if(obj.estado=='PLAY' && estado_actual!='PLAY')
 							{
 							$('#cancion').scrollTop(obj.posicion);			
 							repro('play')
 							}
-						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x==1)
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause==1)
 							{
 							$('#cancion').scrollTop(obj.posicion);			
-							pau()
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')
 							{
 							repro('stop')
 							}
-						if(obj.estado=='PAUSE' && estado_actual!='PAUSE')
+						if(obj.estado=='PAUSE' && estado_actual!='PAUSE' && obj.pause=='')
 							{
-							pau()
+							pau(x)
 							}
 						console.log('close');
 						this.close();

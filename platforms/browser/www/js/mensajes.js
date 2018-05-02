@@ -10,6 +10,5 @@ function mensaje_texto(valor)
 					);
 	
 	}
-
 function callback(){};
 				

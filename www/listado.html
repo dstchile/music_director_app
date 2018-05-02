@@ -6,6 +6,7 @@
         <title>Music Director</title>
     <script src="js/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="js/servidor_socket.js"></script>
+    <script type="text/javascript" src="js/mensajes.js"></script>
 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script>
@@ -76,16 +77,48 @@
 			var row = result.rows.item(i);
 			var id_cancion=row['id'];
 			var titulo=row['titulo_cancion'];
+			cadena=parseInt(titulo);
 			var cantante=row['cantante'];
 			var velocidad=row['velocidad'];
 			var compas=row['compas'];
 			var letra_cancion=row['letra_cancion'];
 			var tono=row['tono'];
-	 		$('#Listado_canciones').append('<li><a href="cancion_detalle.html?v1='+id_cancion+'" onClick="cierre_servidor()"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+row['titulo_cancion']+'</font></span></p><p><span class="icon-mic"> - '+row['cantante']+'</span></p><p><span class="icon-music"> - '+row['tono']+'</span></p></a></li>');
+	 		$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#cancion_detalle.html?v1="+id_cancion+"' ontouchstart='espera("+id_cancion+","+cadena+")' ontouchmove='noespera()' ontouchend='noespera()'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+			}
+		}
+	}	
+	var tiempo=false;
+	function espera(id_c){
+		var tit=document.getElementById('can'+id_c).value;
+		tiempo=true;
+		setTimeout(function(){procesar(id_c,tit);clearTimeout();},2000)
+		//cierre_servidor();
+		}
+	function procesar(id_c,tit){
+		if(tiempo)
+			{
+				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
+				navigator.notification.confirm(
+					'Esta seguro que desea eliminar: '+tit+' ?', // message
+					 onConfirm,            // callback to invoke with index of button pressed
+					'Atencion!',           // title
+					['Eliminar','Cancelar']     // buttonLabels
+				);
+			}
+		}
+	function onConfirm(buttonIndex){
+		if(buttonIndex==2)
+			{
+				alert(id_c)
+				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
 			}
 		
-		}
-	}
+		
+	}	
+	function noespera(){
+		tiempo=false;
+		}	
+		
 	function ordenar_por(orde){
 		var z = document.getElementById('busqueda').value;
 		if(orde=='ocancion')
@@ -116,6 +149,8 @@
 			document.getElementById('boton_cancion').className="boton2 ancho-b_song";
 		}
 	}
+	
+	
 	</script>
     </head>
     <body>

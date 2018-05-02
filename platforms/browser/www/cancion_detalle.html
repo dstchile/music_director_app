@@ -165,8 +165,8 @@ function delay(i,sh){
 
 
 
-function pau(){
-	var x=document.getElementById('boton-pause').value;
+function pau(x){
+	//var x=document.getElementById('boton-pause').value;
 	if(x==1)
 		{
 			document.getElementById('pausa').className="icon-pause";
@@ -222,7 +222,7 @@ function velo(z){
     </div>
     <div id="menu-inferior">
     	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
-        <button id="boton-pause" class="color-boton disnone" onClick="pau()"><span id="pausa" class="icon-pause"></span></button>
+        <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
         <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
         <input type="number" readonly id="text-velocidad" class="disnone">
         <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
