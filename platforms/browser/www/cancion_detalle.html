@@ -24,7 +24,7 @@ document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
 			console.log("LLego aqui")
-			window.plugins.insomnia.keepAwake();
+			//window.plugins.insomnia.keepAwake();
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 			lista_programas(db);
 		}
@@ -215,7 +215,7 @@ function velo(z){
 <input type="hidden" id="ncantante">
 <div id="principal">
     <div id="menu-superior">
-    	<a href="listado.html" onClick="cierre_servidor()" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    	<a href="#" onClick="cierre_servidor('listado.html');" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
     </div>
     <div id="content-cancion">
         <textarea id="cancion" readonly></textarea>
