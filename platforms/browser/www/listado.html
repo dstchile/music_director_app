@@ -83,20 +83,25 @@
 			var compas=row['compas'];
 			var letra_cancion=row['letra_cancion'];
 			var tono=row['tono'];
-	 		$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#cancion_detalle.html?v1="+id_cancion+"' ontouchstart='espera("+id_cancion+","+cadena+")' ontouchmove='noespera()' ontouchend='noespera()'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+	 		$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#cancion_detalle.html?v1="+id_cancion+"' ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
 			}
 		}
 	}	
 	var tiempo=false;
+	var v_id=0;
+	var mover=false;
 	function espera(id_c){
+		v_id=id_c;
 		var tit=document.getElementById('can'+id_c).value;
 		tiempo=true;
-		setTimeout(function(){procesar(id_c,tit);clearTimeout();},2000)
-		//cierre_servidor();
+		mover=false;
+		setTimeout(function(){procesar(id_c,tit);clearTimeout();},950)
+		
 		}
 	function procesar(id_c,tit){
-		if(tiempo)
+		if(tiempo && v_id==id_c)
 			{
+				document.getElementById('valor_id').value=id_c;
 				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
 				navigator.notification.confirm(
 					'Esta seguro que desea eliminar: '+tit+' ?', // message
@@ -109,15 +114,40 @@
 	function onConfirm(buttonIndex){
 		if(buttonIndex==2)
 			{
-				alert(id_c)
+				var id_c=document.getElementById('valor_id').value;
 				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
 			}
-		
-		
-	}	
-	function noespera(){
+		if(buttonIndex==1)
+			{
+				document.addEventListener("deviceready", eliminar, false);
+			}		
+	}
+	function movimiento(){
 		tiempo=false;
+		mover=true;
+	}
+	function noespera(id_c){
+		tiempo=false;
+		if(id_c!='' && mover==false)
+			{
+				cierre_servidor('cancion_detalle.html?v1='+id_c);
+			}
 		}	
+	
+	function eliminar(){
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+		el(db)
+	}
+	function el(db){
+		db.transaction(queryDB);
+		function queryDB(tx)
+			{
+				var id_c=document.getElementById('valor_id').value;
+				tx.executeSql('DELETE FROM director WHERE id="'+id_c+'"');
+				lectura_inicial();
+			}
+	}
+	
 		
 	function ordenar_por(orde){
 		var z = document.getElementById('busqueda').value;
@@ -154,6 +184,7 @@
 	</script>
     </head>
     <body>
+    <input type="hidden" id="valor_id">
       <script type="text/javascript" src="cordova.js"></script>
       <a href="index.html" class="boton2 ancho-back" onClick="cierre_servidor()"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" onClick="cierre_servidor()" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" onClick="cierre_servidor()" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
 	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)"></div>

@@ -78,11 +78,12 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	}
 function cierre_servidor(ruta)
 	{
+	setTimeout(function (){
+		location.href=ruta;},1000);
 	var wsserver = cordova.plugins.wsserver;	
 	wsserver.stop(function onStop(addr, port) {
-		console.log('Stopped listening on %s:%d', addr, port);
-		alert ("servidor detenido");
 		location.href=ruta;
+		console.log('Stopped listening on %s:%d', addr, port);
 		});
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
