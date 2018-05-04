@@ -41,6 +41,8 @@
 				{
 				tx.executeSql('CREATE TABLE IF NOT EXISTS director (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo_cancion TEXT NOT NULL, cantante TEXT NOT NULL, velocidad INTEGER NOT NULL, tono TEXT NOT NULL, compas TEXT NOT NULL, letra_cancion TEXT NOT NULL)');
 				tx.executeSql('CREATE TABLE IF NOT EXISTS datos_director (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario TEXT NOT NULL, numero_telefono TEXT NOT NULL)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS grupos (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_grupo TEXT NOT NULL)')
+				tx.executeSql('CREATE TABLE IF NOT EXISTS lista_grupos (id INTEGER PRIMARY KEY AUTOINCREMENT, id_grupo INTEGER NOT NULL, id_cancion INTEGER NOT NULL)')
 				tx.executeSql('SELECT * FROM datos_director ',[],querySuccess,errorCB);
 				console.log( "Leyendo datos guardados." );
 				}

@@ -27,6 +27,13 @@
 	document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial(ob,x)
 		{
+			document.addEventListener('backbutton',pressKey,false);
+			function pressKey()
+			{
+				cierre_servidor('index.html')
+				document.addEventListener('backbutton',pressKey,false);
+				
+			}
 			if(x==undefined){x='';}
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
 			if(ob!='titulo_cancion' && ob!='cantante' && ob!='tono')
@@ -186,7 +193,7 @@
     <body>
     <input type="hidden" id="valor_id">
       <script type="text/javascript" src="cordova.js"></script>
-      <a href="index.html" class="boton2 ancho-back" onClick="cierre_servidor()"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a href="cancion_nueva.html" onClick="cierre_servidor()" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a href="datos_director.html" onClick="cierre_servidor()" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+      <a class="boton2 ancho-back" onClick="cierre_servidor('index.html')"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a  onClick="cierre_servidor('listado_grupos.html')" class="boton2 ancho-b_grupos"><span class="icon-group"></span></a><a onClick="cierre_servidor('cancion_nueva.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="cierre_servidor('datos_director.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
 	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordernar_por(valor_orden.value)"></div>
     <div id="list" class="listado">
     <ul id="Listado_canciones" class="listado_canciones"></ul>

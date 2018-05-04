@@ -42,9 +42,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 	var wsserver = cordova.plugins.wsserver;	
 	var puerto=8888;
-	wsserver.stop(function onStop(addr, port) {
-		console.log('Stopped listening on %s:%d', addr, port);
-		});
 	setTimeout(function()
 		{
 		wsserver.start(puerto, {

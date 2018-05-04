@@ -47,20 +47,20 @@ function iniciando_cliente()
 						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x)
 						if(obj.estado=='PLAY' && estado_actual!='PLAY')
 							{
-							$('#cancion').scrollTop(obj.posicion);			
-							repro('play')
+								$('#cancion').scrollTop(obj.posicion);			
+								repro('play')
 							}
 						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause==1)
 							{
-							$('#cancion').scrollTop(obj.posicion);			
+								$('#cancion').scrollTop(obj.posicion);
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')
 							{
-							repro('stop')
+								repro('stop')
 							}
 						if(obj.estado=='PAUSE' && estado_actual!='PAUSE' && obj.pause=='')
 							{
-							pau(x)
+								pau(x)
 							}
 						console.log('close');
 						this.close();
