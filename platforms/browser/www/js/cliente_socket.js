@@ -82,12 +82,6 @@ function iniciando_cliente()
 				 
 					ws.onclose = function (event) {
 						console.log('close code=' + event.code);
-							document.getElementById('mensajeria').style.display='';
-							document.getElementById('mensajeria').innerHTML="Esperando";
-							document.getElementById('cancion').innerHTML="";
-							document.getElementById('cancion').value="";
-							document.getElementById('t-can').textContent="";
-							console.log('close 2');
 					};
 					////////////////////////////////////
 					
