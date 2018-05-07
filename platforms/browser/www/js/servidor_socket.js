@@ -43,10 +43,13 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	var wsserver = cordova.plugins.wsserver;	
 	var puerto=8888;
 	setTimeout(function()
-		{
+		{		
 		wsserver.start(puerto, {
 				'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
+					//////////mensaje de falla/////////
+					$('body').append('<div id="con_pop">Servidor no iniciado <span id="disco"></span></div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 				},
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
@@ -62,14 +65,17 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
-				alert("servidor iniciado en:"+addr+" por:"+port+"---");
+				//alert("servidor iniciado en:"+addr+" por:"+port+"---");
+				
 			}, function onDidNotStart(reason) {
 				console.log('Did not start. Reason: %s', reason);
-				alert("error no iniciado:"+reason)
+				//////////mensaje de falla/////////
+				$('body').append('<div id="con_pop">Servidor no iniciado <span id="disco"></span></div>');
+				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 			});
 		
 	
-		},1000);
+		},50);
 			
 	
 	}

@@ -48,15 +48,14 @@ function iniciando_cliente()
 							}
 						var estado_actual=document.getElementById('estado').value;
 						var x=document.getElementById('boton-pause').value;
-						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x)
+						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x_anterior)
 						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x_anterior=='')
 							{
 								$('#cancion').scrollTop(obj.posicion);			
 								repro('play')
 							}
 						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x_anterior==1)
-							{
-								$('#cancion').scrollTop(obj.posicion);			
+							{			
 								pau(x)
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')

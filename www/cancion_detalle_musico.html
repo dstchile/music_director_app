@@ -133,6 +133,9 @@ function pau(x){
 			document.getElementById('pausa').className="icon-play";
 			document.getElementById('boton-pause').value=1;
 			document.getElementById('estado').value="PLAY";
+			var sh = document.getElementById('cancion').scrollHeight;
+			var i = document.getElementById('cancion').scrollTop;
+			delay(i,sh);
 		}
 }
 

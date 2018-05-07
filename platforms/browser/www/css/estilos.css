@@ -805,5 +805,27 @@ input[type=number] { -moz-appearance:textfield; }
 	width:100vw;
 	text-align:center;
 }
- 
- 
+#con_pop{
+	position:absolute;
+	z-index:999;
+	bottom:15vh;
+	left:15vw;
+	width:75vw;
+	opacity:0.8;
+	text-align:center;
+	color:#FFF;
+	height:30px;
+	line-height:30px;
+	border-radius:50px;
+	background:#666;
+}
+#disco{
+	position:absolute;
+	bottom:7px;
+	right:20px;
+	width:15px;
+	height:15px;
+	background:#F00;
+	border-radius:50%;
+	z-index:99999;
+}
