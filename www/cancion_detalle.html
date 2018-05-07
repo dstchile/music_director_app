@@ -48,8 +48,8 @@ function lista_programas(db){
 	function queryDB(tx)
 		{
 		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
-		tx.executeSql('SELECT * FROM lista_grupos WHERE id>"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id asc LIMIT 1',[],siguiente_cancion,sinoa);
-		tx.executeSql('SELECT * FROM lista_grupos WHERE id<"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id desc LIMIT 1',[],anterior_cancion,sinoa);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id>"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id asc LIMIT 1',[],siguiente_cancion);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id<"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id desc LIMIT 1',[],anterior_cancion);
 		console.log( "Leyendo datos guardados." );
 		}
 		function errorCB(err) 
@@ -82,23 +82,21 @@ function lista_programas(db){
  		}
 		function siguiente_cancion(tx,result)
 		{
+			alert("Siguiente: "+result.getRow('encontro dato siguiente'))
 			var row = result.rows.item(0);
 			var ics=row['id'];
+			var icans=row['id_cancion'];
 			document.getElementById('boton-forward').value=ics;
+			document.getElementById('can-sig').value=icans;
 		}
 		function anterior_cancion(tx,result)
 		{
+			alert("Anterior: "+result.getRow('encontro dato anterior'))
 			var row = result.rows.item(0);
 			var ica=row['id'];
+			var icana=row['id_cancion'];
 			document.getElementById('boton-rewind').value=ica;
-		}
-		function sinos()
-		{
-			alert("no hay mas despues");
-		}
-		function sinoa()
-		{
-			alert("no hay mas antes");			
+			document.getElementById('can-ant').value=icana;
 		}
 	}
 
@@ -147,11 +145,13 @@ function repro(estado){
 	if(estado=="back")
 		{
 			var id_posicion = document.getElementById('boton-rewind').value;
+			var id_cancion = document.getElementById('can-ant').value;
 			cierre_servidor("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
 		}
 	if(estado=="next")
 		{
 			var id_posicion = document.getElementById('boton-forward').value;
+			var id_cancion = document.getElementById('can-sig').value;
 			cierre_servidor("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
 		}
 	
@@ -265,6 +265,8 @@ function velo(z){
 <input type="hidden" id="estado">
 <input type="hidden" id="ncantante">
 <input type="hidden" id="direccion">
+<input type="hidden" id="can-sig">
+<input type="hidden" id="can-ant">
 <div id="principal">
     <div id="menu-superior">
     	<a onClick="cierre_servidor(direccion.value)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor('listado.html');" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
