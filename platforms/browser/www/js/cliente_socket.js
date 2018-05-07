@@ -26,6 +26,7 @@ function iniciando_cliente()
 						console.log(event.data);    // will be "hello" 
 						//alert(event.data)
 						var obj = JSON.parse(event.data);
+						var x_anterior=document.getElementById('boton-pause').value;
 						if (obj.titulo=='')
 							{
 							document.getElementById('mensajeria').style.display='';
@@ -48,21 +49,21 @@ function iniciando_cliente()
 						var estado_actual=document.getElementById('estado').value;
 						var x=document.getElementById('boton-pause').value;
 						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x)
-						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause=='')
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x_anterior=='')
 							{
 								$('#cancion').scrollTop(obj.posicion);			
 								repro('play')
 							}
-						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause==0)
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x_anterior==1)
 							{
-								$('#cancion').scrollTop(obj.posicion);
+								$('#cancion').scrollTop(obj.posicion);			
 								pau(x)
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')
 							{
 								repro('stop')
 							}
-						if(obj.estado=='PAUSE' && estado_actual!='PAUSE' && obj.pause==1)
+						if(obj.estado=='PAUSE' && estado_actual!='PAUSE' && x_anterior==1)
 							{
 								pau(x)
 							}
