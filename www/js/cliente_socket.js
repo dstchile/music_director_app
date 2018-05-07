@@ -13,8 +13,8 @@ function iniciando_cliente()
 		{
 		
 					setTimeout(function(){
-					var address_server = getParameterByName('v1');
-					//var address_server = '192.168.1.37';
+					//var address_server = getParameterByName('v1');
+					var address_server = '192.168.1.39';
 					////llamada al servidor
 					var ws = new WebSocket('ws://'+address_server+':8888');
 					ws.onopen = function () {
@@ -31,6 +31,9 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
 							document.getElementById('cancion').innerHTML="";
+							document.getElementById('cancion').value="";
+							document.getElementById('cancion').textContent="";
+							document.getElementById('t-can').textContent="";
 							}
 						else
 							{
@@ -45,20 +48,21 @@ function iniciando_cliente()
 						var estado_actual=document.getElementById('estado').value;
 						var x=document.getElementById('boton-pause').value;
 						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x)
-						if(obj.estado=='PLAY' && estado_actual!='PLAY')
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause=='')
 							{
 								$('#cancion').scrollTop(obj.posicion);			
 								repro('play')
 							}
-						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause==1)
+						if(obj.estado=='PLAY' && estado_actual!='PLAY' && obj.pause==0)
 							{
 								$('#cancion').scrollTop(obj.posicion);
+								pau(x)
 							}
 						if(obj.estado=='STOP' && estado_actual!='STOP')
 							{
 								repro('stop')
 							}
-						if(obj.estado=='PAUSE' && estado_actual!='PAUSE' && obj.pause=='')
+						if(obj.estado=='PAUSE' && estado_actual!='PAUSE' && obj.pause==1)
 							{
 								pau(x)
 							}
@@ -71,6 +75,9 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
 							document.getElementById('cancion').innerHTML="";
+							document.getElementById('cancion').value="";
+							document.getElementById('cancion').textContent="";
+							document.getElementById('t-can').textContent="";
 							console.log('close 2');
 							
 					};
@@ -81,7 +88,7 @@ function iniciando_cliente()
 					////////////////////////////////////
 					
 					
-					console.log("i= "+i);
+					//console.log("i= "+i);
 					i++;
 					partida_cliente(i);
 					},1000);

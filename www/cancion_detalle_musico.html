@@ -123,7 +123,7 @@ function pau(x){
 		{
 			document.getElementById('pausa').className="icon-pause";
 			document.getElementById('boton-pause').value="";
-			document.getElementById('estado').value="PLAY";
+			document.getElementById('estado').value="PAUSE";
 			var sh = document.getElementById('cancion').scrollHeight;
 			var i = document.getElementById('cancion').scrollTop;
 			delay(i,sh);
@@ -132,7 +132,7 @@ function pau(x){
 		{
 			document.getElementById('pausa').className="icon-play";
 			document.getElementById('boton-pause').value=1;
-			document.getElementById('estado').value="PAUSE";
+			document.getElementById('estado').value="PLAY";
 		}
 }
 
@@ -196,7 +196,7 @@ function guardar_cancion(){
 <input type="hidden" id="ncantante">
 <div id="principal">
     <div id="menu-superior">
-    	<a href="index.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" onClick="guardar_cancion()" ><span class="icon-disk"></span></a>
+    	<a href="index.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" onClick="guardar_cancion()" ><span class="icon-floppy"></span></a>
     </div>
     <div id="content-cancion-musico">
         <textarea id="cancion" readonly></textarea>

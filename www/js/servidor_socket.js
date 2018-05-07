@@ -115,6 +115,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		var estado=document.getElementById('estado').value;
 		var n_cantante=document.getElementById('ncantante').value;
 		var x=document.getElementById('boton-pause').value;
+		if(x==''){x=0;}
 		var pos_scroll = $('#cancion').scrollTop();			
 			
 		////////////////codigo lectura base de datos
