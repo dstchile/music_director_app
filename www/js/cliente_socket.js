@@ -13,8 +13,8 @@ function iniciando_cliente()
 		{
 		
 					setTimeout(function(){
-					var address_server = getParameterByName('v1');
-					//var address_server = '192.168.1.39';
+					//var address_server = getParameterByName('v1');
+					var address_server = '192.168.1.39';
 					////llamada al servidor
 					var ws = new WebSocket('ws://'+address_server+':8888');
 					ws.onopen = function () {
@@ -33,7 +33,6 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').innerHTML="Esperando";
 							document.getElementById('cancion').innerHTML="";
 							document.getElementById('cancion').value="";
-							document.getElementById('cancion').textContent="";
 							document.getElementById('t-can').textContent="";
 							}
 						else
@@ -76,7 +75,6 @@ function iniciando_cliente()
 							document.getElementById('mensajeria').innerHTML="Esperando";
 							document.getElementById('cancion').innerHTML="";
 							document.getElementById('cancion').value="";
-							document.getElementById('cancion').textContent="";
 							document.getElementById('t-can').textContent="";
 							console.log('close 2');
 							
@@ -84,6 +82,12 @@ function iniciando_cliente()
 				 
 					ws.onclose = function (event) {
 						console.log('close code=' + event.code);
+							document.getElementById('mensajeria').style.display='';
+							document.getElementById('mensajeria').innerHTML="Esperando";
+							document.getElementById('cancion').innerHTML="";
+							document.getElementById('cancion').value="";
+							document.getElementById('t-can').textContent="";
+							console.log('close 2');
 					};
 					////////////////////////////////////
 					

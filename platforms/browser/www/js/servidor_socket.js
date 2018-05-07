@@ -77,7 +77,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			});
 		
 	
-		},50);
+		},500);
 			
 	
 	}

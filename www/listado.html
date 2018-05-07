@@ -90,7 +90,7 @@
 			var compas=row['compas'];
 			var letra_cancion=row['letra_cancion'];
 			var tono=row['tono'];
-	 		$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#cancion_detalle.html?v1="+id_cancion+"' onMouseOver='espera("+id_cancion+")' ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+	 		$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#cancion_detalle.html?v1="+id_cancion+"' ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
 			}
 		}
 	}	

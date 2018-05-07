@@ -70,7 +70,7 @@
 			var row = result.rows.item(i);
 			var id_grupo=row['id'];
 			var nomgru=row['nombre_grupo'];			
-			$('#Listado_canciones').append("<li style='height:50px; line-height:40px;' id='ccan"+id_grupo+"'><a href='#' onMouseOver='espera("+id_grupo+")' onMouseOut='noespera("+id_grupo+")' ontouchstart='espera("+id_grupo+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_grupo+")' ><p><span class='icon-group'> - "+nomgru+"</span></p></a><input type='hidden' id='can"+id_grupo+"' value='"+nomgru+"'></li>");
+			$('#Listado_canciones').append("<li style='height:50px; line-height:40px;' id='ccan"+id_grupo+"'><a href='#' ontouchstart='espera("+id_grupo+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_grupo+")' ><p><span class='icon-group'> - "+nomgru+"</span></p></a><input type='hidden' id='can"+id_grupo+"' value='"+nomgru+"'></li>");
 			}
 		}
 	}	
