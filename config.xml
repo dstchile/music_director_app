@@ -29,5 +29,11 @@
 	<icon src="www/img/iconos/ios/icon-72.png" density="hdpi" width="72" height="72"/>
 	<icon src="www/img/iconos/ios/icon-72-2x.png" density="xhdpi" width="72" height="72"/>
 	</platform>
+	<splash src="www/img/splash/android/splash-320-426.png" platform="android" qualifier="land-ldpi"/>
+	<splash src="www/img/splash/android/splash-320-470.png" platform="android" qualifier="land-mdpi"/>
+	<splash src="www/img/splash/android/splash-480-640.png" platform="android" qualifier="land-hdpi"/>
+	<splash src="www/img/splash/android/splash-720-960.png" platform="android" qualifier="land-xhdpi"/>
+	<preference name="SplashScreenDelay" value="4000"/>
+	
 	
 </widget>
