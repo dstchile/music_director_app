@@ -1,6 +1,8 @@
 // JavaScript Document
 
 document.addEventListener("deviceready", iniciando_servidor, false);
+var sesion_cerrada=true;
+
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -55,6 +57,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
 				console.log('A user connected', conn.remoteAddr);
+				sesion_cerrada=false;
 				},
 				'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
@@ -81,15 +84,29 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			
 	
 	}
+var con=0;
 function cierre_servidor(ruta)
 	{
-	setTimeout(function (){
-		location.href=ruta;},1000);
-	var wsserver = cordova.plugins.wsserver;	
-	wsserver.stop(function onStop(addr, port) {
-		location.href=ruta;
-		console.log('Stopped listening on %s:%d', addr, port);
-		});
+	if(sesion_cerrada)
+		{
+			var wsserver = cordova.plugins.wsserver;	
+			wsserver.stop(function onStop(addr, port) {
+				location.href=ruta;
+				console.log('Stopped listening on %s:%d', addr, port);
+				});
+		}
+	else
+		{
+			con++;
+			if(con<=20)
+				{
+					setTimeout(cierre_servidor(ruta),50)
+				}
+			else
+				{
+					location.href=ruta;
+				}
+		}
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
@@ -104,6 +121,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
+					sesion_cerrada=true;
 					}
 				}
 			})
@@ -112,6 +130,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		{
 		wsserver.send({'uuid':conn.uuid}, numero_telefono);
 		wsserver.close({'uuid':conn.uuid});
+		sesion_cerrada=true;
 		}
 	if (msg=='003')
 		{
@@ -129,12 +148,13 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		if(n_cantante==undefined){n_cantante='';}
 		var x=document.getElementById('boton-pause').value;
 		if(x==undefined){x='';}
-		var pos_scroll = $('#cancion').scrollTop();			
-		if(pos_scroll==undefined){pos_scroll='';}	
+		var pos_scroll = $('#cancion').scrollTop();
+		if(pos_scroll==undefined){pos_scroll='';}
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
 		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		wsserver.close({'uuid':conn.uuid});
+		sesion_cerrada=true;
 		}
 	}
