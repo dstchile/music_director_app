@@ -89,9 +89,10 @@ function cierre_servidor(ruta)
 	{
 	if(sesion_cerrada)
 		{
+			alert("salida 1")
 			var wsserver = cordova.plugins.wsserver;	
 			wsserver.stop(function onStop(addr, port) {
-				location.href=ruta;
+				setTimeout(location.href=ruta,2000)
 				console.log('Stopped listening on %s:%d', addr, port);
 				});
 		}
@@ -104,7 +105,8 @@ function cierre_servidor(ruta)
 				}
 			else
 				{
-					location.href=ruta;
+					alert("salida 2")
+					setTimeout(location.href=ruta,2000)
 				}
 		}
 	}
