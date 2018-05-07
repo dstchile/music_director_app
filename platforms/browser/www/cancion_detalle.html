@@ -20,9 +20,11 @@ function getParameterByName(name)
 
 var id_cancion = getParameterByName('v1');
 var id_grupo = getParameterByName('v2');
+var id_posicion = getParameterByName('v3');
 
 console.log("ID cancion: "+id_cancion)
 console.log("ID grupo: "+id_grupo);
+console.log("ID posicion: "+id_posicion);
 document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
@@ -46,8 +48,8 @@ function lista_programas(db){
 	function queryDB(tx)
 		{
 		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
-		tx.executeSql('SELECT * FROM lista_grupos WHERE id_cancion>"'+id_cancion+'" ORDER BY id_cancion asc LIMIT 1',[],siguiente_cancion);
-		tx.executeSql('SELECT * FROM lista_grupos WHERE id_cancion<"'+id_cancion+'" ORDER BY id_cancion desc LIMIT 1',[],anterior_cancion);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id>"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id asc LIMIT 1',[],siguiente_cancion,sinoa);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id<"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id desc LIMIT 1',[],anterior_cancion,sinoa);
 		console.log( "Leyendo datos guardados." );
 		}
 		function errorCB(err) 
@@ -78,15 +80,25 @@ function lista_programas(db){
 				document.getElementById("boton-editar").href = ruta;
 			};
  		}
-		function siguiente_cancion(tx,result){
+		function siguiente_cancion(tx,result)
+		{
 			var row = result.rows.item(0);
-			var ics=row['id_cancion'];
-			alert(ics)
+			var ics=row['id'];
+			document.getElementById('boton-forward').value=ics;
 		}
-		function anterior_cancion(tx,result){
+		function anterior_cancion(tx,result)
+		{
 			var row = result.rows.item(0);
-			var ica=row['id_cancion'];
-			alert(ica)
+			var ica=row['id'];
+			document.getElementById('boton-rewind').value=ica;
+		}
+		function sinos()
+		{
+			alert("no hay mas despues");
+		}
+		function sinoa()
+		{
+			alert("no hay mas antes");			
 		}
 	}
 
@@ -134,9 +146,13 @@ function repro(estado){
 		}
 	if(estado=="back")
 		{
+			var id_posicion = document.getElementById('boton-rewind').value;
+			cierre_servidor("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
 		}
 	if(estado=="next")
 		{
+			var id_posicion = document.getElementById('boton-forward').value;
+			cierre_servidor("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
 		}
 	
 }
