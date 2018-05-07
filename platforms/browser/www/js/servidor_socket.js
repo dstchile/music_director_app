@@ -98,14 +98,16 @@ function cierre_servidor(ruta)
 		}
 	else
 		{
-			con++;
 			if(con<=20)
 				{
-					setTimeout(cierre_servidor(ruta),50)
+					setTimeout(function (){
+						con++;
+						cierre_servidor(ruta)
+						},50)
 				}
 			else
 				{
-					alert("salida 2")
+					alert("salida 2: "+con)
 					setTimeout(location.href=ruta,2000)
 				}
 		}
