@@ -14,6 +14,7 @@
     <plugin name="cordova-plugin-dialogs" source="npm"/>
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm"/>
 	<gap:plugin name="cordova-plugin-insomnia" source="npm" version="4.1.0"/>
+    <gap:plugin name="cordova-plugin-splashscreen" source="npm"/>
     <content src="index.html" />
     <access origin="*" />
 	
@@ -22,7 +23,6 @@
 	<icon src="www/img/iconos/android/icon-48-mdpi.png" density="mdpi" width="48" height="48"/>
 	<icon src="www/img/iconos/android/icon-72-hdpi.png" density="hdpi" width="72" height="72"/>
 	<icon src="www/img/iconos/android/icon-96-xhdpi.png" density="xhdpi" width="96" height="96"/>
-	<splash src="www/img/splash/android/splash-720-960.png"/>
 	<splash src="www/img/splash/android/splash-320-426.png" platform="android" qualifier="land-ldpi"/>
 	<splash src="www/img/splash/android/splash-320-470.png" platform="android" qualifier="land-mdpi"/>
 	<splash src="www/img/splash/android/splash-480-640.png" platform="android" qualifier="land-hdpi"/>
