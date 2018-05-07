@@ -12,6 +12,7 @@
     </author>
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
     <gap:plugin name="cordova-plugin-insomnia" source="npm" version="4.1.0" />
+    <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
     <content src="index.html" />
     <access origin="*" />
 </widget>
