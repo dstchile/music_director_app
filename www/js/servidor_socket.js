@@ -68,7 +68,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
-				$('body').append('<div id="con_pop">Servidor Iniciado "'+reason+'"</div>');
+				$('body').append('<div id="con_pop">Servidor Iniciado</div>');
 				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 				//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 				
