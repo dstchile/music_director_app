@@ -50,7 +50,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
 					//////////mensaje de falla/////////
-					$('body').append('<div id="con_pop">Servidor no iniciado <span id="disco"></span></div>');
+					$('body').append('<div id="con_pop">Servidor no iniciado "'+reason+'" <span id="disco"></span></div>');
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 				},
 				'onOpen' : function(conn) {
@@ -68,14 +68,14 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
-				$('body').append('<div id="con_pop">Servidor Iniciado</div>');
+				$('body').append('<div id="con_pop">Servidor Iniciado "'+reason+'"</div>');
 				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 				//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 				
 			}, function onDidNotStart(reason) {
 				console.log('Did not start. Reason: %s', reason);
 				//////////mensaje de falla/////////
-				$('body').append('<div id="con_pop">Servidor no iniciado <span id="disco"></span></div>');
+				$('body').append('<div id="con_pop">Servidor no iniciado "'+reason+'"<span id="disco"></span></div>');
 				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 			});
 		
@@ -118,22 +118,25 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 				{
 				if (result.hasOwnProperty(interface)) 
 					{
+					sesion_cerrada=false;
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
-					sesion_cerrada=true;
+					setTimeout(sesion_cerrada=true,100)
 					}
 				}
 			})
 		}
 	if (msg=='002')
 		{
+		sesion_cerrada=false;
 		wsserver.send({'uuid':conn.uuid}, numero_telefono);
 		wsserver.close({'uuid':conn.uuid});
-		sesion_cerrada=true;
+		setTimeout(sesion_cerrada=true,100)
 		}
 	if (msg=='003')
 		{
+		sesion_cerrada=false;
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
 		var titulo=document.getElementById('t-can').textContent;
@@ -155,6 +158,6 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		wsserver.close({'uuid':conn.uuid});
-		sesion_cerrada=true;
+		setTimeout(sesion_cerrada=true,100)
 		}
 	}
