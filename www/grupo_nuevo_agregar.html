@@ -1,9 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Documento sin título</title>
 <script src="js/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
 <link href="css/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/fontello.css" type="text/css">
 <script>
@@ -14,9 +15,14 @@ function getParameterByName(name)
     results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
-var nombre_grupo = getParameterByName('v1');
-//nombre_grupo=nombre_grupo.toUpperCase();
-//document.getElementById('t-can').textContent=nombre_grupo;
+	document.addEventListener("deviceready", recepcion, false);
+
+	function recepcion(){
+			var nombre_grupo = getParameterByName('v1');
+			document.getElementById('nombre_g').value=nombre_grupo;
+			var nombre_grupo = nombre_grupo.toUpperCase();
+			document.getElementById('t-can').textContent=nombre_grupo;
+		}
 	
 	$(window).resize(function(){
 		//aqui el codigo que se ejecutara cuando se redimencione la ventana
@@ -65,13 +71,18 @@ var nombre_grupo = getParameterByName('v1');
 					{
 					var row = result.rows.item(i);
 					var id_cancion=row['id'];
+					var mid=memoid[id_cancion];
 					var titulo=row['titulo_cancion'];
 					var cantante=row['cantante'];
 					var velocidad=row['velocidad'];
 					var compas=row['compas'];
 					var letra_cancion=row['letra_cancion'];
 					var tono=row['tono'];
-					$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#' ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' onMouseOver='espera("+id_cancion+")'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+					console.log("id cancion: "+id_cancion+" memo cancion: "+mid)
+					if(id_cancion!=mid)
+					{
+						$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#' ontouchstart='espera("+id_cancion+")' onClick='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+					}
 					memocancion[id_cancion]=titulo;
 					memocantante[id_cancion]=cantante;
 					memotono[id_cancion]=tono;
@@ -84,7 +95,7 @@ var nombre_grupo = getParameterByName('v1');
 			db.transaction(queryDB,errorCB);
 			function queryDB(tx)
 				{
-					tx.executeSql('SELECT * FROM lista_grupos WHERE id_grupo=""',[],querySuccess,errorCB);
+					tx.executeSql('SELECT * FROM lista_grupos WHERE id_grupo="" ORDER BY id desc',[],querySuccess,errorCB);
 				}
 			function errorCB(err) 
 				{
@@ -104,6 +115,7 @@ var nombre_grupo = getParameterByName('v1');
 					var mcant=memocantante[id_cancion];
 					var mtono=memotono[id_cancion];
  					$('#Listado_canciones2').append("<li><a href='#'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+mcan+"</font></span></p><p><span class='icon-mic'> - "+mcant+"</span></p><p><span class='icon-music'> - "+mtono+"</span></p></a><button id='sacar"+id_cancion+"' onClick='eliminar_de("+id_cancion+")'><span class='icon-trash'></span></button></li>");
+					memoid[id_cancion]='no';
 					}
 				}
 		}
@@ -115,32 +127,16 @@ var nombre_grupo = getParameterByName('v1');
 		var tit=document.getElementById('can'+id_c).value;
 		tiempo=true;
 		mover=false;
-		setTimeout(function(){procesar(id_c,tit);clearTimeout();},950)
+		setTimeout(function(){procesar(id_c,tit);clearTimeout();},500)
 		
 		}
 	function procesar(id_c,tit){
-		if(tiempo && v_id==id_c)
+		if(tiempo && v_id==id_c && memoid[id_c]!='no')
 			{
 				document.getElementById('valor_id').value=id_c;
 				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
-				navigator.notification.confirm(
-					'Desea agregar: '+tit+' al grupo ?', // message
-					 onConfirm,            // callback to invoke with index of button pressed
-					'Atencion!',           // title
-					['Aceptar','Cancelar']     // buttonLabels
-				);
-			}
-		}
-	function onConfirm(buttonIndex){
-		if(buttonIndex==2)
-			{
-				var id_c=document.getElementById('valor_id').value;
-				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
-			}
-		if(buttonIndex==1)
-			{
 				document.addEventListener("deviceready", eliminar, false);
-			}		
+			}
 		}
 		function movimiento(){
 			tiempo=false;
@@ -148,10 +144,6 @@ var nombre_grupo = getParameterByName('v1');
 		}
 		function noespera(id_c){
 			tiempo=false;
-			if(id_c!='' && mover==false)
-				{
-					cierre_servidor('cancion_detalle.html?v1='+id_c);
-				}
 			}	
 		
 		function eliminar(){
@@ -164,6 +156,10 @@ var nombre_grupo = getParameterByName('v1');
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 			el_de(db)
 		}
+		
+		
+		
+		
 		function el(db){
 			db.transaction(queryDB);
 			function queryDB(tx)
@@ -171,6 +167,7 @@ var nombre_grupo = getParameterByName('v1');
 					var id_c=document.getElementById('valor_id').value;
 					tx.executeSql('INSERT INTO lista_grupos (id_grupo,id_cancion)values("","'+id_c+'")');
 					lectura_datos2();
+					$('#list2').scrollTop(0);
 				}
 		}
 		function el_de(db){
@@ -179,24 +176,54 @@ var nombre_grupo = getParameterByName('v1');
 				{
 					var id_c=document.getElementById('valor_id').value;
 					tx.executeSql('DELETE FROM lista_grupos WHERE id_cancion="'+id_c+'" AND id_grupo=""');
-					lectura_datos();
+					document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
+					memoid[id_c]='';
 					lectura_datos2();
 				}
 		}
-	
+		function guardar_grupo(){
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+			db.transaction(queryDB);
+			function queryDB(tx)
+				{
+					tx.executeSql('SELECT * FROM lista_grupos WHERE id_grupo=""',[],insert)
+				}
+			function insert(tx,result){
+					var x=result.rows.length;
+					if(x>0)
+						{
+							var ng=document.getElementById('nombre_g').value;
+							tx.executeSql('INSERT INTO grupos (nombre_grupo)VALUES("'+ng+'")',[],insertExito);
+						}
+					else
+						{
+							alert("Debe seleccionar al menos una cancion")
+						}
+				}
+			function insertExito(tx,result){
+					result.insertId;
+					tx.executeSql('UPDATE lista_grupos set id_grupo="'+result.insertId+'" WHERE id_grupo=""',[],updateExito)
+				}
+			function updateExito(tx,result){
+					var ng=document.getElementById('nombre_g').value;
+					alert("Grupo "+ng+" guardado con exito");
+					location.href="listado_grupos.html";
+				}
+		}
+		
+		
+var memoid=new Array;
 var memocancion=new Array;
 var memocantante=new Array;
 var memotono=new Array;
-	
-		
 </script>
 </head>
 
+
+
 <body>
-<input type="hidden" id="valor_id"> 
-<script type="text/javascript" src="cordova.js"></script>
-<div>
-<a href="grupo_nuevo.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a class="boton2" style="width: 90vw" disabled>GRUPO</a>
+<div id="menu-superior">
+<a href="grupo_nuevo.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw" disabled><span id="t-can"></span></a>
 </div>
 <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_datos();" onBlur="lectura_datos();"></div>
 <div id="list" class="listado_grupo">
@@ -206,5 +233,10 @@ var memotono=new Array;
 <div id="list2" class="listado_grupo">
 <ul id="Listado_canciones2" class="listado_canciones flex"></ul>
 </div>
+<div id="boton_guardar" class="base_cancion" align="center">
+	<input type="button" id="guardar" name="guardar" onClick="guardar_grupo()" value="Guardar">
+</div>
+<input type="hidden" id="valor_id">
+<input type="hidden" id="nombre_g">
 </body>
 </html>

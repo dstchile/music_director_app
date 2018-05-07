@@ -19,10 +19,23 @@ function getParameterByName(name)
 	}
 
 var id_cancion = getParameterByName('v1');
+var id_grupo = getParameterByName('v2');
+
 console.log("ID cancion: "+id_cancion)
+console.log("ID grupo: "+id_grupo);
 document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
+			if(id_grupo=='')
+			{
+				document.getElementById('boton-forward').style.display="none";
+				document.getElementById('boton-rewind').style.display="none";
+				document.getElementById('direccion').value="listado.html";
+			}
+			else
+			{
+				document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo;
+			}
 			console.log("LLego aqui")
 			//window.plugins.insomnia.keepAwake();
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
@@ -33,6 +46,8 @@ function lista_programas(db){
 	function queryDB(tx)
 		{
 		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id_cancion>"'+id_cancion+'" ORDER BY id_cancion asc LIMIT 1',[],siguiente_cancion);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id_cancion<"'+id_cancion+'" ORDER BY id_cancion desc LIMIT 1',[],anterior_cancion);
 		console.log( "Leyendo datos guardados." );
 		}
 		function errorCB(err) 
@@ -63,6 +78,16 @@ function lista_programas(db){
 				document.getElementById("boton-editar").href = ruta;
 			};
  		}
+		function siguiente_cancion(tx,result){
+			var row = result.rows.item(0);
+			var ics=row['id_cancion'];
+			alert(ics)
+		}
+		function anterior_cancion(tx,result){
+			var row = result.rows.item(0);
+			var ica=row['id_cancion'];
+			alert(ica)
+		}
 	}
 
 
@@ -72,6 +97,8 @@ function repro(estado){
 	vel=parseInt(vel)*100;
 	if(estado=="play")
 		{
+			document.getElementById('boton-forward').className +=" disnone";
+			document.getElementById('boton-rewind').className +=" disnone";
 			document.getElementById('boton-play').className +=" disnone";
 			document.getElementById('boton-pause').className="color-boton";
 			document.getElementById('boton-stop').className="color-boton";
@@ -88,7 +115,9 @@ function repro(estado){
 		}
 	if(estado=="stop")
 		{
+			document.getElementById('boton-forward').className="color-boton";
 			document.getElementById('boton-play').className="color-boton";
+			document.getElementById('boton-rewind').className="color-boton";
 			document.getElementById('boton-pause').className +=" disnone";
 			document.getElementById('boton-stop').className +=" disnone";
 			document.getElementById('boton-menos').className +=" disnone";
@@ -102,6 +131,12 @@ function repro(estado){
 			$('#cancion').scrollTop(0);			
 			//document.getElementById('cancion').scrollTo(0,0);
 			document.getElementById('contador').innerHTML='';
+		}
+	if(estado=="back")
+		{
+		}
+	if(estado=="next")
+		{
 		}
 	
 }
@@ -213,15 +248,18 @@ function velo(z){
 <script type="text/javascript" src="cordova.js"></script>
 <input type="hidden" id="estado">
 <input type="hidden" id="ncantante">
+<input type="hidden" id="direccion">
 <div id="principal">
     <div id="menu-superior">
-    	<a href="#" onClick="cierre_servidor('listado.html');" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor('listado.html');" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    	<a onClick="cierre_servidor(direccion.value)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor('listado.html');" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
     </div>
     <div id="content-cancion">
         <textarea id="cancion" readonly></textarea>
     </div>
     <div id="menu-inferior">
-    	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
+    	<button id="boton-rewind" onClick="repro('back')" class="color-boton"><span class="icon-to-start"></span></button>
+        <button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
+        <button id="boton-forward" onClick="repro('next')" class="color-boton"><span class="icon-to-end"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
         <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
         <input type="number" readonly id="text-velocidad" class="disnone">

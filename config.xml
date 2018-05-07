@@ -16,4 +16,18 @@
 	<gap:plugin name="cordova-plugin-insomnia" source="npm" version="4.1.0"/>
     <content src="index.html" />
     <access origin="*" />
+	
+	<platform name="android">
+	<icon src="www/img/iconos/android/icon-36-ldpi.png" density="ldpi" width="36" height="36"/>
+	<icon src="www/img/iconos/android/icon-48-mdpi.png" density="mdpi" width="48" height="48"/>
+	<icon src="www/img/iconos/android/icon-72-hdpi.png" density="hdpi" width="72" height="72"/>
+	<icon src="www/img/iconos/android/icon-96-xhdpi.png" density="xhdpi" width="96" height="96"/>
+	</platform>
+	<platform name="ios">
+	<icon src="www/img/iconos/ios/icon-57.png" density="ldpi" width="57" height="57"/>
+	<icon src="www/img/iconos/ios/icon-57-2x.png" density="mdpi" width="57" height="57"/>
+	<icon src="www/img/iconos/ios/icon-72.png" density="hdpi" width="72" height="72"/>
+	<icon src="www/img/iconos/ios/icon-72-2x.png" density="xhdpi" width="72" height="72"/>
+	</platform>
+	
 </widget>
