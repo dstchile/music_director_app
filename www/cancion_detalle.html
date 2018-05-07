@@ -82,21 +82,35 @@ function lista_programas(db){
  		}
 		function siguiente_cancion(tx,result)
 		{
-			alert("Siguiente: "+result.getRow('encontro dato siguiente'))
-			var row = result.rows.item(0);
-			var ics=row['id'];
-			var icans=row['id_cancion'];
-			document.getElementById('boton-forward').value=ics;
-			document.getElementById('can-sig').value=icans;
+			if(result.rows.length>0)
+			{
+				var row = result.rows.item(0);
+				var ics=row['id'];
+				var icans=row['id_cancion'];
+				document.getElementById('boton-forward').value=ics;
+				document.getElementById('can-sig').value=icans;
+				document.getElementById('boton-forward').style.display="block";
+			}
+			else
+			{
+				document.getElementById('boton-forward').style.display="none";
+			}
 		}
 		function anterior_cancion(tx,result)
 		{
-			alert("Anterior: "+result.getRow('encontro dato anterior'))
-			var row = result.rows.item(0);
-			var ica=row['id'];
-			var icana=row['id_cancion'];
-			document.getElementById('boton-rewind').value=ica;
-			document.getElementById('can-ant').value=icana;
+			if(result.rows.length>0)
+			{
+				var row = result.rows.item(0);
+				var ica=row['id'];
+				var icana=row['id_cancion'];
+				document.getElementById('boton-rewind').value=ica;
+				document.getElementById('can-ant').value=icana;
+				document.getElementById('boton-rewind').style.display="block";
+			}
+			else
+			{
+				document.getElementById('boton-rewind').style.display="none";
+			}
 		}
 	}
 
@@ -275,9 +289,9 @@ function velo(z){
         <textarea id="cancion" readonly></textarea>
     </div>
     <div id="menu-inferior">
-    	<button id="boton-rewind" onClick="repro('back')" class="color-boton"><span class="icon-to-start"></span></button>
+    	<button id="boton-rewind" onClick="repro('back')" style="display:none" class="color-boton"><span class="icon-to-start"></span></button>
         <button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
-        <button id="boton-forward" onClick="repro('next')" class="color-boton"><span class="icon-to-end"></span></button>
+        <button id="boton-forward" onClick="repro('next')" style="display:none" class="color-boton"><span class="icon-to-end"></span></button>
         <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
         <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
         <input type="number" readonly id="text-velocidad" class="disnone">
