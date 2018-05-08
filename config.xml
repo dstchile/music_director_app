@@ -23,10 +23,10 @@
 	<icon src="www/img/iconos/android/icon-48-mdpi.png" density="mdpi" width="48" height="48"/>
 	<icon src="www/img/iconos/android/icon-72-hdpi.png" density="hdpi" width="72" height="72"/>
 	<icon src="www/img/iconos/android/icon-96-xhdpi.png" density="xhdpi" width="96" height="96"/>
-	<splash src="www/splash/android/splash-port-ldpi.png" qualifier="port-ldpi"/>
-	<splash src="www/splash/android/splash-port-mdpi.png" qualifier="port-mdpi"/>
-	<splash src="www/splash/android/splash-port-hdpi.png" qualifier="port-hdpi"/>
-	<splash src="www/splash/android/splash-port-xhdpi.png" qualifier="port-xhdpi"/>
+	<splash src="splash/android/splash-port-ldpi.png" qualifier="port-ldpi"/>
+	<splash src="splash/android/splash-port-mdpi.png" qualifier="port-mdpi"/>
+	<splash src="splash/android/splash-port-hdpi.png" qualifier="port-hdpi"/>
+	<splash src="splash/android/splash-port-xhdpi.png" qualifier="port-xhdpi"/>
 	<preference name="SplashScreenDelay" value="4000"/>
 	<preference name="SplashMaintainAspectRatio" value="true"/>
 	
