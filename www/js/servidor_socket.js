@@ -2,7 +2,7 @@
 
 document.addEventListener("deviceready", iniciando_servidor, false);
 var sesiones=new Array;
-var id_sesion='';
+var id_sesion=0;
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -58,9 +58,9 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
 				console.log('A user connected', conn.remoteAddr);
-				sesiones[conn.uuid]=conn.uuid;
+				sesiones=[conn.uuid];
 				sesiones.toString()
-				document.getElementById('pop_prueba').innerHTML=conn.uuid;
+				document.getElementById('pop_prueba').innerHTML=sesiones;
 				},
 				'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
@@ -69,9 +69,10 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onClose' : function(conn, code, reason, wasClean) {
 				
 				console.log('A user disconnected from %s', conn.remoteAddr);
-				sesiones.splice[conn.uuid,1]
+				var posicion=sesiones.indexOf(conn.uuid)
+				sesiones.splice[posicion,1]
 				sesiones.toString()
-				document.getElementById('pop_prueba').innerHTML=conn.uuid;				
+				document.getElementById('pop_prueba').innerHTML=sesiones;				
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
