@@ -96,7 +96,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 function cierre_servidor(ruta)
 	{
 		var cant_ses=sesiones.length
-		for(i=0; i<=cant_ses; i++)
+		for(var i=0; i<=cant_ses; i++)
 		{
 			var id_abierto=cant_ses[i]
 			wsserver.close({'uuid':id_abierto});
