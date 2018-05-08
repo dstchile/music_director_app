@@ -805,6 +805,20 @@ input[type=number] { -moz-appearance:textfield; }
 	width:100vw;
 	text-align:center;
 }
+#pop_prueba{
+	position:absolute;
+	z-index:999;
+	bottom:50vh;
+	left:15vw;
+	width:75vw;
+	opacity:0.8;
+	text-align:center;
+	color:#FFF;
+	height:30px;
+	line-height:30px;
+	border-radius:50px;
+	background:#666;
+}
 #con_pop{
 	position:absolute;
 	z-index:999;
@@ -819,6 +833,7 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50px;
 	background:#666;
 }
+/*
 #con_pop2{
 	position:absolute;
 	z-index:999;
@@ -847,6 +862,7 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50px;
 	background:#666;
 }
+*/
 #disco{
 	position:absolute;
 	bottom:7px;
