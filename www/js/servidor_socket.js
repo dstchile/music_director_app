@@ -59,9 +59,10 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				//'direccion del cliente'=conn.remoteAddr;
 				console.log('A user connected', conn.remoteAddr);
 				sesiones[conn.uuid]=conn.uuid;
-				$('body').append('<div id="con_pop2">'+sesiones.toString()+'</span></div>');
+				sesiones.toString()
+				$('body').append('<div id="con_pop2">1</span></div>');
+				document.getElementById('con_pop2').innerHTML=sesiones;				
 				setTimeout(function (){$('#con_pop2').fadeOut(500);},800);
-				
 				},
 				'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
@@ -70,7 +71,9 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onClose' : function(conn, code, reason, wasClean) {
 					console.log('A user disconnected from %s', conn.remoteAddr);
 					sesiones.splice[conn.uuid,1]
-				$('body').append('<div id="con_pop3">'+sesiones.toString()+'</span></div>');
+					sesiones.toString()
+				$('body').append('<div id="con_pop3">2</span></div>');
+				document.getElementById('con_pop3').innerHTML=sesiones;
 				setTimeout(function (){$('#con_pop3').fadeOut(500);},800);
 				}
 			}, function onStart(addr, port) {
