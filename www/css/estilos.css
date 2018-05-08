@@ -819,6 +819,34 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50px;
 	background:#666;
 }
+#con_pop2{
+	position:absolute;
+	z-index:999;
+	bottom:20vh;
+	left:15vw;
+	width:75vw;
+	opacity:0.8;
+	text-align:center;
+	color:#FFF;
+	height:30px;
+	line-height:30px;
+	border-radius:50px;
+	background:#666;
+}
+#con_pop3{
+	position:absolute;
+	z-index:999;
+	bottom:25vh;
+	left:15vw;
+	width:75vw;
+	opacity:0.8;
+	text-align:center;
+	color:#FFF;
+	height:30px;
+	line-height:30px;
+	border-radius:50px;
+	background:#666;
+}
 #disco{
 	position:absolute;
 	bottom:7px;

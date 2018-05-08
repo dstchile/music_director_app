@@ -28,6 +28,20 @@ console.log("ID posicion: "+id_posicion);
 document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
+			document.addEventListener('backbutton',pressKey,false);
+			function pressKey()
+			{
+				if(id_grupo!='')
+					{
+						cierre_servidor('listado_canciones_grupo.html')
+					}
+				else
+					{
+						cierre_servidor('listado.html')
+					}
+				document.addEventListener('backbutton',pressKey,false);
+				
+			}
 			if(id_grupo=='')
 			{
 				document.getElementById('boton-forward').style.display="none";

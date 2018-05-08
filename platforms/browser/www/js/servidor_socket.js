@@ -1,8 +1,8 @@
 // JavaScript Document
 
 document.addEventListener("deviceready", iniciando_servidor, false);
-var sesion_cerrada=true;
-
+var sesiones=new Array;
+var id_sesion='';
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -51,13 +51,17 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
 					//////////mensaje de falla/////////
-					$('body').append('<div id="con_pop">Servidor no iniciado "'+reason+'" <span id="disco"></span></div>');
+					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 				},
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
 				console.log('A user connected', conn.remoteAddr);
+				sesiones[conn.uuid]=conn.uuid;
+				$('body').append('<div id="con_pop2">'+sesiones.toString()+'</span></div>');
+				setTimeout(function (){$('#con_pop2').fadeOut(1500);},3000);
+				
 				},
 				'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
@@ -65,6 +69,9 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				},
 				'onClose' : function(conn, code, reason, wasClean) {
 					console.log('A user disconnected from %s', conn.remoteAddr);
+					sesiones.splice[conn.uuid,1]
+				$('body').append('<div id="con_pop3">'+sesiones.toString()+'</span></div>');
+				setTimeout(function (){$('#con_pop3').fadeOut(1500);},3000);
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
@@ -75,7 +82,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}, function onDidNotStart(reason) {
 				console.log('Did not start. Reason: %s', reason);
 				//////////mensaje de falla/////////
-				$('body').append('<div id="con_pop">Servidor no iniciado "'+reason+'"<span id="disco"></span></div>');
+				$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
 				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 			});
 		
@@ -84,33 +91,15 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			
 	
 	}
-var con=0;
+
 function cierre_servidor(ruta)
 	{
-	if(sesion_cerrada)
-		{
-			alert("salida 1")
-			var wsserver = cordova.plugins.wsserver;	
-			wsserver.stop(function onStop(addr, port) {
-				setTimeout(location.href=ruta,2000)
-				console.log('Stopped listening on %s:%d', addr, port);
-				});
-		}
-	else
-		{
-			if(con<=20)
-				{
-					setTimeout(function (){
-						con++;
-						cierre_servidor(ruta)
-						},50)
-				}
-			else
-				{
-					alert("salida 2: "+con)
-					setTimeout(location.href=ruta,2000)
-				}
-		}
+		alert("salida 1")
+		var wsserver = cordova.plugins.wsserver;	
+		wsserver.stop(function onStop(addr, port) {
+			setTimeout(location.href=ruta,2000)
+			console.log('Stopped listening on %s:%d', addr, port);
+			});
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
@@ -122,25 +111,25 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 				{
 				if (result.hasOwnProperty(interface)) 
 					{
-					sesion_cerrada=false;
+					
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
-					setTimeout(sesion_cerrada=true,100)
+					
 					}
 				}
 			})
 		}
 	if (msg=='002')
 		{
-		sesion_cerrada=false;
+		
 		wsserver.send({'uuid':conn.uuid}, numero_telefono);
 		wsserver.close({'uuid':conn.uuid});
-		setTimeout(sesion_cerrada=true,100)
+		
 		}
 	if (msg=='003')
 		{
-		sesion_cerrada=false;
+		
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
 		if(document.getElementById('t-can')!=null)
@@ -180,6 +169,6 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		wsserver.close({'uuid':conn.uuid});
-		setTimeout(sesion_cerrada=true,100)
+		
 		}
 	}
