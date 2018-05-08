@@ -101,6 +101,7 @@ function cierre_servidor(ruta)
 		for(var i=0; i<=cant_ses; i++)
 		{
 			$('body').append('<div id="con_pop4">'+sesiones[i]+'</div>');
+			var wsserver = cordova.plugins.wsserver;	
 			wsserver.close({'uuid':sesiones[i]});
 			if(i==cant_ses)
 			{
