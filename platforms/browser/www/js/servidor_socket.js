@@ -96,21 +96,26 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 function cierre_servidor(ruta)
 	{
 		var cant_ses=sesiones.length
+		$('body').append('<div id="con_pop4">'+cant_ses+'</div>');
+		setTimeout(function(){	
 		for(var i=0; i<=cant_ses; i++)
 		{
+			$('body').append('<div id="con_pop4">'+sesiones[i]+'</div>');
 			wsserver.close({'uuid':sesiones[i]});
 			if(i==cant_ses)
 			{
-				cierre_final(ruta)
+				setTimeout(cierre_final(ruta),2000);
 			}
 		}
 	 	function cierre_final(ruta){
 			var wsserver = cordova.plugins.wsserver;	
+			$('body').append('<div id="con_pop4">'+ruta+'</div>');
 			wsserver.stop(function onStop(addr, port) {
 				setTimeout(location.href=ruta,2000)
 				console.log('Stopped listening on %s:%d', addr, port);
 				});
 		}
+		},2000)
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{

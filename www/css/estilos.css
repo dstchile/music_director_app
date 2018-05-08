@@ -863,6 +863,20 @@ input[type=number] { -moz-appearance:textfield; }
 	background:#666;
 }
 */
+#con_pop4{
+	position:absolute;
+	z-index:999;
+	bottom:20vh;
+	left:15vw;
+	width:75vw;
+	opacity:0.8;
+	text-align:center;
+	color:#FFF;
+	height:30px;
+	line-height:30px;
+	border-radius:50px;
+	background:#666;
+}
 #disco{
 	position:absolute;
 	bottom:7px;
