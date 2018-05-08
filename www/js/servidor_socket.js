@@ -169,7 +169,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		if(pos_scroll==undefined){pos_scroll='';}
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
-		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
+		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x,"sesiones":sesiones.toString()});
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		wsserver.close({'uuid':conn.uuid});
 		

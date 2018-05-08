@@ -47,7 +47,7 @@ function iniciando_cliente()
 							}
 						var estado_actual=document.getElementById('estado').value;
 						var x=document.getElementById('boton-pause').value;
-						console.log("estado: "+obj.estado+" estado actual: "+estado_actual+" X: "+x_anterior)
+						console.log("Sesiones: "+obj.sesiones)
 						if(obj.estado=='PLAY' && estado_actual!='PLAY' && x_anterior=='')
 							{
 								$('#cancion').scrollTop(obj.posicion);			
