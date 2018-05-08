@@ -60,7 +60,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				console.log('A user connected', conn.remoteAddr);
 				sesiones[conn.uuid]=conn.uuid;
 				sesiones.toString()
-				document.getElementById('pop_prueba').innerHTML=sesiones;
+				document.getElementById('pop_prueba').innerHTML=conn.uuid;
 				},
 				'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
@@ -71,7 +71,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				console.log('A user disconnected from %s', conn.remoteAddr);
 				sesiones.splice[conn.uuid,1]
 				sesiones.toString()
-				document.getElementById('pop_prueba').innerHTML=sesiones;				
+				document.getElementById('pop_prueba').innerHTML=conn.uuid;				
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
