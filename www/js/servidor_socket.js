@@ -156,6 +156,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		if(x==undefined){x='';}
 		var pos_scroll = $('#cancion').scrollTop();
 		if(pos_scroll==undefined){pos_scroll='';}
+		alert ("tit:"+titulo+"--vel:"+velocidad+"--let:"+letra_cancion+"--est:"+estado+"--nca:"+n_cantante+"--x:"+x+"--pos:"+pos_scroll+"--");
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
 		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
