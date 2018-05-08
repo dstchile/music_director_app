@@ -42,6 +42,7 @@ function iniciando_servidor()
 	}
 function inicio_proceso(nombre_usuario,numero_telefono)
 	{
+		
 	var wsserver = cordova.plugins.wsserver;	
 	var puerto=8888;
 	setTimeout(function()
@@ -142,21 +143,38 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		sesion_cerrada=false;
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
-		var titulo=document.getElementById('t-can').textContent;
+		if(document.getElementById('t-can')!=null)
+			{
+			var titulo=document.getElementById('t-can').textContent;
+			}	
 		if(titulo==undefined){titulo='';}
-		var velocidad=document.getElementById('text-velocidad').value;
+		if(document.getElementById('text-velocidad')!=null)
+			{
+			var velocidad=document.getElementById('text-velocidad').value;
+			}
 		if(velocidad==undefined){velocidad='';}
-		var letra_cancion=document.getElementById('cancion').value;
+		if (document.getElementById('cancion')!=null)
+			{
+			var letra_cancion=document.getElementById('cancion').value;
+			}
 		if(letra_cancion==undefined){letra_cancion='';}
-		var estado=document.getElementById('estado').value;
+		if (document.getElementById('estado')!=null)
+			{
+			var estado=document.getElementById('estado').value;
+			}
 		if(estado==undefined){estado='';}
-		var n_cantante=document.getElementById('ncantante').value;
+		if (document.getElementById('ncantante')!=null)
+			{
+			var n_cantante=document.getElementById('ncantante').value;
+			}
 		if(n_cantante==undefined){n_cantante='';}
-		var x=document.getElementById('boton-pause').value;
+		if (document.getElementById('boton-pause')!=null)
+			{
+			var x=document.getElementById('boton-pause').value;
+			}
 		if(x==undefined){x='';}
 		var pos_scroll = $('#cancion').scrollTop();
 		if(pos_scroll==undefined){pos_scroll='';}
-		alert ("tit:"+titulo+"--vel:"+velocidad+"--let:"+letra_cancion+"--est:"+estado+"--nca:"+n_cantante+"--x:"+x+"--pos:"+pos_scroll+"--");
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
 		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x});
