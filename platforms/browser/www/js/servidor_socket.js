@@ -60,7 +60,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				console.log('A user connected', conn.remoteAddr);
 				sesiones[conn.uuid]=conn.uuid;
 				$('body').append('<div id="con_pop2">'+sesiones.toString()+'</span></div>');
-				setTimeout(function (){$('#con_pop2').fadeOut(1500);},3000);
+				setTimeout(function (){$('#con_pop2').fadeOut(500);},800);
 				
 				},
 				'onMessage' : function(conn, msg) {
@@ -71,7 +71,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					console.log('A user disconnected from %s', conn.remoteAddr);
 					sesiones.splice[conn.uuid,1]
 				$('body').append('<div id="con_pop3">'+sesiones.toString()+'</span></div>');
-				setTimeout(function (){$('#con_pop3').fadeOut(1500);},3000);
+				setTimeout(function (){$('#con_pop3').fadeOut(500);},800);
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
