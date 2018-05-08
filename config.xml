@@ -23,10 +23,10 @@
 	<icon src="www/img/iconos/android/icon-48-mdpi.png" density="mdpi" width="48" height="48"/>
 	<icon src="www/img/iconos/android/icon-72-hdpi.png" density="hdpi" width="72" height="72"/>
 	<icon src="www/img/iconos/android/icon-96-xhdpi.png" density="xhdpi" width="96" height="96"/>
-	<splash src="splash/android/splash-land-ldpi.png" qualifier="portrait-ldpi"/>
-	<splash src="splash/android/splash-land-mdpi.png" qualifier="portrait-mdpi"/>
-	<splash src="splash/android/splash-land-hdpi.png" qualifier="portrait-hdpi"/>
-	<splash src="splash/android/splash-land-xhdpi.png" qualifier="portrait-xhdpi"/>
+	<splash src="splash/android/splash-portrait-ldpi.png" qualifier="portrait-ldpi"/>
+	<splash src="splash/android/splash-portrait-mdpi.png" qualifier="portrait-mdpi"/>
+	<splash src="splash/android/splash-portrait-hdpi.png" qualifier="portrait-hdpi"/>
+	<splash src="splash/android/splash-portrait-xhdpi.png" qualifier="portrait-xhdpi"/>
 	<preference name="SplashScreenDelay" value="4000"/>
 	</platform>
 	<platform name="ios">
