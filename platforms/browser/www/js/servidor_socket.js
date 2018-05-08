@@ -57,7 +57,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
 				console.log('A user connected', conn.remoteAddr);
-				sesion_cerrada=false;
 				},
 				'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
