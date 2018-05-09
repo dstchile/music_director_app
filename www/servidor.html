@@ -146,7 +146,7 @@ document.addEventListener("backbutton", detener_servidor, false);
 		if(pos_scroll==undefined){pos_scroll='';}
 		////////////////codigo lectura base de datos
 		////////////////codigo lectura base de datos
-		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x,"sesiones":sesiones.toString()});
+		var send_data = JSON.stringify({"titulo":titulo, "velocidad":velocidad,"letra":letra_cancion,"estado":estado,"posicion":pos_scroll,"cantante":n_cantante,"pause":x,"sesiones":"xx"});
 		wsserver.send({'uuid':conn.uuid}, send_data);
 		wsserver.close({'uuid':conn.uuid});
 		
