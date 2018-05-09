@@ -95,6 +95,10 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
+		wsserver.stop(function onStop(addr, port) {
+			console.log('Stopped listening on %s:%d', addr, port);
+			});
+		
 		var cant_ses=sesiones.length
 		$('body').append('<div id="con_pop4">'+cant_ses+'</div>');
 		setTimeout(function(){	
@@ -105,7 +109,7 @@ function cierre_servidor(ruta)
 			wsserver.close({'uuid':sesiones[i]});
 			if(i==cant_ses)
 			{
-				setTimeout(function(){cierre_final(ruta)},2000);
+				setTimeout(function(){location.href=ruta},2000);
 			}
 		}
 	 	function cierre_final(ruta){
