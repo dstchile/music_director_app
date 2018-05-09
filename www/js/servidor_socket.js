@@ -95,7 +95,8 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		wsserver.stop(function onStop(addr, port) {
+		var wsserver = cordova.plugins.wsserver;	
+			wsserver.stop(function onStop(addr, port) {
 			console.log('Stopped listening on %s:%d', addr, port);
 			});
 		
