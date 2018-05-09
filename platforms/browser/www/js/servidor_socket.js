@@ -100,19 +100,19 @@ function cierre_servidor(ruta)
 		setTimeout(function(){	
 		for(var i=0; i<=cant_ses; i++)
 		{
-			$('body').append('<div id="con_pop4">'+sesiones[i]+'</div>');
+			$('body').append('<div id="con_pop4">'+sesiones.toString()+'</div>');
 			var wsserver = cordova.plugins.wsserver;	
 			wsserver.close({'uuid':sesiones[i]});
 			if(i==cant_ses)
 			{
-				setTimeout(cierre_final(ruta),2000);
+				setTimeout(function(ruta){cierre_final(ruta)},2000);
 			}
 		}
 	 	function cierre_final(ruta){
 			var wsserver = cordova.plugins.wsserver;	
 			$('body').append('<div id="con_pop4">'+ruta+'</div>');
 			wsserver.stop(function onStop(addr, port) {
-				setTimeout(location.href=ruta,2000)
+				setTimeout(function (ruta){location.href=ruta},2000)
 				console.log('Stopped listening on %s:%d', addr, port);
 				});
 		}
