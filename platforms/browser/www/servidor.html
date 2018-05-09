@@ -46,7 +46,7 @@ document.addEventListener("backbutton", detener_servidor, false);
 						console.log(conn, msg);
 						document.getElementById('log').innerHTML="mensaje-:"+msg+" fin.";
 						document.getElementById('respuesta').innerHTML=msg;	
-						mensajes_servidor(conn,msg);
+						mensajes_servidor(wsserver,conn,msg);
 					},
 					'onClose' : function(conn, code, reason, wasClean) {
 						console.log('A user disconnected from %s', conn.remoteAddr);
@@ -98,7 +98,7 @@ document.addEventListener("backbutton", detener_servidor, false);
 			wsserver.send({'uuid':id_user}, send_data);
 			}
 		}
-	function mensajes_servidor(conn,msg)
+	function mensajes_servidor(wsserver,conn,msg)
 	{
 	if (msg=='001')
 		{
