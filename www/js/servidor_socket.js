@@ -105,14 +105,14 @@ function cierre_servidor(ruta)
 			wsserver.close({'uuid':sesiones[i]});
 			if(i==cant_ses)
 			{
-				setTimeout(function(ruta){cierre_final(ruta)},2000);
+				setTimeout(function(){cierre_final(ruta)},2000);
 			}
 		}
 	 	function cierre_final(ruta){
 			var wsserver = cordova.plugins.wsserver;	
 			$('body').append('<div id="con_pop4">'+ruta+'</div>');
 			wsserver.stop(function onStop(addr, port) {
-				setTimeout(function (ruta){location.href=ruta},2000)
+				setTimeout(function (){location.href=ruta},2000)
 				console.log('Stopped listening on %s:%d', addr, port);
 				});
 		}
