@@ -43,9 +43,9 @@ function iniciando_servidor()
 function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 		
-		var wsserver = cordova.plugins.wsserver;	
-		var puerto=45000;
-	llamada_inicio(puerto)
+	var wsserver = cordova.plugins.wsserver;	
+	var puerto=45000;
+	llamada_inicio(puerto,nombre_usuario,numero_telefono)
 		{
 		wsserver.start(puerto, {
 				'onFailure' :  function(addr,port, reason) {
