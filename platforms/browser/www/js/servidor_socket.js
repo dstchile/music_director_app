@@ -44,7 +44,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 		
 	var puerto=45000;
-	llamada_inicio(puerto,nombre_usuario,numero_telefono)
+	function llamada_inicio(puerto,nombre_usuario,numero_telefono)
 		{
 		var wsserver = cordova.plugins.wsserver;	
 		wsserver.start(puerto, {
