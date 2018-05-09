@@ -79,7 +79,7 @@ function iniciando_cliente()
 				 
 					ws.onerror = function () {
 						puerto++;
-						if (puerto<=45010)
+						if (puerto<=45050)
 							{
 							llamada_servidor(puerto);
 							}

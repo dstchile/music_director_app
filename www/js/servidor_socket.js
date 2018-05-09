@@ -6,6 +6,7 @@ var id_sesion=0;
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
+	window.plugins.insomnia.allowSleepAgain();
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
@@ -53,7 +54,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					console.log('Server detenido Rason:', addr, port, reason);
 					//////////mensaje de falla/////////
 					puerto++;
-					if (puerto<=45010)
+					if (puerto<=45050)
 						{
 						llamada_inicio(puerto,nombre_usuario,numero_telefono)
 						}
@@ -93,7 +94,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				console.log('Did not start. Reason: %s', reason);
 				//////////mensaje de falla/////////
 				puerto++;
-				if (puerto<=45010)
+				if (puerto<=45050)
 					{
 					llamada_inicio(puerto,nombre_usuario,numero_telefono)
 					}
