@@ -43,16 +43,24 @@ function iniciando_servidor()
 function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 		
-	var wsserver = cordova.plugins.wsserver;	
-	var puerto=8888;
-	setTimeout(function()
-		{		
+		var wsserver = cordova.plugins.wsserver;	
+		var puerto=45000;
+	llamada_inicio(puerto)
+		{
 		wsserver.start(puerto, {
 				'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
 					//////////mensaje de falla/////////
-					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					puerto++;
+					if (puerto<=45010)
+						{
+						llamada_inicio(puerto)
+						}
+					else
+						{
+						$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+						setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+						}
 				},
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
@@ -83,14 +91,18 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}, function onDidNotStart(reason) {
 				console.log('Did not start. Reason: %s', reason);
 				//////////mensaje de falla/////////
-				$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+				puerto++;
+				if (puerto<=45010)
+					{
+					llamada_inicio(puerto)
+					}
+				else
+					{
+					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					}
 			});
-		
-	
-		},500);
-			
-	
+		}
 	}
 
 function cierre_servidor(ruta)

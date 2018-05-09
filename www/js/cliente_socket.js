@@ -11,12 +11,20 @@ function iniciando_cliente()
 	partida_cliente(i)
 	function partida_cliente(i)
 		{
-		
-					setTimeout(function(){
+			var puerto=45000;
+			llamada_servidor(puerto)
+			setTimeout(function(){
+			//console.log("i= "+i);
+			i++;
+			partida_cliente(i);
+			},1000);
+	
+		function llamada_servidor(puerto)
+			{
 					//var address_server = getParameterByName('v1');
 					var address_server = '192.168.1.39';
 					////llamada al servidor
-					var ws = new WebSocket('ws://'+address_server+':8888');
+					var ws = new WebSocket('ws://'+address_server+':'+puerto);
 					ws.onopen = function () {
 						console.log('open');
 						this.send('003');         // transmit "hello" after connecting 
@@ -70,13 +78,21 @@ function iniciando_cliente()
 					};
 				 
 					ws.onerror = function () {
-						console.log('error occurred!');
+						puerto++;
+						if (puerto<=45010)
+							{
+							llamada_servidor(puerto);
+							}
+						else
+							{
+							console.log('error occurred!');
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
 							document.getElementById('cancion').innerHTML="";
 							document.getElementById('cancion').value="";
 							document.getElementById('t-can').textContent="";
 							console.log('close 2');
+							}
 							
 					};
 				 
@@ -85,11 +101,8 @@ function iniciando_cliente()
 					};
 					////////////////////////////////////
 					
-					
-					//console.log("i= "+i);
-					i++;
-					partida_cliente(i);
-					},1000);
+			}
+		
 		}
 
 	
