@@ -98,30 +98,9 @@ function cierre_servidor(ruta)
 		var wsserver = cordova.plugins.wsserver;	
 			wsserver.stop(function onStop(addr, port) {
 			console.log('Stopped listening on %s:%d', addr, port);
+			setTimeout(function(){location.href=ruta},2000);
 			});
 		
-		var cant_ses=sesiones.length
-		$('body').append('<div id="con_pop4">'+cant_ses+'</div>');
-		setTimeout(function(){	
-		for(var i=0; i<=cant_ses; i++)
-		{
-			$('body').append('<div id="con_pop4">'+sesiones.toString()+'</div>');
-			var wsserver = cordova.plugins.wsserver;	
-			wsserver.close({'uuid':sesiones[i]});
-			if(i==cant_ses)
-			{
-				setTimeout(function(){location.href=ruta},2000);
-			}
-		}
-	 	function cierre_final(ruta){
-			var wsserver = cordova.plugins.wsserver;	
-			$('body').append('<div id="con_pop4">'+ruta+'</div>');
-			wsserver.stop(function onStop(addr, port) {
-				setTimeout(function (){location.href=ruta},2000)
-				console.log('Stopped listening on %s:%d', addr, port);
-				});
-		}
-		},2000)
 	}
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
