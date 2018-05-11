@@ -6,7 +6,7 @@ var id_sesion=0;
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
-	window.plugins.insomnia.allowSleepAgain();
+	window.plugins.insomnia.keepAwake();
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)

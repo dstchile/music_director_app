@@ -4,7 +4,7 @@ document.addEventListener("deviceready", iniciando_cliente, false);
 function iniciando_cliente()
 	{	
 	console.log("iniciando cliente");
-	//window.plugins.insomnia.keepAwake();
+	window.plugins.insomnia.keepAwake();
 				
 	
 	var i=0;
@@ -22,7 +22,7 @@ function iniciando_cliente()
 		function llamada_servidor(puerto)
 			{
 					//var address_server = getParameterByName('v1');
-					var address_server = '192.168.1.39';
+					var address_server = '192.168.1.38';
 					////llamada al servidor
 					var ws = new WebSocket('ws://'+address_server+':'+puerto);
 					ws.onopen = function () {
