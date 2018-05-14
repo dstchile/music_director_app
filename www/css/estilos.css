@@ -833,11 +833,11 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50px;
 	background:#666;
 }
-/*
-#con_pop2{
+
+#con_pop_2{
 	position:absolute;
 	z-index:999;
-	bottom:20vh;
+	bottom:75vh;
 	left:15vw;
 	width:75vw;
 	opacity:0.8;
@@ -848,10 +848,11 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50px;
 	background:#666;
 }
-#con_pop3{
+
+#con_pop_3{
 	position:absolute;
 	z-index:999;
-	bottom:25vh;
+	bottom:65vh;
 	left:15vw;
 	width:75vw;
 	opacity:0.8;
@@ -862,7 +863,6 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50px;
 	background:#666;
 }
-*/
 #con_pop4{
 	position:absolute;
 	z-index:999;

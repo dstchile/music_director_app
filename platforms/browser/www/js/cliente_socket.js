@@ -19,6 +19,9 @@ function iniciando_cliente()
 	function partida_cliente(i)
 		{
 			var puerto=45000;
+			$('body').append('<div id="con_pop_2">'+i+'<span id="disco"></span></div>');
+			setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+			setTimeout(function(){$('#con_pop').remove()},5000);
 			llamada_servidor(puerto)
 			setTimeout(function(){
 			//console.log("i= "+i);
@@ -29,7 +32,7 @@ function iniciando_cliente()
 		function llamada_servidor(puerto)
 			{
 					//var address_server = getParameterByName('v1');
-					var address_server = '192.168.1.37';
+					var address_server = '192.168.1.35';
 					////llamada al servidor
 					var ws = new WebSocket('ws://'+address_server+':'+puerto);
 					ws.onopen = function () {
@@ -95,6 +98,9 @@ function iniciando_cliente()
 					};
 				 
 					ws.onclose = function (event) {
+							$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
+							setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+							setTimeout(function(){$('#con_pop').remove()},5000);
 						console.log('close code=' + event.code);
 					};
 					////////////////////////////////////
