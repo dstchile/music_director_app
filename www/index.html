@@ -29,7 +29,13 @@
 		document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
-				window.plugins.insomnia.allowSleepAgain();
+				try
+					{
+						window.plugins.insomnia.allowSleepAgain();
+					}
+				catch(err)
+					{
+					}
 				lectura_datos();
 				console.log("carga de BD");
 			}

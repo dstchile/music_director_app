@@ -6,7 +6,12 @@ var id_sesion=0;
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
-	window.plugins.insomnia.keepAwake();
+	try{
+		window.plugins.insomnia.keepAwake();
+		}
+	catch(err){
+		
+	}
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
@@ -109,13 +114,30 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
+		try
+			{
+				var wsserver = cordova.plugins.wsserver;	
+					wsserver.stop(function onStop(addr, port) {
+					console.log('Stopped listening on %s:%d', addr, port);
+					setTimeout(function(){location.href=ruta},100);
+					});
+			}
+		catch(err)
+			{
+				location.href=ruta;
+			}
+		
+	}
+	
+function cierre_ser()
+	{
 		var wsserver = cordova.plugins.wsserver;	
 			wsserver.stop(function onStop(addr, port) {
 			console.log('Stopped listening on %s:%d', addr, port);
-			setTimeout(function(){location.href=ruta},100);
 			});
-		
+	
 	}
+	
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	{
 	if (msg=='001')

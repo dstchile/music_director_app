@@ -4,7 +4,14 @@ document.addEventListener("deviceready", iniciando_cliente, false);
 function iniciando_cliente()
 	{	
 	console.log("iniciando cliente");
-	window.plugins.insomnia.keepAwake();
+	try
+		{
+			window.plugins.insomnia.keepAwake();
+		}
+	catch(err)
+		{
+		
+		}
 				
 	
 	var i=0;

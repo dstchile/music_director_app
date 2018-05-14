@@ -887,3 +887,24 @@ input[type=number] { -moz-appearance:textfield; }
 	border-radius:50%;
 	z-index:99999;
 }
+
+#boxa{
+	width:100vw;
+	z-index:100;
+	position:absolute;
+	alignment-adjust:central;
+	bottom:30%;
+}
+#abrir{
+	position:absolute;
+	width:80px;
+	height:30px;
+	left:15%;
+}
+#cerrar{
+	position:absolute;
+	width:80px;
+	height:30px;
+	right:15%;
+}
+
