@@ -58,17 +58,9 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
 					//////////mensaje de falla/////////
-					puerto++;
-					if (puerto<=45050)
-						{
-						llamada_inicio(puerto,nombre_usuario,numero_telefono)
-						}
-					else
-						{
-						$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-						setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-						setTimeout(function(){$('#con_pop').remove()},5000);
-						}
+					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop').remove()},5000);
 				},
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
@@ -100,17 +92,9 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}, function onDidNotStart(reason) {
 				console.log('Did not start. Reason: %s', reason);
 				//////////mensaje de falla/////////
-				puerto++;
-				if (puerto<=45050)
-					{
-					llamada_inicio(puerto,nombre_usuario,numero_telefono)
-					}
-				else
-					{
-					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
-					}
+				$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+				setTimeout(function(){$('#con_pop').remove()},5000);
 			});
 		}
 	}
