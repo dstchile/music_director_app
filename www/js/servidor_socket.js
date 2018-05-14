@@ -67,6 +67,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 						{
 						$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
 						setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+						setTimeout(function(){$('#con_pop').remove()},5000);
 						}
 				},
 				'onOpen' : function(conn) {
@@ -93,6 +94,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				console.log('Listening on %s:%d', addr, port);
 				$('body').append('<div id="con_pop">Servidor Iniciado</div>');
 				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+				setTimeout(function(){$('#con_pop').remove()},5000);
 				//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 				
 			}, function onDidNotStart(reason) {
@@ -107,6 +109,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					{
 					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop').remove()},5000);
 					}
 			});
 		}
@@ -136,6 +139,7 @@ function cierre_ser()
 			console.log('Stopped listening on %s:%d', addr, port);
 			$('body').append('<div id="con_pop">Servidor Cerrado</div>');
 			setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+			setTimeout(function(){$('#con_pop').remove()},5000);
 			});
 	
 	}

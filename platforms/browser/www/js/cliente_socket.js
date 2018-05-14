@@ -85,13 +85,6 @@ function iniciando_cliente()
 					};
 				 
 					ws.onerror = function () {
-						puerto++;
-						if (puerto<=45050)
-							{
-							llamada_servidor(puerto);
-							}
-						else
-							{
 							console.log('error occurred!');
 							document.getElementById('mensajeria').style.display='';
 							document.getElementById('mensajeria').innerHTML="Esperando";
@@ -99,8 +92,6 @@ function iniciando_cliente()
 							document.getElementById('cancion').value="";
 							document.getElementById('t-can').textContent="";
 							console.log('close 2');
-							}
-							
 					};
 				 
 					ws.onclose = function (event) {
