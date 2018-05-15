@@ -18,17 +18,17 @@
     <div id="list" class="listado">
     <ul id="Listado_directores" class="listado_directores"></ul>
 </div>
-<div style="display:none" id="contador">0%</div>
-<input type="hidden" id="memoporce" value="0">
+<input type="hidden" id="contador" value="0">
+<!--<input type="hidden" id="memoporce" value="0">-->
+<progress id="memoporce" class="buscar" max="102.4" value="0"></progress>
 </body>
 	<script>
 		
 	document.addEventListener("deviceready", lectura_ip, false);
 	function lectura_ip()
 		{
-		document.getElementById('contador').style.display="none";
 		document.getElementById('memoporce').value=0;
-		document.getElementById('contador').innerHTML='';
+		document.getElementById('contador').valuo=0;
 		$('#buscar').remove();
 		var direccion="192.168.1.39";
 		busca_director(direccion)
@@ -88,18 +88,16 @@
 		
 		function calculo(){
 			var con = document.getElementById('memoporce').value;
-			document.getElementById('contador').style.display='';
 			var porce=parseFloat(con)+parseFloat(0.39);
 			porce=Math.round(porce*10)/10;
 			if(porce==102.4){
-				$('body').append('<button id="buscar" onClick="lectura_ip()">Volver a Buscar Servidor</button>');
-				document.getElementById('contador').style.display="none";
+				$('body').append('<button id="buscar" class="buscar2" onClick="lectura_ip()">Volver a Buscar Servidor</button>');
 			}
 			document.getElementById('memoporce').value=porce;
 			var memo=document.getElementById('memoporce').value;
 			if(memo>100){memo=100;}
 			memo=Math.round(memo);
-			document.getElementById('contador').innerHTML=memo+"%";
+			document.getElementById('contador').value=memo;
 			
 		}
 		
