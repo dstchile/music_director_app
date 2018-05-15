@@ -71,6 +71,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				document.getElementById('pop_prueba').innerHTML=sesiones;
 				},
 				'onMessage' : function(conn, msg) {
+					alert(conn.remoteAddr)
 					console.log(conn, msg);
 				mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
 				},
