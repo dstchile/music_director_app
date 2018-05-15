@@ -20,7 +20,8 @@
 </div>
 <input type="hidden" id="contador" value="0">
 <!--<input type="hidden" id="memoporce" value="0">-->
-<progress id="memoporce" class="buscar" max="102.4" value="0">Cargando...</progress>
+<button id="buscar" class="buscar2" style="display:none" onClick="lectura_ip()">Volver a Buscar Servidor</button>
+<progress id="memoporce" class="buscar" max="102.4" value="0"></progress>
 </body>
 	<script>
 		
@@ -29,7 +30,7 @@
 		{
 		document.getElementById('memoporce').value=0;
 		document.getElementById('contador').valuo=0;
-		$('#buscar').remove();
+		document.getElementById('buscar').style.display='none';
 		var direccion="192.168.1.39";
 		busca_director(direccion)
 		/*	
@@ -69,7 +70,7 @@
 					var obj = JSON.parse(event.data);
 					console.log(obj.direccion);    // will be "hello"
 					calculo();
-					$('#Listado_directores').append('<li style="height:50px"><a href="cancion_detalle_musico.html?v1='+obj.direccion+'&v2='+obj.nombre_usuario+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+obj.nombre_usuario+'</font></span></p></a></li>');
+					$('#Listado_directores').append('<li style="height:50px; line-height:40px"><a href="cancion_detalle_musico.html?v1='+obj.direccion+'&v2='+obj.nombre_usuario+'"><p><span class="icon-headphones"> - <font style="font-size:16px; font-weight:bold">'+obj.nombre_usuario+'</font></span></p></a></li>');
 					this.close();
 				};
 			 
@@ -90,8 +91,8 @@
 			var con = document.getElementById('memoporce').value;
 			var porce=parseFloat(con)+parseFloat(0.39);
 			porce=Math.round(porce*10)/10;
-			if(porce==102.4){
-				$('body').append('<button id="buscar" class="buscar2" onClick="lectura_ip()">Volver a Buscar Servidor</button>');
+			if(porce>100){
+				document.getElementById('buscar').style.display='';
 			}
 			document.getElementById('memoporce').value=porce;
 			var memo=document.getElementById('memoporce').value;

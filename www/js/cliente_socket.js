@@ -31,8 +31,11 @@ function iniciando_cliente()
 	
 		function llamada_servidor(puerto)
 			{
-					//var address_server = getParameterByName('v1');
-					var address_server = '192.168.1.35';
+				WebSocket.pluginOptions = {
+						maxConnectTime: 5000,
+					};
+					var address_server = getParameterByName('v1');
+					//var address_server = '192.168.1.35';
 					////llamada al servidor
 					var ws = new WebSocket('ws://'+address_server+':'+puerto);
 					ws.onopen = function () {
