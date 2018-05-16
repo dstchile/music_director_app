@@ -907,6 +907,29 @@ input[type=number] { -moz-appearance:textfield; }
 	height:30px;
 	right:15%;
 }
+#boxa2{
+	width:100vw;
+	z-index:100;
+	position:absolute;
+	alignment-adjust:central;
+	bottom:22%;
+}
+#partir{
+	position:absolute;
+	padding-left:5px;
+	padding-right:5px;
+	height:30px;
+	left:15%;
+}
+#detener{
+	position:absolute;	
+	padding-left:5px;
+	padding-right:5px;
+	height:30px;
+	right:15%;
+}
+
+
 .buscar{
 	position:absolute;
 	z-index:5;

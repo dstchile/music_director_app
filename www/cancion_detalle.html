@@ -130,7 +130,6 @@ function lista_programas(db){
 
 
 function repro(estado){
-	respuesta_servidor()
 	var vel=document.getElementById('text-velocidad').value;
 	vel=parseInt(vel)*100;
 	if(estado=="play")
@@ -245,7 +244,6 @@ function delay(i,sh){
 
 
 function pau(x){
-	respuesta_servidor()
 	//var x=document.getElementById('boton-pause').value;
 	if(x==1)
 		{
@@ -266,7 +264,6 @@ function pau(x){
 }
 
 function velo(z){
-	respuesta_servidor()
 	if(z=='menos')
 		{
 			var v = document.getElementById('text-velocidad').value;
@@ -298,7 +295,10 @@ function velo(z){
 <input type="hidden" id="can-sig">
 <input type="hidden" id="can-ant">
 <div id="boxa" align="center">
-	<button id="abrir" onClick="iniciando_servidor()" class="boton3">Abrir</button><button id="listo" onClick="respuesta_servidor()" class="boton3">Listo</button><button id="cerrar" onClick="cierre_ser()" class="boton3">Cerrar</button>
+	<button id="abrir" onClick="iniciando_servidor()" class="boton3">Abrir</button><button id="cerrar" onClick="cierre_ser()" class="boton3">Cerrar</button>
+</div>
+<div id="boxa2" align="center">
+	<button id="partir" onClick="temporizador()" class="boton3">Partir</button><button id="detener" onClick="temposwitch=true" class="boton3">Detener</button>
 </div>
 <div id="principal">
     <div id="menu-superior">

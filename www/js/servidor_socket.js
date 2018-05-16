@@ -257,4 +257,21 @@ function respuesta_servidor()
 			////////////////////////////////////
 			}
 		}
+
+var temposwitch=false;
+
+function temporizador(){
+	if(temposwitch==false)
+	{
+		setTimeout(function (){
+			temporizador();
+			temposwitch=false;
+			respuesta_servidor();
+		},1000)
+		console.log("cuenta")
+	}	
+}
+
+
+
 	
