@@ -67,7 +67,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
 				console.log('A user connected', conn.remoteAddr);
-				sesiones=[conn.recoteAddr];
 				},
 				'onMessage' : function(conn, msg) {
 				console.log(conn, msg);
@@ -145,7 +144,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 							sesiones[largo]=conn.remoteAddr;
 						}
 					
-					alert(sesiones);
+					alert(largo);
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
