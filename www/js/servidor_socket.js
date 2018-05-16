@@ -210,15 +210,20 @@ function respuesta_servidor()
 			WebSocket.pluginOptions = {
 					maxConnectTime: 5000,
 				};
-			alert(sesiones);
-			var address_cliente = '192.168.1.35';
+				
+			for(var i=0; i<=sesiones.length; i++)
+				{
+					var address_cliente=sesiones[i];
+					llamada(address_cliente)
+				}
 			//llamada al servidor
+			function llamada(address_cliente)
+			{
 			var ws = new WebSocket('ws://'+address_cliente+':45001');
 			ws.onopen = function () {
 				console.log('open');
 				this.send('listo');// transmit "hello" after connecting 
 				};
-			 
 			ws.onmessage = function (event) {
 				console.log(event.data);// will be "hello" 
 				alert("resp:"+event.data)
@@ -230,10 +235,8 @@ function respuesta_servidor()
 					}
 				console.log('close');
 				this.close();
-				
 			};
-		 
-			ws.onerror = function () {
+		 	ws.onerror = function () {
 					console.log('error occurred!');
 					document.getElementById('mensajeria').style.display='';
 					document.getElementById('mensajeria').innerHTML="Esperando";
@@ -250,5 +253,6 @@ function respuesta_servidor()
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////
+			}
 		}
 	
