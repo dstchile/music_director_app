@@ -138,8 +138,8 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 				{
 				if (result.hasOwnProperty(interface)) 
 					{
-					sesiones=[conn.remoteAddr];
-					alert(conn.remoteAddr);
+					sesiones=["casa"];
+					alert(sesiones);
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
