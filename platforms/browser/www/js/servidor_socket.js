@@ -226,7 +226,12 @@ function respuesta_servidor()
 				};
 			ws.onmessage = function (event) {
 				console.log(event.data);// will be "hello" 
-				alert("resp:"+event.data)
+				
+				$('body').append('<div id="con_pop_3">'+event.data+'<span id="disco"></span></div>');
+				setTimeout(function (){$('#con_pop_3').fadeOut(1500);},3000);
+				setTimeout(function(){$('#con_pop_3').remove()},5000);
+				//alert("resp:"+event.data)
+				
 				if (event.data=='listo')
 					{
 					}
@@ -247,9 +252,6 @@ function respuesta_servidor()
 			};
 		 
 			ws.onclose = function (event) {
-					$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////

@@ -132,8 +132,8 @@ function iniciando_cliente()
 				wsserver.close({'uuid':conn.uuid});
 				
 					$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
+					setTimeout(function (){$('#con_pop_3').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop_3').remove()},5000);
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////
