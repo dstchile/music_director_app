@@ -66,13 +66,14 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
+				console.log('A user connected', conn.remoteAddr);
+				sesiones=[conn.recoteAddr];
 				},
 				'onMessage' : function(conn, msg) {
 				console.log(conn, msg);
 				mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
 				},
 				'onClose' : function(conn, code, reason, wasClean) {
-				
 				console.log('A user disconnected from %s', conn.remoteAddr);			
 				}
 			}, function onStart(addr, port) {
