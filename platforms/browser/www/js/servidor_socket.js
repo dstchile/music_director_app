@@ -71,7 +71,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				document.getElementById('pop_prueba').innerHTML=sesiones;
 				},
 				'onMessage' : function(conn, msg) {
-					console.log(conn, msg);
+				console.log(conn, msg);
 				mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
 				},
 				'onClose' : function(conn, code, reason, wasClean) {
@@ -138,7 +138,8 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 				{
 				if (result.hasOwnProperty(interface)) 
 					{
-					
+					sesiones=[conn.remoteAddr];
+					alert(toString(sesiones));
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
@@ -199,3 +200,50 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		
 		}
 	}
+function respuesta_servidor()
+			{
+			WebSocket.pluginOptions = {
+					maxConnectTime: 5000,
+				};
+			alert(toString(sesiones));
+			var address_cliente = '192.168.1.35';
+			////llamada al servidor
+			var ws = new WebSocket('ws://'+address_cliente+':45001');
+			ws.onopen = function () {
+				console.log('open');
+				this.send('listo');         // transmit "hello" after connecting 
+				};
+			 
+			ws.onmessage = function (event) {
+				console.log(event.data);    // will be "hello" 
+				alert("resp:"+event.data)
+				if (event.data=='listo')
+					{
+					}
+				else
+					{
+					}
+				console.log('close');
+				this.close();
+				
+			};
+		 
+			ws.onerror = function () {
+					console.log('error occurred!');
+					document.getElementById('mensajeria').style.display='';
+					document.getElementById('mensajeria').innerHTML="Esperando";
+					document.getElementById('cancion').innerHTML="";
+					document.getElementById('cancion').value="";
+					document.getElementById('t-can').textContent="";
+					console.log('close 2');
+			};
+		 
+			ws.onclose = function (event) {
+					$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop').remove()},5000);
+				console.log('close code=' + event.code);
+			};
+			////////////////////////////////////
+		}
+	

@@ -142,3 +142,21 @@ function iniciando_cliente()
 	
 	
 	}
+
+
+function cierre_servidor(ruta)
+	{
+		try
+			{
+				var wsserver = cordova.plugins.wsserver;	
+					wsserver.stop(function onStop(addr, port) {
+					console.log('Stopped listening on %s:%d', addr, port);
+					setTimeout(function(){location.href=ruta},100);
+					});
+			}
+		catch(err)
+			{
+				location.href=ruta;
+			}
+		
+	}
