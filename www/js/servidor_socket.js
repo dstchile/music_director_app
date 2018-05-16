@@ -225,11 +225,6 @@ function respuesta_servidor()
 				this.send('listo');// transmit "hello" after connecting 
 				};
 			ws.onmessage = function (event) {
-				console.log(event.data);// will be "hello" 
-				
-				$('body').append('<div id="con_pop_3">'+event.data+'<span id="disco"></span></div>');
-				setTimeout(function (){$('#con_pop_3').fadeOut(1500);},3000);
-				setTimeout(function(){$('#con_pop_3').remove()},5000);
 				//alert("resp:"+event.data)
 				
 				if (event.data=='listo')
