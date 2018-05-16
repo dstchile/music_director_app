@@ -139,12 +139,12 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 								existe=true;
 							}
 					}
-					if(existe=false)
+					if(existe==false)
 						{
 							sesiones[largo]=conn.remoteAddr;
 						}
 					
-					alert(largo);
+					alert(sesiones);
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
