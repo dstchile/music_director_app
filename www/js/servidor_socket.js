@@ -218,17 +218,17 @@ function respuesta_servidor()
 			WebSocket.pluginOptions = {
 					maxConnectTime: 5000,
 				};
-			alert(toString(sesiones));
+			alert(sesiones);
 			var address_cliente = '192.168.1.35';
-			////llamada al servidor
+			//llamada al servidor
 			var ws = new WebSocket('ws://'+address_cliente+':45001');
 			ws.onopen = function () {
 				console.log('open');
-				this.send('listo');         // transmit "hello" after connecting 
+				this.send('listo');// transmit "hello" after connecting 
 				};
 			 
 			ws.onmessage = function (event) {
-				console.log(event.data);    // will be "hello" 
+				console.log(event.data);// will be "hello" 
 				alert("resp:"+event.data)
 				if (event.data=='listo')
 					{

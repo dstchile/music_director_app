@@ -31,26 +31,26 @@
 		document.getElementById('memoporce').value=0;
 		document.getElementById('contador').valuo=0;
 		document.getElementById('buscar').style.display='none';
-		var direccion="192.168.1.39";
-		busca_director(direccion)
-		/*	
+		/*var direccion="192.168.1.39";
+		busca_director(direccion)*/
+			
 		function onSuccess( ipInformation ) 
 			{
-			//ipInformation.ip
-			//ipInformation.subnet
-			//var direccion=ipInformation.ip;
-			var direccion="192.168.1.39";
+			ipInformation.ip
+			ipInformation.subnet
+			var direccion=ipInformation.ip;
+			//var direccion="192.168.1.39";
 			busca_director(direccion)
 			}
 		function onError( error ) 
 			{
-			var direccion="192.168.1.39";
-			busca_director(direccion)
+			//var direccion="192.168.1.39";
+			//busca_director(direccion)
 			// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
 			//alert( error );
 			}
 		networkinterface.getWiFiIPAddress( onSuccess, onError );
-		networkinterface.getCarrierIPAddress( onSuccess, onError );*/
+		networkinterface.getCarrierIPAddress( onSuccess, onError );
 		}
 	function busca_director(direccion)
 		{
