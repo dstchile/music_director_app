@@ -130,7 +130,7 @@ function lista_programas(db){
 
 
 function repro(estado){
-	
+	respuesta_servidor()
 	var vel=document.getElementById('text-velocidad').value;
 	vel=parseInt(vel)*100;
 	if(estado=="play")
@@ -245,6 +245,7 @@ function delay(i,sh){
 
 
 function pau(x){
+	respuesta_servidor()
 	//var x=document.getElementById('boton-pause').value;
 	if(x==1)
 		{
@@ -265,6 +266,7 @@ function pau(x){
 }
 
 function velo(z){
+	respuesta_servidor()
 	if(z=='menos')
 		{
 			var v = document.getElementById('text-velocidad').value;
