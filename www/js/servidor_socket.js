@@ -208,7 +208,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 function respuesta_servidor()
 			{
 			WebSocket.pluginOptions = {
-					maxConnectTime: 5000,
+					maxConnectTime: 1000,
 				};
 				
 			for(var i=0; i<=sesiones.length; i++)
