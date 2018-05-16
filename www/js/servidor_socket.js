@@ -139,6 +139,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 				if (result.hasOwnProperty(interface)) 
 					{
 					sesiones=[conn.remoteAddr];
+					alert(toString(sesiones));
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
@@ -204,6 +205,7 @@ function respuesta_servidor()
 			WebSocket.pluginOptions = {
 					maxConnectTime: 5000,
 				};
+			alert(toString(sesiones));
 			var address_cliente = '192.168.1.35';
 			////llamada al servidor
 			var ws = new WebSocket('ws://'+address_cliente+':45001');
