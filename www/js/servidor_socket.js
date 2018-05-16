@@ -2,6 +2,7 @@
 
 document.addEventListener("deviceready", iniciando_servidor, false);
 var sesiones=new Array;
+var existe=false;
 var id_sesion=0;
 function iniciando_servidor()
 	{	
@@ -138,7 +139,19 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 				{
 				if (result.hasOwnProperty(interface)) 
 					{
-					sesiones=[conn.remoteAddr];
+					var largo=sesiones.length;
+					for(var i=0; i<=largo; i++)
+					{
+						if(sesiones[i]==conn.remoteAddr)
+							{
+								existe=true;
+							}
+					}
+					if(existe=false)
+						{
+							sesiones[largo]=conn.remoteAddr;
+						}
+					
 					alert(sesiones);
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
