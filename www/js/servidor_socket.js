@@ -66,10 +66,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
 				//'direccion del cliente'=conn.remoteAddr;
-				console.log('A user connected', conn.remoteAddr);
-				sesiones=[conn.uuid];
-				sesiones.toString()
-				document.getElementById('pop_prueba').innerHTML=sesiones;
 				},
 				'onMessage' : function(conn, msg) {
 				console.log(conn, msg);
@@ -77,11 +73,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 				},
 				'onClose' : function(conn, code, reason, wasClean) {
 				
-				console.log('A user disconnected from %s', conn.remoteAddr);
-				var posicion=sesiones.indexOf(conn.uuid)
-				sesiones.splice[posicion,1]
-				sesiones.toString()
-				document.getElementById('pop_prueba').innerHTML=sesiones;				
+				console.log('A user disconnected from %s', conn.remoteAddr);			
 				}
 			}, function onStart(addr, port) {
 				console.log('Listening on %s:%d', addr, port);
@@ -152,7 +144,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 							sesiones[largo]=conn.remoteAddr;
 						}
 					
-					alert(sesiones);
+					alert(sesiones+"aqui");
 					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
