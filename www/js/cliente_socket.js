@@ -43,11 +43,11 @@ function iniciando_cliente()
 			}
 		}, function onStart(addr, port) {
 			console.log('Listening on %s:%d', addr, port);
-			alert("servidor iniciado en:"+addr+" por:"+port+"---");
+			//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 			
 		}, function onDidNotStart(reason) {
 			console.log('Did not start. Reason: %s', reason);
-			alert("error:"+reason+"-");
+			//alert("error:"+reason+"-");
 			//////////mensaje de falla/////////
 		});
 	/////////////////fin inicio servidor////////////////////////////////////////////
@@ -130,9 +130,6 @@ function iniciando_cliente()
 			ws.onclose = function (event) {
 				wsserver.send({'uuid':conn.uuid}, "error");
 				wsserver.close({'uuid':conn.uuid});
-				$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
-				setTimeout(function (){$('#con_pop_3').fadeOut(1500);},3000);
-				setTimeout(function(){$('#con_pop_3').remove()},5000);
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////
