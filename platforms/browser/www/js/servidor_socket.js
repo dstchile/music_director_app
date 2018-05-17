@@ -262,7 +262,7 @@ function temporizador(){
 			temporizador();
 			temposwitch=false;
 			respuesta_servidor();
-		},300)
+		},50)
 		console.log("cuenta")
 	}	
 }
