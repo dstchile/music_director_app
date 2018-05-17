@@ -130,10 +130,9 @@ function iniciando_cliente()
 			ws.onclose = function (event) {
 				wsserver.send({'uuid':conn.uuid}, "error");
 				wsserver.close({'uuid':conn.uuid});
-				
-					$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop_3').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop_3').remove()},5000);
+				$('body').append('<div id="con_pop_3">'+event.code+'<span id="disco"></span></div>');
+				setTimeout(function (){$('#con_pop_3').fadeOut(1500);},3000);
+				setTimeout(function(){$('#con_pop_3').remove()},5000);
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////

@@ -57,11 +57,11 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		var wsserver = cordova.plugins.wsserver;	
 		wsserver.start(puerto, {
 				'onFailure' :  function(addr,port, reason) {
-					console.log('Server detenido Rason:', addr, port, reason);
-					//////////mensaje de falla/////////
-					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
+				console.log('Server detenido Rason:', addr, port, reason);
+				//////////mensaje de falla/////////
+				$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+				setTimeout(function(){$('#con_pop').remove()},5000);
 				},
 				'onOpen' : function(conn) {
 				//'uuid'=conn.uuid;
@@ -262,7 +262,7 @@ function temporizador(){
 			temporizador();
 			temposwitch=false;
 			respuesta_servidor();
-		},600)
+		},300)
 		console.log("cuenta")
 	}	
 }
