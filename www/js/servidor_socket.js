@@ -214,7 +214,6 @@ function respuesta_servidor()
 					maxConnectTime: 1000,
 				};
 			var conversacion=sesiones.length;
-			conta=0;	
 			for(var i=0; i<=sesiones.length; i++)
 				{
 					var address_cliente=sesiones[i];
@@ -239,7 +238,7 @@ function respuesta_servidor()
 					{
 						conta++;
 					}
-				
+				alert (conta)
 				if(conta==conversacion && temposwitch==true)
 				{
 					alert("proceso terminado")
@@ -276,7 +275,11 @@ function temporizador(){
 			respuesta_servidor();
 		},1000)
 		console.log("cuenta")
-	}	
+	}
+	else
+	{
+	conta=0;	
+	}
 }
 
 
