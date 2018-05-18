@@ -254,6 +254,7 @@ function respuesta_servidor()
 				this.close();
 			};
 		 	ws.onerror = function () {
+					conta++;
 					console.log('error occurred!');
 					document.getElementById('mensajeria').style.display='';
 					document.getElementById('mensajeria').innerHTML="Esperando";
@@ -264,7 +265,6 @@ function respuesta_servidor()
 			};
 		 
 			ws.onclose = function (event) {
-				conta++;
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////
