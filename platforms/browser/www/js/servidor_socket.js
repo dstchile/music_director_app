@@ -238,7 +238,7 @@ function respuesta_servidor()
 					{
 						conta++;
 					}
-				alert (conta)
+				alert (conta+" -- "+conversacion+" -"+temposwitch+"--")
 				if(conta==conversacion && temposwitch==true)
 				{
 					alert("proceso terminado")
