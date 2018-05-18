@@ -265,6 +265,10 @@ function respuesta_servidor()
 		 
 			ws.onclose = function (event) {
 				console.log('close code=' + event.code);
+				if (event.code!=1000)
+					{
+					alert(event.code);
+					}
 			};
 			////////////////////////////////////
 			}
