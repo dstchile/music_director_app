@@ -264,6 +264,7 @@ function respuesta_servidor()
 			};
 		 
 			ws.onclose = function (event) {
+				conta++;
 				console.log('close code=' + event.code);
 			};
 			////////////////////////////////////
