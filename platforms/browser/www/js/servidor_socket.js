@@ -239,7 +239,7 @@ function respuesta_servidor()
 					{
 						conta++;
 					}
-				alert (conta+" -- "+conversacion+" -"+temposwitch+"--")
+					document.getElementById('menconta').innerHTML=conta+" -- "+conversacion+" -"+temposwitch+"--";
 				if(conta==conversacion && temposwitch==true)
 				{
 					alert("proceso terminado")
