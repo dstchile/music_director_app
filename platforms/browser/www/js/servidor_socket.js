@@ -247,14 +247,13 @@ function respuesta_servidor()
 						temposwitch=false;
 						conta=0;
 						conej=0;	
-					},100)
+					},1000)
 				}
 					
 				console.log('close');
 				this.close();
 			};
 		 	ws.onerror = function () {
-					conta++;
 					console.log('error occurred!');
 					document.getElementById('mensajeria').style.display='';
 					document.getElementById('mensajeria').innerHTML="Esperando";
