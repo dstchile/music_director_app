@@ -4,6 +4,9 @@ document.addEventListener("deviceready", iniciando_servidor, false);
 var sesiones=new Array;
 var existe=false;
 var id_sesion=0;
+var conversacion=new Array;
+var conta=0;
+
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -210,7 +213,8 @@ function respuesta_servidor()
 			WebSocket.pluginOptions = {
 					maxConnectTime: 1000,
 				};
-				
+			var conversacion=sesiones.length;
+			conta=0;	
 			for(var i=0; i<=sesiones.length; i++)
 				{
 					var address_cliente=sesiones[i];
@@ -221,7 +225,7 @@ function respuesta_servidor()
 			{
 			var ws = new WebSocket('ws://'+address_cliente+':45001');
 			ws.onopen = function () {
-				console.log('open');
+				console.log('open');				
 				this.send('listo');// transmit "hello" after connecting 
 				};
 			ws.onmessage = function (event) {
@@ -229,10 +233,18 @@ function respuesta_servidor()
 				
 				if (event.data=='listo')
 					{
+						conta++;
 					}
 				else
 					{
+						conta++;
 					}
+				
+				if(conta==conversacion && temposwitch==true)
+				{
+					alert("proceso terminado")
+				}
+					
 				console.log('close');
 				this.close();
 			};
