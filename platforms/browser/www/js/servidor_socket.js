@@ -243,6 +243,7 @@ function respuesta_servidor()
 				if(conta==conversacion && temposwitch==true)
 				{
 					alert("proceso terminado")
+				temposwitch=true
 				}
 					
 				console.log('close');
@@ -270,9 +271,9 @@ var temposwitch=false;
 function temporizador(){
 	if(temposwitch==false)
 	{
+		temposwitch=false;
 		setTimeout(function (){
 			temporizador();
-			temposwitch=false;
 			respuesta_servidor();
 		},1000)
 		console.log("cuenta")
