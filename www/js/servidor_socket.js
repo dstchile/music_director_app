@@ -6,7 +6,7 @@ var existe=false;
 var id_sesion=0;
 var conversacion=new Array;
 var conta=0;
-
+var conej=0;
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -214,7 +214,6 @@ function respuesta_servidor()
 					maxConnectTime: 1000,
 				};
 			var conversacion=sesiones.length;
-			conta=0;	
 			for(var i=0; i<=sesiones.length; i++)
 				{
 					var address_cliente=sesiones[i];
@@ -227,6 +226,7 @@ function respuesta_servidor()
 			ws.onopen = function () {
 				console.log('open');				
 				this.send('listo');// transmit "hello" after connecting 
+				conej++;
 				};
 			ws.onmessage = function (event) {
 				//alert("resp:"+event.data)
@@ -239,11 +239,14 @@ function respuesta_servidor()
 					{
 						conta++;
 					}
-					document.getElementById('menconta').innerHTML=conta+" -- "+conversacion+" -"+temposwitch+"--";
-				if(conta==conversacion && temposwitch==true)
+					document.getElementById('menconta').innerHTML=conta+" -- "+conej+" -"+temposwitch+"--";
+				if(conta==conej && temposwitch==true)
 				{
 					alert("proceso terminado")
-				temposwitch=false;
+					setTimeout(function (){
+						temposwitch=false;
+						conta=0;	
+					},100)
 				}
 					
 				console.log('close');
