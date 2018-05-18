@@ -243,7 +243,7 @@ function respuesta_servidor()
 				if(conta==conversacion && temposwitch==true)
 				{
 					alert("proceso terminado")
-				temposwitch=true
+				temposwitch=false;
 				}
 					
 				console.log('close');
