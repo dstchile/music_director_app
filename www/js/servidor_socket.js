@@ -7,6 +7,8 @@ var id_sesion=0;
 var conversacion=new Array;
 var conta=0;
 var conej=0;
+var coner=0;
+var concl=0;
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -239,14 +241,16 @@ function respuesta_servidor()
 					{
 						conta++;
 					}
-					document.getElementById('menconta').innerHTML=conta+" -- "+conej+" -"+temposwitch+"--";
+					document.getElementById('menconta').innerHTML=conta+" -- "+conej+" - "+coner+" - "+concl+" -"+temposwitch+"--";
 				if(conta==conej && temposwitch==true)
 				{
 					alert("proceso terminado")
 					setTimeout(function (){
 						temposwitch=false;
 						conta=0;
-						conej=0;	
+						conej=0;
+						coner=0;
+						concl=0;	
 					},1000)
 				}
 					
@@ -261,14 +265,12 @@ function respuesta_servidor()
 					document.getElementById('cancion').value="";
 					document.getElementById('t-can').textContent="";
 					console.log('close 2');
+					coner++;
 			};
 		 
 			ws.onclose = function (event) {
 				console.log('close code=' + event.code);
-				if (event.code!=1000)
-					{
-					alert(event.code);
-					}
+				concl++;	
 			};
 			////////////////////////////////////
 			}
