@@ -245,7 +245,8 @@ function respuesta_servidor()
 					alert("proceso terminado")
 					setTimeout(function (){
 						temposwitch=false;
-						conta=0;	
+						conta=0;
+						conej=0;	
 					},100)
 				}
 					
