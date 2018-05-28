@@ -284,7 +284,8 @@ function temporizador(){
 		temposwitch=false;
 		setTimeout(function (){
 			//temporizador();
-			alert("aqui");
+			alert("aqui holadddd");
+			
 			respuesta_servidor();
 		},1000)
 		console.log("cuenta")
