@@ -283,7 +283,7 @@ function temporizador(){
 	{
 		temposwitch=false;
 		setTimeout(function (){
-			temporizador();
+			//temporizador();
 			respuesta_servidor();
 		},1000)
 		console.log("cuenta")
