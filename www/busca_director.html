@@ -44,8 +44,8 @@
 			}
 		function onError( error ) 
 			{
-			//var direccion="192.168.1.39";
-			//busca_director(direccion)
+			var direccion="192.168.1.1";
+			busca_director(direccion)
 			// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
 			//alert( error );
 			}
@@ -54,6 +54,7 @@
 		}
 	function busca_director(direccion)
 		{
+			console.log("valor:"+direccion+"---")
 			var dir=direccion.split(".");
 	 		var ip=1;
 			$('#Listado_directores').empty();

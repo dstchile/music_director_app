@@ -15,7 +15,7 @@ function iniciando_cliente()
 				
 	
 	//////////////////////////////inicio de servidor////////////////////////////////////////
-	var wsserver = cordova.plugins.wsserver;	
+	/*var wsserver = cordova.plugins.wsserver;	
 	wsserver.start(45001, {
 			'onFailure' :  function(addr,port, reason) {
 				console.log('Server detenido Rason:', addr, port, reason);
@@ -49,7 +49,7 @@ function iniciando_cliente()
 			console.log('Did not start. Reason: %s', reason);
 			//alert("error:"+reason+"-");
 			//////////mensaje de falla/////////
-		});
+		});*/
 	/////////////////fin inicio servidor////////////////////////////////////////////
 	  
 		
