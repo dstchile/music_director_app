@@ -96,6 +96,22 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			});
 		}
 	}
+function salto_pagina(ruta)
+	{
+		try
+			{
+				var wsserver = cordova.plugins.wsserver;	
+					wsserver.stop(function onStop(addr, port) {
+					console.log('Stopped listening on %s:%d', addr, port);
+					setTimeout(function(){location.href=ruta},500);
+					});
+			}
+		catch(err)
+			{
+				location.href=ruta;
+			}
+		
+	}
 
 function cierre_servidor(ruta)
 	{
