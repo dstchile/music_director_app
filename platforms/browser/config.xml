@@ -10,6 +10,7 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
+    <gap:plugin name="cordova-plugin-websocket-server" source="npm" />
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm" />
     <gap:plugin name="cordova-plugin-insomnia" source="npm" version="4.1.0" />
     <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
