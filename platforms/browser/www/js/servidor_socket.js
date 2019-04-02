@@ -99,12 +99,16 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
+		$('body').append('<div id="con_pop">Espere por favor</div>');
+		setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+		setTimeout(function(){$('#con_pop').remove()},5000);
+		
 		try
 			{
 				var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
-					setTimeout(function(){location.href=ruta},100);
+					setTimeout(function(){location.href=ruta},500);
 					});
 			}
 		catch(err)
@@ -211,7 +215,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	}
 function respuesta_servidor()
 			{
-			WebSocket.pluginOptions = {
+			/*WebSocket.pluginOptions = {
 					maxConnectTime: 1000,
 				};
 			var conversacion=sesiones.length;
@@ -240,7 +244,7 @@ function respuesta_servidor()
 					{
 						conta++;
 					}
-					document.getElementById('menconta').innerHTML=conta+" -- "+conej+" - "+coner+" - "+concl+" -"+temposwitch+"--";
+					document.getElementById('menconta').innerHTML=conta+" -- "+conej+" - "+coner+" - "+concl+"";
 				if(conta==conej && temposwitch==true)
 				{
 					alert("proceso terminado")
@@ -272,7 +276,7 @@ function respuesta_servidor()
 				concl++;	
 			};
 			////////////////////////////////////
-			}
+			}*/
 		}
 
 var temposwitch=false;
@@ -280,14 +284,14 @@ var temposwitch=false;
 function temporizador(){
 	if(temposwitch==false)
 	{
-		temposwitch=false;
+		/*temposwitch=false;
 		setTimeout(function (){
 			//temporizador();
 			alert("aqui holadddd");
 			
 			respuesta_servidor();
 		},1000)
-		console.log("cuenta")
+		console.log("cuenta")*/
 	}
 	
 }
