@@ -107,7 +107,7 @@ function iniciando_cliente()
 		console.log("////////////////");
 		console.log("////////////////");
 		iniciando_cliente();
-		},3000)
+		},1500)
 }
 
 
