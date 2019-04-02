@@ -115,7 +115,7 @@ function cierre_servidor(ruta)
 					console.log('Stopped listening on %s:%d', addr, port);
 					$('body').append('<div id="con_pop">servidor cerrado<span id="disco"></span></div>');
 					setTimeout(function(){$('#con_pop').remove()},1500);
-					setTimeout(function(){location.href=ruta},500);
+					setTimeout(function(){location.href=ruta},100);
 										});
 			}
 		catch(err)
