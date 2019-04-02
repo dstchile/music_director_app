@@ -106,25 +106,21 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		$('body').append('<div id="con_pop">cerrando servidor x<span id="disco"></span></div>');
+		$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 		setTimeout(function(){$('#con_pop').remove()},500);
 		try
 			{
-				alert("hola mundo1");
 				var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
 					$('body').append('<div id="con_pop">servidor cerrado<span id="disco"></span></div>');
 					setTimeout(function(){$('#con_pop').remove()},1500);
-					setTimeout(function(){location.href=ruta},1000);
+					setTimeout(function(){location.href=ruta},500);
 										});
 			}
 		catch(err)
 			{
-				alert("hola mundo");
-				return 0;
 				location.href=ruta;
-				
 			}
 		
 	}
