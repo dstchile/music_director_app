@@ -59,41 +59,48 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	llamada_inicio(puerto,nombre_usuario,numero_telefono)					
 	function llamada_inicio(puerto,nombre_usuario,numero_telefono)
 		{
-		var wsserver = cordova.plugins.wsserver;	
-		wsserver.start(puerto, {
-				'onFailure' :  function(addr,port, reason) {
-				console.log('Server detenido Rason:', addr, port, reason);
-				//////////mensaje de falla/////////
-				$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-				setTimeout(function(){$('#con_pop').remove()},5000);
-				},
-				'onOpen' : function(conn) {
-				//'uuid'=conn.uuid;
-				//'direccion del cliente'=conn.remoteAddr;
-				console.log('A user connected', conn.remoteAddr);
-				},
-				'onMessage' : function(conn, msg) {
-				console.log(conn, msg);
-				mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
-				},
-				'onClose' : function(conn, code, reason, wasClean) {
-				console.log('A user disconnected from %s', conn.remoteAddr);			
-				}
-			}, function onStart(addr, port) {
-				console.log('Listening on %s:%d', addr, port);
-				$('body').append('<div id="con_pop">Servidor Iniciado</div>');
-				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-				setTimeout(function(){$('#con_pop').remove()},5000);
-				//alert("servidor iniciado en:"+addr+" por:"+port+"---");
-				
-			}, function onDidNotStart(reason) {
-				console.log('Did not start. Reason: %s', reason);
-				//////////mensaje de falla/////////
-				$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-				setTimeout(function(){$('#con_pop').remove()},5000);
-			});
+		try
+			{
+			var wsserver = cordova.plugins.wsserver;	
+			wsserver.start(puerto, {
+					'onFailure' :  function(addr,port, reason) {
+					console.log('Server detenido Rason:', addr, port, reason);
+					//////////mensaje de falla/////////
+					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop').remove()},5000);
+					},
+					'onOpen' : function(conn) {
+					//'uuid'=conn.uuid;
+					//'direccion del cliente'=conn.remoteAddr;
+					console.log('A user connected', conn.remoteAddr);
+					},
+					'onMessage' : function(conn, msg) {
+					console.log(conn, msg);
+					mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
+					},
+					'onClose' : function(conn, code, reason, wasClean) {
+					console.log('A user disconnected from %s', conn.remoteAddr);			
+					}
+				}, function onStart(addr, port) {
+					console.log('Listening on %s:%d', addr, port);
+					$('body').append('<div id="con_pop">Servidor Iniciado</div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop').remove()},5000);
+					//alert("servidor iniciado en:"+addr+" por:"+port+"---");
+					
+				}, function onDidNotStart(reason) {
+					console.log('Did not start. Reason: %s', reason);
+					//////////mensaje de falla/////////
+					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
+					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					setTimeout(function(){$('#con_pop').remove()},5000);
+				});
+			}
+		catch(err)
+			{
+			alert("WSSERVER no disponible")
+			}
 		}
 	}
 
@@ -104,7 +111,6 @@ function cierre_servidor(ruta)
 		try
 			{
 				alert("hola mundo1");
-				return 0;
 				var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
