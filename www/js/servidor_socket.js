@@ -99,10 +99,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		$('body').append('<div id="con_pop">Espere por favor</div>');
-		setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-		setTimeout(function(){$('#con_pop').remove()},5000);
-		
 		try
 			{
 				var wsserver = cordova.plugins.wsserver;	
