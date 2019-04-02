@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+ <title>Documento sin título</title>
+ <script type="text/javascript" src="js/cliente_socket2.js"></script>
+ <script src="js/jquery-3.1.1.js"></script>
+<link href="css/estilos.css" rel="stylesheet" type="text/css" />
+<link href="css/fontello.css" rel="stylesheet" type="text/css" />
+<script>
+function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+var address_server = getParameterByName('v1');
+console.log("dirección servidor: "+address_server)
+
+function repro(estado){
+	
+	var vel=document.getElementById('text-velocidad').value;
+	vel=parseInt(vel)*100;
+	if(estado=="play")
+		{
+			document.getElementById('boton-play').className +=" disnone";
+			document.getElementById('boton-pause').className="color-boton";
+			document.getElementById('boton-stop').className="color-boton";
+			document.getElementById('boton-menos').className="color-boton";
+			document.getElementById('text-velocidad').className="";
+			document.getElementById('boton-mas').className="color-boton";
+			//$('#menu-superior').slideUp(1000);
+			document.getElementById('content-cancion-musico').className="content-cancion";
+			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
+			document.getElementById('estado').value="PLAY";
+			var sh = document.getElementById('cancion').scrollHeight;
+			var i=-50;
+			delay(i,sh);
+		}
+	if(estado=="stop")
+		{
+			document.getElementById('boton-play').className="color-boton";
+			document.getElementById('boton-pause').className +=" disnone";
+			document.getElementById('boton-stop').className +=" disnone";
+			document.getElementById('boton-menos').className +=" disnone";
+			document.getElementById('text-velocidad').className="disnone";
+			document.getElementById('boton-mas').className +=" disnone";
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="STOP";
+			//$('#menu-superior').slideDown(1000);
+			document.getElementById('content-cancion-musico').className="";
+			$('#cancion').scrollTop(0);			
+			//document.getElementById('cancion').scrollTo(0,0);
+			document.getElementById('contador').innerHTML='';
+		}
+	
+}
+
+function delay(i,sh){
+	if(i<sh)
+		{
+			var vel=document.getElementById('text-velocidad').value;
+			var est = document.getElementById('estado').value;
+			vel=(150/vel)*100;
+			if(est=="PLAY")
+				{
+					setTimeout(function(){
+					//console.log("i= "+i);
+					//////codigo para contador/////
+					if (i<0)
+						{
+						var con=(Math.round(i/10))*-1;	
+						document.getElementById('contador').style.display='';
+						document.getElementById('contador').innerHTML=con;
+						}
+					else
+						{
+						$('#cancion').scrollTop(i);			
+						//document.getElementById('cancion').scrollTo(0,100);
+						document.getElementById('contador').innerHTML='';
+						document.getElementById('contador').style.display='none';
+						}
+					//////////////////////////////	
+					i++;
+					delay(i,sh);
+					},vel);
+				}
+			if(est=="STOP")
+				{
+					//document.getElementById('cancion').scrollTo(0,0);
+					$('#cancion').scrollTop(0);			
+					document.getElementById('contador').innerHTML='';
+					document.getElementById('contador').style.display='none';
+						
+				}
+		}
+	else
+		{
+			document.getElementById('boton-play').className="color-boton";
+			document.getElementById('boton-pause').className +=" disnone";
+			document.getElementById('boton-stop').className +=" disnone";
+			document.getElementById('boton-menos').className +=" disnone";
+			document.getElementById('text-velocidad').className="disnone";
+			document.getElementById('boton-mas').className +=" disnone";
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="STOP";
+			//$('#menu-superior').slideDown(1000);
+			document.getElementById('content-cancion-musico').className="";
+			//document.getElementById('cancion').scrollTo(0,0);
+			$('#cancion').scrollTop(0);
+		}
+}
+
+
+
+function pau(x){
+	if(x==1)
+		{
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="PAUSE";
+			var sh = document.getElementById('cancion').scrollHeight;
+			var i = document.getElementById('cancion').scrollTop;
+			delay(i,sh);
+		}
+	if(x=='')
+		{
+			document.getElementById('pausa').className="icon-play";
+			document.getElementById('boton-pause').value=1;
+			document.getElementById('estado').value="PLAY";
+			var sh = document.getElementById('cancion').scrollHeight;
+			var i = document.getElementById('cancion').scrollTop;
+			delay(i,sh);
+		}
+}
+
+function velo(z){
+	if(z=='menos')
+		{
+			var v = document.getElementById('text-velocidad').value;
+			var res = parseInt(v)-parseInt(1);
+			if(res<parseInt(40)){res=parseInt(40);}
+			document.getElementById('text-velocidad').value=parseInt(res);
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+		}
+	else if(z=='mas')
+		{
+			var v = document.getElementById('text-velocidad').value;
+			var res = parseInt(v)+parseInt(1);
+			if(res>parseInt(210)){res=parseInt(210);}
+			document.getElementById('text-velocidad').value=parseInt(res);
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+		}
+}
+
+function guardar_cancion(){
+	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		console.log( "Leyendo datos guardados." );
+		}
+		function errorCB(err) 
+		{
+			alert("Error processing SQL: "+err.code);
+		}
+		function querySuccess(tx,result)
+			{
+				console.log( "generando query." );
+				for (var i=0; i<result.rows.length; i++) 
+					{
+						var row = result.rows.item(i);
+						var id_cancion=row['id'];
+						var titulo=row['titulo_cancion'];
+						var cantante=row['cantante'];
+						var velocidad=row['velocidad'];
+						var compas=row['compas'];
+						var letra_cancion=row['letra_cancion'];
+						var tono=row['tono'];
+						var ruta="cancion_nueva.html?v1="+id_cancion;
+						document.getElementById("boton-editar").href = ruta;
+					};
+			}
+}
+</script>
+</head>
+
+<body>
+<script type="text/javascript" src="cordova.js"></script>
+<input type="hidden" id="estado">
+<input type="hidden" id="ncantante">
+<div id="principal">
+    <div id="menu-superior">
+    	<a href="index.html" onClick="cierre_servidor('index.php')" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" onClick="guardar_cancion()" ><span class="icon-floppy"></span></a>
+    </div>
+    <div id="content-cancion-musico">
+        <textarea id="cancion" readonly></textarea>
+    </div>
+   
+    <div id="menu-inferior">
+    	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
+        <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
+        <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
+        <input type="number" readonly id="text-velocidad" class="disnone">
+        <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
+        <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
+    </div>
+    <div id="contador"></div>
+    <div id="mensajeria">Esperando a Servidor</div>
+</div>
+</body>
+</html>

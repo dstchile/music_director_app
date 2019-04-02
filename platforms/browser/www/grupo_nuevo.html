@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sin título</title>
+<script src="js/jquery-3.1.1.js"></script>
+<link href="css/estilos.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="css/fontello.css" type="text/css">
+
+<script>
+
+function nuevo_grupo(nombre){
+	if(nombre!='')
+		{
+			location.href="grupo_nuevo_agregar.html?v1="+nombre;
+		}
+	else if(nombre=='')
+		{
+			alert("Debe ingresar un nombre de grupo")
+		}
+}
+
+</script>
+</head>
+<style>
+div{
+	//border: 1px solid #0F6;
+}
+</style>
+<body>
+<a href="listado_grupos.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>NUEVO GRUPO</button>
+<div class="contenedor_grupo">
+<div style="text-align:left"><span class="icon-group">Nombre Grupo</span></div>
+<div><input type="text" id="nombre_grupo"></div>
+<div></div>
+<div><button id="n_grupo" onClick="nuevo_grupo(nombre_grupo.value)">LISTADO</button></div>
+</div>
+</body>
+</html>

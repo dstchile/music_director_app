@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Music Director</title>
+    <script src="js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="js/servidor_socket.js"></script>
+    <script type="text/javascript" src="js/mensajes.js"></script>
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<script>
+		$(window).resize(function(){
+		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+		   var alto=$(window).height();
+		   var ancho=$(window).width();
+		   if(ancho>alto)
+			   {
+				  document.getElementById('list').className="listadog2";
+			   }
+		   else
+			   {
+				  document.getElementById('list').className="listadog";
+			   }
+		   //alert("alto: "+alto+" ancho:"+ancho);
+		})
+	document.addEventListener("deviceready", lectura_inicial(), false);
+	function lectura_inicial(x)
+		{
+			document.addEventListener('backbutton',pressKey,false);
+			function pressKey()
+			{
+				cierre_servidor('index.html')
+				document.addEventListener('backbutton',pressKey,false);
+				
+			}
+			if(x==undefined){x='';}
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+			lista_programas(db,x);
+			
+		}
+	function lista_programas(db,x){
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		var busq = x;
+		if(busq!='')
+		{
+			tx.executeSql('SELECT * FROM grupos WHERE nombre_grupo LIKE "%'+busq+'%"',[],querySuccess,errorCB);
+		}
+		else
+		{
+			tx.executeSql('SELECT * FROM grupos',[],querySuccess,errorCB);
+		}
+		//alert(busqv);
+		
+		console.log( "Leyendo datos guardados." );
+		}
+		function errorCB(err) 
+		{
+		alert("Error processing SQL: "+err.code);
+		}
+		function querySuccess(tx,result)
+		{
+		console.log( "generando query." );
+		
+		$('#Listado_canciones').empty();
+		for (var i=0; i<result.rows.length; i++) 
+			{
+			var row = result.rows.item(i);
+			var id_grupo=row['id'];
+			var nomgru=row['nombre_grupo'];			
+			$('#Listado_canciones').append("<li style='height:50px; line-height:40px;' id='ccan"+id_grupo+"'><a href='#' ontouchstart='espera("+id_grupo+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_grupo+")' ><p><span class='icon-group'> - "+nomgru+"</span></p></a><input type='hidden' id='can"+id_grupo+"' value='"+nomgru+"'></li>");
+			}
+		}
+	}	
+	var tiempo=false;
+	var v_id=0;
+	var mover=false;
+	function espera(id_c){
+		v_id=id_c;
+		var tit=document.getElementById('can'+id_c).value;
+		tiempo=true;
+		mover=false;
+		setTimeout(function(){procesar(id_c,tit);clearTimeout();},2000)
+		
+		}
+	function procesar(id_c,tit){
+		if(tiempo && v_id==id_c)
+			{
+				document.getElementById('valor_id').value=id_c;
+				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
+				navigator.notification.confirm(
+					'Esta seguro que desea eliminar: '+tit+' ?', // message
+					 onConfirm,            // callback to invoke with index of button pressed
+					'Atencion!',           // title
+					['Eliminar','Cancelar']     // buttonLabels
+				);
+			}
+		}
+	function onConfirm(buttonIndex){
+		if(buttonIndex==2)
+			{
+				var id_c=document.getElementById('valor_id').value;
+				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
+			}
+		if(buttonIndex==1)
+			{
+				document.addEventListener("deviceready", eliminar, false);
+			}		
+	}
+	function movimiento(){
+		tiempo=false;
+		mover=true;
+	}
+	function noespera(id_c){
+		tiempo=false;
+		if(id_c!='' && mover==false)
+			{
+				cierre_servidor('listado_canciones_grupo.html?v1='+id_c);
+			}
+		}	
+	
+	function eliminar(){
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+		el(db)
+	}
+	function el(db){
+		db.transaction(queryDB);
+		function queryDB(tx)
+			{
+				var id_c=document.getElementById('valor_id').value;
+				tx.executeSql('DELETE FROM grupos WHERE id="'+id_c+'"');
+				lectura_inicial();
+			}
+	}
+	
+	
+	
+	</script>
+    </head>
+    <body>
+    <input type="hidden" id="valor_id">
+      <script type="text/javascript" src="cordova.js"></script>
+      <a class="boton2 ancho-back" onClick="cierre_servidor('index.html')"><span class="icon-left-open"></span></a><a onClick="cierre_servidor('listado.html')" class="boton2 ancho-b_listado"><span class="icon-th-list"></span></a><a onClick="cierre_servidor('listado_grupo.html')" class="boton2_activo ancho-b_grupos"><span class="icon-group"></span></a><a onClick="cierre_servidor('grupo_nuevo.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="cierre_servidor('datos_director.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(this.value)" onBlur="lectura_inicial(this.value)"></div>
+    <div id="list" class="listadog">
+    <ul id="Listado_canciones" class="listado_canciones"></ul>
+    </div>
+    </body>
+</html>

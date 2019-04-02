@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+ <title>Documento sin título</title>
+ <script src="js/jquery-3.1.1.js"></script>
+ <script type="text/javascript" src="js/servidor_socket.js"></script>
+<link href="css/estilos.css" rel="stylesheet" type="text/css" />
+<link href="css/fontello.css" rel="stylesheet" type="text/css" />
+<script>
+
+function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+var id_cancion = getParameterByName('v1');
+var id_grupo = getParameterByName('v2');
+var id_posicion = getParameterByName('v3');
+
+console.log("ID cancion: "+id_cancion)
+console.log("ID grupo: "+id_grupo);
+console.log("ID posicion: "+id_posicion);
+document.addEventListener("deviceready", lectura_inicial, false);
+	function lectura_inicial()
+		{
+			document.addEventListener('backbutton',pressKey,false);
+			function pressKey()
+			{
+				if(id_grupo!='')
+					{
+						cierre_servidor('listado_canciones_grupo.html')
+					}
+				else
+					{
+						cierre_servidor('listado.html')
+					}
+				document.addEventListener('backbutton',pressKey,false);
+				
+			}
+			if(id_grupo=='')
+			{
+				document.getElementById('boton-forward').style.display="none";
+				document.getElementById('boton-rewind').style.display="none";
+				document.getElementById('direccion').value="listado.html";
+			}
+			else
+			{
+				document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo;
+			}
+			console.log("LLego aqui")
+			//window.plugins.insomnia.keepAwake();
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+			lista_programas(db);
+		}
+function lista_programas(db){
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id>"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id asc LIMIT 1',[],siguiente_cancion);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE id<"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id desc LIMIT 1',[],anterior_cancion);
+		console.log( "Leyendo datos guardados." );
+		}
+		function errorCB(err) 
+		{
+		alert("Error processing SQL: "+err.code);
+		}
+		function querySuccess(tx,result)
+		{
+		console.log( "generando query." );
+		for (var i=0; i<result.rows.length; i++) 
+			{
+				var row = result.rows.item(i);
+				var id_cancion=row['id'];
+				var titulo=row['titulo_cancion'];
+				var cantante=row['cantante'];
+				document.getElementById('ncantante').value=cantante;
+				
+				titulo=titulo.toUpperCase();
+				document.getElementById('t-can').textContent=titulo;
+				var velocidad=row['velocidad'];
+				document.getElementById('text-velocidad').value=velocidad;
+				var compas=row['compas'];
+				var letra_cancion=''+row['titulo_cancion']+'\n\n'+row['cantante']+'\n\n\n\n\n\n'+row['letra_cancion'];
+				var tono=row['tono'];
+				console.log("Titulo cancion: "+titulo);
+				document.getElementById('cancion').innerHTML=letra_cancion;
+				var ruta="cancion_nueva.html?v1="+id_cancion;
+				document.getElementById("boton-editar").href = ruta;
+			};
+ 		}
+		function siguiente_cancion(tx,result)
+		{
+			if(result.rows.length>0)
+			{
+				var row = result.rows.item(0);
+				var ics=row['id'];
+				var icans=row['id_cancion'];
+				document.getElementById('boton-forward').value=ics;
+				document.getElementById('can-sig').value=icans;
+				document.getElementById('boton-forward').style.display="block";
+			}
+			else
+			{
+				document.getElementById('boton-forward').style.display="none";
+			}
+		}
+		function anterior_cancion(tx,result)
+		{
+			if(result.rows.length>0)
+			{
+				var row = result.rows.item(0);
+				var ica=row['id'];
+				var icana=row['id_cancion'];
+				document.getElementById('boton-rewind').value=ica;
+				document.getElementById('can-ant').value=icana;
+				document.getElementById('boton-rewind').style.display="block";
+			}
+			else
+			{
+				document.getElementById('boton-rewind').style.display="none";
+			}
+		}
+	}
+
+
+function repro(estado){
+	var vel=document.getElementById('text-velocidad').value;
+	vel=parseInt(vel)*100;
+	if(estado=="play")
+		{
+			document.getElementById('boton-forward').className +=" disnone";
+			document.getElementById('boton-rewind').className +=" disnone";
+			document.getElementById('boton-play').className +=" disnone";
+			document.getElementById('boton-pause').className="color-boton";
+			document.getElementById('boton-stop').className="color-boton";
+			document.getElementById('boton-menos').className="color-boton";
+			document.getElementById('text-velocidad').className="";
+			document.getElementById('boton-mas').className="color-boton";
+			//$('#menu-superior').slideUp(1000);
+			document.getElementById('content-cancion').className="content-cancion";
+			//$('#cancion').animate({ scrollTop: $('#cancion')[0].scrollHeight}, 1000);
+			document.getElementById('estado').value="PLAY";
+			var sh = document.getElementById('cancion').scrollHeight;
+			var i=-50;
+			delay(i,sh);
+		}
+	if(estado=="stop")
+		{
+			document.getElementById('boton-forward').className="color-boton";
+			document.getElementById('boton-play').className="color-boton";
+			document.getElementById('boton-rewind').className="color-boton";
+			document.getElementById('boton-pause').className +=" disnone";
+			document.getElementById('boton-stop').className +=" disnone";
+			document.getElementById('boton-menos').className +=" disnone";
+			document.getElementById('text-velocidad').className="disnone";
+			document.getElementById('boton-mas').className +=" disnone";
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="STOP";
+			//$('#menu-superior').slideDown(1000);
+			document.getElementById('content-cancion').className="";
+			$('#cancion').scrollTop(0);			
+			//document.getElementById('cancion').scrollTo(0,0);
+			document.getElementById('contador').innerHTML='';
+		}
+	if(estado=="back")
+		{
+			var id_posicion = document.getElementById('boton-rewind').value;
+			var id_cancion = document.getElementById('can-ant').value;
+			cierre_servidor("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
+		}
+	if(estado=="next")
+		{
+			var id_posicion = document.getElementById('boton-forward').value;
+			var id_cancion = document.getElementById('can-sig').value;
+			cierre_servidor("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
+		}
+	
+}
+
+function delay(i,sh){
+	if(i<sh)
+		{
+			var vel=document.getElementById('text-velocidad').value;
+			var est = document.getElementById('estado').value;
+			vel=(150/vel)*100;
+			if(est=="PLAY")
+				{
+					setTimeout(function(){
+					console.log("i= "+i);
+					//////codigo para contador/////
+					if (i<0)
+						{
+						var con=(Math.round(i/10))*-1;	
+						document.getElementById('contador').style.display='';
+						document.getElementById('contador').innerHTML=con;
+						}
+					else
+						{
+						$('#cancion').scrollTop(i);			
+						//document.getElementById('cancion').scrollTo(0,100);
+						document.getElementById('contador').innerHTML='';
+						document.getElementById('contador').style.display='none';
+						}
+					//////////////////////////////	
+					i++;
+					delay(i,sh);
+					},vel);
+				}
+			if(est=="STOP")
+				{
+					//document.getElementById('cancion').scrollTo(0,0);
+					$('#cancion').scrollTop(0);			
+					document.getElementById('contador').innerHTML='';
+					document.getElementById('contador').style.display='none';
+						
+				}
+		}
+	else
+		{
+			document.getElementById('boton-play').className="color-boton";
+			document.getElementById('boton-pause').className +=" disnone";
+			document.getElementById('boton-stop').className +=" disnone";
+			document.getElementById('boton-menos').className +=" disnone";
+			document.getElementById('text-velocidad').className="disnone";
+			document.getElementById('boton-mas').className +=" disnone";
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="STOP";
+			//$('#menu-superior').slideDown(1000);
+			document.getElementById('content-cancion').className="";
+			//document.getElementById('cancion').scrollTo(0,0);
+			$('#cancion').scrollTop(0);			
+										
+		}
+}
+
+
+
+function pau(x){
+	//var x=document.getElementById('boton-pause').value;
+	if(x==1)
+		{
+			document.getElementById('pausa').className="icon-pause";
+			document.getElementById('boton-pause').value="";
+			document.getElementById('estado').value="PLAY";
+			var sh = document.getElementById('cancion').scrollHeight;
+			//var i = document.getElementById('cancion').scrollTop;
+			var i = $('#cancion').scrollTop();			
+			delay(i,sh);
+		}
+	if(x=='')
+		{
+			document.getElementById('pausa').className="icon-play";
+			document.getElementById('boton-pause').value=1;
+			document.getElementById('estado').value="PAUSE";
+		}
+}
+
+function velo(z){
+	if(z=='menos')
+		{
+			var v = document.getElementById('text-velocidad').value;
+			var res = parseInt(v)-parseInt(1);
+			if(res<parseInt(40)){res=parseInt(40);}
+			document.getElementById('text-velocidad').value=parseInt(res);
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+		}
+	else if(z=='mas')
+		{
+			var v = document.getElementById('text-velocidad').value;
+			var res = parseInt(v)+parseInt(1);
+			if(res>parseInt(210)){res=parseInt(210);}
+			document.getElementById('text-velocidad').value=parseInt(res);
+			var dato = document.getElementById('text-velocidad').value;
+			vel=parseInt(dato)*100;
+		}
+}
+
+</script>
+</head>
+
+<body>
+<script type="text/javascript" src="cordova.js"></script>
+<input type="hidden" id="estado">
+<input type="hidden" id="ncantante">
+<input type="hidden" id="direccion">
+<input type="hidden" id="can-sig">
+<input type="hidden" id="can-ant">
+<div id="boxa" align="center">
+	<button id="abrir" onClick="iniciando_servidor()" class="boton3">Abrir</button><button id="cerrar" onClick="cierre_ser()" class="boton3">Cerrar</button>
+</div>
+<div id="boxa2" align="center"><div id="menconta">aqui</div><br>
+	<button id="partir" onClick="temporizador()" class="boton3">Partir</button><button id="detener" onClick="temposwitch=true" class="boton3">Detener</button>
+</div>
+<div id="principal">
+    <div id="menu-superior">
+    	<a onClick="cierre_servidor(direccion.value)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor('listado.html');" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    </div>
+    <div id="content-cancion">
+        <textarea id="cancion" readonly></textarea>
+    </div>
+    <div id="menu-inferior">
+    	<button id="boton-rewind" onClick="repro('back')" style="display:none" class="color-boton"><span class="icon-to-start"></span></button>
+        <button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
+        <button id="boton-forward" onClick="repro('next')" style="display:none" class="color-boton"><span class="icon-to-end"></span></button>
+        <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
+        <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
+        <input type="number" readonly id="text-velocidad" class="disnone">
+        <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
+        <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
+    </div>
+    <div id="contador">
+    </div>
+</div>
+</body>
+</html>

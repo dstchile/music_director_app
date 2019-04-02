@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Documento sin título</title>
+    <script src="js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+<script>
+function getParameterByName(name) 
+	{
+		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+		results = regex.exec(location.search);
+		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	
+		$(window).resize(function(){
+		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+		   var alto=$(window).height();
+		   var ancho=$(window).width();
+		   if(ancho>alto)
+			   {
+				  document.getElementById('list').className="listado3h";
+			   }
+		   else
+			   {
+				  document.getElementById('list').className="listado3v";
+			   }
+		   //alert("alto: "+alto+" ancho:"+ancho);
+		})
+	
+	document.addEventListener("deviceready", recepcion, false);
+	function recepcion(){
+			var id_grupo = getParameterByName('v1');
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+			db.transaction(queryDB);
+			function queryDB(tx){
+				tx.executeSql('SELECT * FROM director JOIN lista_grupos ON director.id=lista_grupos.id_cancion WHERE lista_grupos.id_grupo="'+id_grupo+'" ORDER BY lista_grupos.id asc',[],resultadoCanciones);
+				tx.executeSql('SELECT nombre_grupo FROM grupos WHERE id="'+id_grupo+'"',[],resgrupo);
+				
+				};
+			function resultadoCanciones(tx,result){
+				$('#Lis_grupo').empty();
+				for (var i=0; i<result.rows.length; i++) 
+					{
+					var row = result.rows.item(i);
+					var id_posicion=row['id'];
+					var id_cancion=row['id_cancion'];
+					var titulo=row['titulo_cancion'];
+					var cantante=row['cantante'];
+					var velocidad=row['velocidad'];
+					var compas=row['compas'];
+					var letra_cancion=row['letra_cancion'];
+					var tono=row['tono'];
+					$('#Lis_grupo').append("<li id='ccan"+id_cancion+"'><a href='cancion_detalle.html?v1="+row['id_cancion']+"&v2="+id_grupo+"&v3="+row['id']+"'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+					}				
+				};
+			function resgrupo(tx,result){
+				var row = result.rows.item(0);
+				var nombre=row['nombre_grupo'];
+				document.getElementById('t-can').textContent=nombre;
+				};
+		}
+		
+</script>
+
+
+</head>
+
+<body>
+<input type="hidden" id="nombre_g">
+<div id="menu-superior">
+<a href="listado_grupos.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw"><span id="t-can"></span></a>
+</div>
+<div id="list" class="listado3v">
+    <ul id="Lis_grupo" class="listado_canciones"></ul>
+</div>
+</body>
+</html>

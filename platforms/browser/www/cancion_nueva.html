@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+ <title>Documento sin título</title>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<script type="text/javascript" src="cordova.js"></script>
+   	<script src="js/jquery-3.1.1.js"></script>
+	<script>
+	function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+
+	document.addEventListener("deviceready", lectura_inicial, false);
+		function lectura_inicial()
+			{
+				var id_cancion = getParameterByName('v1');
+				if (id_cancion!='')
+					{
+					lectura_datos();
+					}
+				console.log("carga de BD");
+			}
+		function lectura_datos(db)
+			{
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+			db.transaction(queryDB,errorCB);
+			function queryDB(tx)
+				{
+				var id_cancion = getParameterByName('v1');
+				tx.executeSql('SELECT * FROM director where id='+id_cancion+' ',[],querySuccess,errorCB);
+				console.log( "Leyendo datos guardados." );
+				}
+				function errorCB(err) 
+				{
+				if (err.code!=0)
+					{
+					alert("1Error processing SQL: "+err.code);
+					}
+				}
+				function querySuccess(tx,result)
+				{
+				
+				console.log( "generando query." );
+				var existen_datos=false;
+				for (var i=0; i<result.rows.length; i++) 
+					{
+					var existen_datos=true;
+					var row = result.rows.item(i);
+					document.getElementById('titulo_cancion').value=row['titulo_cancion'];
+					document.getElementById('cantante_grupo').value=row['cantante'];
+					document.getElementById('velocidad').value=row['velocidad'];
+					document.getElementById('tono').value=row['tono'];
+					document.getElementById('compas').value=row['compas'];
+					document.getElementById('l_cancion').value=row['letra_cancion'];
+					};
+				if (result.rows.length>=1)
+					{
+					console.log("con datos");
+					var ruta="listado.html";
+					document.getElementById("retorno").href = ruta;
+					}
+				else
+					{
+					console.log("sin datos");
+					var ruta="index.html";
+					document.getElementById("retorno").href = ruta;
+					}
+				
+				}
+			}        
+
+
+			$(window).resize(function(){
+			   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+			   var alto=$(window).height();
+			   var ancho=$(window).width();
+			   if(ancho>alto)
+			   {
+				  document.getElementById('borde_cancion').className="letra_cancionw"; 
+				  document.getElementById('boton_guardar').className="base_cancionw";
+			   }
+			   else
+			   {
+				  document.getElementById('borde_cancion').className="letra_cancionx";
+				  document.getElementById('boton_guardar').className="base_cancion";
+			   }
+			   //alert("alto: "+alto+" ancho:"+ancho);
+			})
+	function vel(x){
+		if( x =='menos')
+			{
+				console.log("menos");
+				var v = document.getElementById('velocidad').value;
+				var res= parseInt(v)-parseInt(1);
+				if(res<parseInt(40)){res=parseInt(40);}
+				document.getElementById('velocidad').value=parseInt(res);
+			}
+		else if( x =='mas')
+			{
+				console.log("mas");
+				var v = document.getElementById('velocidad').value;
+				var res= parseInt(v)+parseInt(1);
+				if(res>parseInt(210)){res=parseInt(210);}
+				document.getElementById('velocidad').value=parseInt(res);				
+			}
+		else	
+			{
+				console.log(x);
+				if(x>210){x=210;}
+				else if(x<40){x=40;}
+				document.getElementById('velocidad').value=x;
+			}
+	}
+function ajustar(){
+	document.getElementById("letra_can").className += " letra_cancion2";
+	document.getElementById("l_cancion").className="l_cancion2"
+	document.getElementById('lab').className="icon-resize-small";
+}
+function reajustar(){
+	document.getElementById("letra_can").className ="letra_cancion";
+	document.getElementById("l_cancion").className="l_cancion";
+	document.getElementById('lab').className="";
+}
+function guardar_cancion(){
+	var titulo = document.getElementById('titulo_cancion').value;
+	var cantante = document.getElementById('cantante_grupo').value;
+	var velo = document.getElementById('velocidad').value;
+	var ton = document.getElementById('tono').value;
+	var comp = document.getElementById('compas').value;
+	var letra = document.getElementById('l_cancion').value;
+	
+	var titulov = titulo.replace(/'/g,"''");
+	var cantantev = cantante.replace(/'/g,"''");
+	var letrav = letra.replace(/'/g,"''");
+	
+	if(titulo=='')
+	{
+		alert("Debe especificar el titulo de la Cancion");
+	}
+	else
+		{
+		if(cantante=='')
+		{
+			alert("Debe especificar el cantente o grupo de la Cancion "+titulo);
+		}
+		else
+			{
+			if(letra=='')
+			{
+				alert("Debe ingresar la letra de la Cancion "+titulo);
+			}
+			else
+				{
+				var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+				db.transaction(populateDB, errorCB, successCB);
+				function populateDB(tx) 
+					{
+					var id_cancion = getParameterByName('v1');
+					if (id_cancion!='')
+						{
+						tx.executeSql("UPDATE director set titulo_cancion='"+titulov+"' , cantante='"+cantantev+"', velocidad='"+velo+"' , tono='"+ton+"' , compas='"+comp+"' , letra_cancion='"+letrav+"' where id='"+id_cancion+"'");
+						}
+					else
+						{
+						tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulov+"','"+cantantev+"','"+velo+"','"+ton+"','"+comp+"','"+letrav+"')");														
+						}
+					}
+				function errorCB(err) 
+					{
+					alert("Error processing 2 SQL: "+err.code);
+					}
+				function successCB() 
+					{
+						alert("La Cancion se guardo correctamente!")
+						location.href="listado.html";
+					}
+				}
+			}
+		}
+}
+
+
+	</script>
+</head>
+
+<body>
+<a href="listado.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>CANCION</button>
+<div class="titulo_cancion">
+	<span class="icon-headphones"></span><font color="white">Titulo Cancion </font></div>
+<div class="titulo_cancion centrado">
+	<input type="text" id="titulo_cancion" name="titulo_cancion" >
+</div>
+<div class="titulo_cancion">
+	<span class="icon-mic"></span><font color="white">Cantante/Grupo </font></div>
+<div class="titulo_cancion centrado">
+	<input type="text" id="cantante_grupo" name="cantante_grupo" >
+</div>
+<div class="titulo_cancion">
+	<div style="width: 35%; line-height: 30px"><span class="icon-play"></span>Velocidad </div><div class="sel_css"><input type="button" id="menos" name="menos" class="boton3" onClick="vel('menos')" value="-"><input type="number" class="n_velocidad" name="velocidad" id="velocidad" onFocus="this.select()" onBlur="vel(this.value)" value="120"><input type="button" id="mas" name="mas" class="boton3" onClick="vel('mas')" value="+"></div>
+</div>
+<div class="titulo_cancion">
+	<div style="width: 35%;"><span class="icon-music"></span>Tono </div>
+	<div class="sel_css">
+	<select name="tono" id="tono">
+		<option value="C">C</option>
+		<option value="Cm">Cm</option>
+		<option value="Cb">Cb</option>
+		<option value="C#">C#</option>
+		<option value="C#m">C#m</option>
+		<option value="D">D</option>
+		<option value="Dm">Dm</option>
+		<option value="Db">Db</option>
+		<option value="D#m">D#m</option>
+		<option value="E">E</option>
+		<option value="Em">Em</option>
+		<option value="Eb">Eb</option>
+		<option value="Ebm">Ebm</option>
+		<option value="F">F</option>
+		<option value="Fm">Fm</option>
+		<option value="F#">F#</option>
+		<option value="F#m">F#m</option>
+		<option value="G">G</option>
+		<option value="Gm">Gm</option>
+		<option value="Gb">Gb</option>
+		<option value="G#m">G#m</option>
+		<option value="A">A</option>
+		<option value="Am">Am</option>
+		<option value="Ab">Ab</option>
+		<option value="Abm">Abm</option>
+		<option value="A#m">A#m</option>
+		<option value="B">B</option>
+		<option value="Bm">Bm</option>
+		<option value="Bb">Bb</option>
+		<option value="Bbm">Bbm</option>
+	</select>
+	</div>
+</div>
+<div class="titulo_cancion">
+	<div style="width: 35%;">&nbsp;¾ Compás </div>
+	<div class="sel_css">
+	<select name="compas" id="compas">
+		<option value="2/4">2/4</option>
+		<option value="3/4">3/4</option>
+		<option selected="true" value="4/4">4/4</option>
+		<option value="6/8">6/8</option>
+		<option value="9/8">9/8</option>
+		<option value="12/8">12/8</option>
+	</select>
+	</div>
+</div>
+<div id="letra_can" class="letra_cancion">
+	<div style="width: 45%;"><span class="icon-edit"></span>Letra Cancion :</div>
+	<div style="width: 55%;" align="right"><input type="checkbox" id="check"><label id="lab" onClick="reajustar()" for="check"></label></div>
+</div>
+<div id="borde_cancion" class="letra_cancionx">
+	<textarea id="l_cancion" name="l_cancion" class="l_cancion" onFocus="ajustar()"></textarea>
+</div>
+<div id="boton_guardar" class="base_cancion" align="center">
+	<input type="button" id="guardar" name="guardar" onClick="guardar_cancion()" value="Guardar">	
+</div>
+</body>
+</html>
