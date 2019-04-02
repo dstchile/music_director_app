@@ -166,7 +166,8 @@ function guardar_cancion(){
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
 		{
-		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		alert("titulo:"+titulo_cancion+" -- "+cantante+"---");
+		tx.executeSql('SELECT * FROM director WHERE titulo_cancion="'+titulo_cancion+'" and cantante="'+cantante+'"',[],querySuccess,errorCB);
 		console.log( "Leyendo datos guardados." );
 		}
 		function errorCB(err) 
@@ -178,17 +179,25 @@ function guardar_cancion(){
 				console.log( "generando query." );
 				for (var i=0; i<result.rows.length; i++) 
 					{
-						var row = result.rows.item(i);
-						var id_cancion=row['id'];
-						var titulo=row['titulo_cancion'];
-						var cantante=row['cantante'];
-						var velocidad=row['velocidad'];
-						var compas=row['compas'];
-						var letra_cancion=row['letra_cancion'];
-						var tono=row['tono'];
-						var ruta="cancion_nueva.html?v1="+id_cancion;
-						document.getElementById("boton-editar").href = ruta;
+					var row = result.rows.item(i);
+					var id_cancion=row['id'];
+					
+					var velo=document.getElementById('text-velocidad').value;
+					var letrav=document.getElementById('cancion').value=obj.letra;
+					var tono="";
+					var comp="";
+					tx.executeSql("UPDATE director set velocidad='"+velo+"' , tono='"+ton+"' , compas='"+comp+"' , letra_cancion='"+letrav+"' where id='"+id_cancion+"'");
+					//document.getElementById("boton-editar").href = ruta;
 					};
+				if (result.rows.lemgth==0)
+					{
+					var velo=document.getElementById('text-velocidad').value;
+					var letrav=document.getElementById('cancion').value=obj.letra;
+					var tono="";
+					var comp="";
+					tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulo_cancion+"','"+cantante+"','"+velo+"','"+ton+"','"+comp+"','"+letrav+"')");														
+					}
+						
 			}
 }
 </script>
