@@ -99,10 +99,12 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		$('body').append('<div id="con_pop">cerrando servidor<span id="disco"></span></div>');
+		$('body').append('<div id="con_pop">cerrando servidor x<span id="disco"></span></div>');
 		setTimeout(function(){$('#con_pop').remove()},500);
 		try
 			{
+				alert("hola mundo1");
+				return 0;
 				var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
@@ -113,7 +115,10 @@ function cierre_servidor(ruta)
 			}
 		catch(err)
 			{
+				alert("hola mundo");
+				return 0;
 				location.href=ruta;
+				
 			}
 		
 	}
@@ -202,89 +207,6 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 		
 		}
 	}
-function respuesta_servidor()
-			{
-			/*WebSocket.pluginOptions = {
-					maxConnectTime: 1000,
-				};
-			var conversacion=sesiones.length;
-			for(var i=0; i<=sesiones.length; i++)
-				{
-					var address_cliente=sesiones[i];
-					llamada(address_cliente)
-				}
-			//llamada al servidor
-			function llamada(address_cliente)
-			{
-			var ws = new WebSocket('ws://'+address_cliente+':45001');
-			ws.onopen = function () {
-				console.log('open');				
-				this.send('listo');// transmit "hello" after connecting 
-				conej++;
-				};
-			ws.onmessage = function (event) {
-				//alert("resp:"+event.data)
-				
-				if (event.data=='listo')
-					{
-						conta++;
-					}
-				else
-					{
-						conta++;
-					}
-					document.getElementById('menconta').innerHTML=conta+" -- "+conej+" - "+coner+" - "+concl+"";
-				if(conta==conej && temposwitch==true)
-				{
-					alert("proceso terminado")
-					setTimeout(function (){
-						temposwitch=false;
-						conta=0;
-						conej=0;
-						coner=0;
-						concl=0;	
-					},1000)
-				}
-					
-				console.log('close');
-				this.close();
-			};
-		 	ws.onerror = function () {
-					console.log('error occurred!');
-					document.getElementById('mensajeria').style.display='';
-					document.getElementById('mensajeria').innerHTML="Esperando";
-					document.getElementById('cancion').innerHTML="";
-					document.getElementById('cancion').value="";
-					document.getElementById('t-can').textContent="";
-					console.log('close 2');
-					coner++;
-			};
-		 
-			ws.onclose = function (event) {
-				console.log('close code=' + event.code);
-				concl++;	
-			};
-			////////////////////////////////////
-			}*/
-		}
-
-var temposwitch=false;
-
-function temporizador(){
-	if(temposwitch==false)
-	{
-		/*temposwitch=false;
-		setTimeout(function (){
-			//temporizador();
-			alert("aqui holadddd");
-			
-			respuesta_servidor();
-		},1000)
-		console.log("cuenta")*/
-	}
-	
-}
-
 
 
 	
