@@ -89,7 +89,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 					alert("ws"+Object.values(SERVERX)+"--");
-					localStorage.setItem('SERVERX', JSON.stringify(SERVERX));
+					localStorage.setItem('SERVERX', JSON.stringify(Object.values(SERVERX)));
 
 				}, function onDidNotStart(reason) {
 					console.log('Did not start. Reason: %s', reason);
@@ -101,7 +101,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}
 		catch(err)
 			{
-				SERVERX={prueba:"hola",prueba2:"hola 2"};
+			SERVERX={prueba:"hola",prueba2:"hola 2"};
 			localStorage.setItem('SERVERX', JSON.stringify(SERVERX));
 			alert("WSSERVER no disponible")
 			}
