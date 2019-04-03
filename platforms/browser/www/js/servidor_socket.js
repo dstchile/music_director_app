@@ -9,19 +9,14 @@ var conta=0;
 var conej=0;
 var coner=0;
 var concl=0;
-try
-  {
-  var wsserver = cordova.plugins.wsserver;	
-  }
-catch(err)
-	{
-	alert("WSSERVER no disponible")
-	}
+var wsserver='';
+
 	
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
 	try{
+		var wsserver = cordova.plugins.wsserver;	
 		window.plugins.insomnia.keepAwake();
 		}
 	catch(err){
@@ -101,6 +96,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}
 		catch(err)
 			{
+			alert("WSSERVER no disponible")
 			}
 		}
 	}
