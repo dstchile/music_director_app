@@ -73,7 +73,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
 			setTimeout(function(){$('#con_pop').remove()},2000);
 			alert("antes de:"+Object.values(SERVERX))
-			if (wsserver=='' || wsserver==undefined){var wsserver = cordova.plugins.wsserver;SERVERX=wsserver;}
+			if (SERVERX=='' || SERVERX==undefined){var wsserver = cordova.plugins.wsserver;SERVERX=wsserver;}
 			else
 				{wsserver=SERVERX;}
 			alert("despues de:"+Object.values(SERVERX))
