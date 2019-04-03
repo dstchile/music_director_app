@@ -92,6 +92,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 				});
+			alert("wsserver:"+wsserver+"--");
 			}
 		catch(err)
 			{
