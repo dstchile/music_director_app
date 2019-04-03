@@ -92,7 +92,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 				});
-			alert("wsserver:"+wsserver.toSource()+"--");
 			}
 		catch(err)
 			{
@@ -107,8 +106,7 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
-					alert("wsserver2:"+wsserver+"--");
-					//var wsserver = cordova.plugins.wsserver;	
+					var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
 					setTimeout(function(){location.href=ruta},100);
