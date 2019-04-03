@@ -101,7 +101,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}
 		catch(err)
 			{
-			localStorage.setItem('SERVERX', JSON.stringify(Object.values(SERVERX)));
+			localStorage.setItem('SERVERX', Object.values(SERVERX));
 			alert("WSSERVER no disponible")
 			}
 		}
