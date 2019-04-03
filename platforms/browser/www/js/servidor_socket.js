@@ -89,8 +89,8 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 					alert("ws"+Object.values(SERVERX)+"--");
-					//alert("servidor iniciado en:"+addr+" por:"+port+"---");
-					
+					localStorage.setItem('SERVERX', JSON.stringify(Object.values(SERVERX)));
+
 				}, function onDidNotStart(reason) {
 					console.log('Did not start. Reason: %s', reason);
 					//////////mensaje de falla/////////
@@ -108,6 +108,10 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
+		var xxx = JSON.parse(localStorage.getItem('session'));
+		alert("ws"+Object.values(xxx)+"--");
+
+		//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 		$('body').append('<div id="pelicula" style=" z-index:1000;background-color:transparent; height:100%; width:100%; position:absolute; top:1px;"></div>');
 		$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 		setTimeout(function(){$('#con_pop').remove()},3000);
