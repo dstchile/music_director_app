@@ -10,6 +10,11 @@ var conej=0;
 var coner=0;
 var concl=0;
 var wsserver='';
+try{
+	var SERVERX = window.opener.SERVERX;
+	}
+catch(err){
+	}
 var SERVERX = SERVERX || {};
 	
 function iniciando_servidor()
