@@ -112,7 +112,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		var xxx = JSON.parse(localStorage.getItem('SERVERX'));
+		var xxx = localStorage.getItem('SERVERX');
 		alert("ws VALOE:"+Object.values(xxx)+"--");
 
 		//alert("servidor iniciado en:"+addr+" por:"+port+"---");
