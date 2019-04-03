@@ -20,7 +20,7 @@ function getParameterByName(name)
 	}
 
 var wsserver='';
-var SERVERX =JSON.parse(getParameterByName('wsserver'));
+var SERVERX =getParameterByName('wsserver');
 alert("SERVERX : "+SERVERX);
 var SERVERX = SERVERX || {};
 	
