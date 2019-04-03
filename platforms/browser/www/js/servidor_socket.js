@@ -12,6 +12,8 @@ var concl=0;
 var wsserver='';
 try{
 	var SERVERX = window.opener.SERVERX;
+	alert("ws SERVERX:"+Object.values(SERVERX)+"---");
+
 	}
 catch(err){
 	}
