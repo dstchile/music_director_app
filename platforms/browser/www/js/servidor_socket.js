@@ -89,7 +89,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 					alert("ws"+Object.values(SERVERX)+"--");
-					localStorage.setItem('SERVERX', Object.values(SERVERX));
+					localStorage.setItem('SERVERX', JSON.stringify(SERVERX));
 
 				}, function onDidNotStart(reason) {
 					console.log('Did not start. Reason: %s', reason);
@@ -121,7 +121,7 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
-					var wsserver = localStorage.getItem('SERVERX');
+					var wsserver = JSON.parse(localStorage.getItem('SERVERX'));
 					//var wsserver = SERVERX;
 					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
