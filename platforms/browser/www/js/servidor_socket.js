@@ -9,14 +9,19 @@ var conta=0;
 var conej=0;
 var coner=0;
 var concl=0;
-var wsserver='';
-try{
-	var SERVERX = window.opener.SERVERX;
-	alert("ws SERVERX:"+Object.values(SERVERX)+"---");
 
+
+function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
-catch(err){
-	}
+
+var wsserver='';
+var SERVERX = getParameterByName('wsserver');
+alert("SERVERX : "+SERVERX);
 var SERVERX = SERVERX || {};
 	
 function iniciando_servidor()
@@ -67,8 +72,11 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
 			setTimeout(function(){$('#con_pop').remove()},2000);
-			var wsserver = cordova.plugins.wsserver;	
-			SERVERX=wsserver;
+			alert("antes de:"+Object.values(SERVERX))
+			if (wsserver=='' || wsserver==''){var wsserver = cordova.plugins.wsserver;SERVERX=wsserver;}
+			else
+				{wsserver=SERVERX;}
+			alert("despues de:"+Object.values(SERVERX))
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
@@ -95,9 +103,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					$('#pelicula').remove()
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
-					alert("ws"+Object.values(SERVERX)+"--");
-					localStorage.setItem('SERVERX', JSON.stringify(SERVERX));
-
+		
 				}, function onDidNotStart(reason) {
 					console.log('Did not start. Reason: %s', reason);
 					//////////mensaje de falla/////////
@@ -109,7 +115,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		catch(err)
 			{
 			SERVERX={prueba:"hola",prueba2:"hola 2"};
-			localStorage.setItem('SERVERX', JSON.stringify(SERVERX));
 			alert("WSSERVER no disponible")
 			}
 			
@@ -128,9 +133,9 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
-					var wsserver = localStorage.getItem('SERVERX');
-					alert("ws VALOE22:"+Object.values(wsserver)+"--"+wsserver+"--");
-					//var wsserver = SERVERX;
+					//var wsserver = localStorage.getItem('SERVERX');
+					//alert("ws VALOE22:"+Object.values(wsserver)+"--"+wsserver+"--");
+					var wsserver = SERVERX;
 					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);

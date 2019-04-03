@@ -21,10 +21,12 @@ function getParameterByName(name)
 var id_cancion = getParameterByName('v1');
 var id_grupo = getParameterByName('v2');
 var id_posicion = getParameterByName('v3');
+var SERVERX = getParameterByName('wsserver');
 
 console.log("ID cancion: "+id_cancion)
 console.log("ID grupo: "+id_grupo);
 console.log("ID posicion: "+id_posicion);
+console.log("SERVERX : "+SERVERX);
 document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{

@@ -10,6 +10,7 @@
 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script>
+	
 		$(window).resize(function(){
 		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
 		   var alto=$(window).height();
@@ -138,7 +139,7 @@
 		tiempo=false;
 		if(id_c!='' && mover==false)
 			{
-				cierre_servidor('cancion_detalle.html?v1='+id_c);
+				cierre_servidor('cancion_detalle.html?v1='+id_c+'&wsserver='+JSON.stringify(SERVERX)+'');
 			}
 		}	
 	
