@@ -57,7 +57,12 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		{
 		try
 			{
+			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
+			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
+			setTimeout(function(){$('#con_pop').remove()},2000);
 			var wsserver = cordova.plugins.wsserver;	
+			localStorage.setItem('wsserver', JSON.stringify(wsserver));
+			var wsserver = JSON.parse(localStorage.getItem('wsserver'));
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
@@ -108,7 +113,8 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
-					var wsserver = cordova.plugins.wsserver;	
+					var wsserver = JSON.parse(localStorage.getItem('wsserver'));
+					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
 					setTimeout(function(){location.href=ruta},100);
