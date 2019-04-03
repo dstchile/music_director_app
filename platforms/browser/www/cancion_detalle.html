@@ -91,7 +91,7 @@ function lista_programas(db){
 				console.log("Titulo cancion: "+titulo);
 				document.getElementById('cancion').innerHTML=letra_cancion;
 				var ruta="cancion_nueva.html?v1="+id_cancion;
-				document.getElementById("boton-editar").href = ruta;
+				document.getElementById("ruta").value = ruta;
 			};
  		}
 		function siguiente_cancion(tx,result)
@@ -294,11 +294,12 @@ function velo(z){
 <input type="hidden" id="estado">
 <input type="hidden" id="ncantante">
 <input type="hidden" id="direccion">
+<input type="hidden" id="ruta">
 <input type="hidden" id="can-sig">
 <input type="hidden" id="can-ant">
 <div id="principal">
     <div id="menu-superior">
-    	<a onClick="cierre_servidor(direccion.value)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor('listado.html');" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    	<a onClick="cierre_servidor(direccion.value)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor(ruta.value);" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
     </div>
     <div id="content-cancion">
         <textarea id="cancion" readonly></textarea>

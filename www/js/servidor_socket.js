@@ -60,6 +60,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
 			setTimeout(function(){$('#con_pop').remove()},2000);
+			alert("ws"+Object.values(SERVERX)+"--");
 			var wsserver = cordova.plugins.wsserver;	
 			SERVERX=wsserver;
 			wsserver.start(puerto, {
