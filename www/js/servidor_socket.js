@@ -107,6 +107,7 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
+					alert("wsserver2:"+wsserver+"--");
 					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
