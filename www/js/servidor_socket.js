@@ -121,8 +121,9 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
-					var wsserver = JSON.parse(localStorage.getItem('SERVERX'));
+					var wsserver = localStorage.getItem('SERVERX');
 					//var wsserver = SERVERX;
+					alert("ws VALOE22:"+Object.values(xxx)+"--"+xxx+"--");
 					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
