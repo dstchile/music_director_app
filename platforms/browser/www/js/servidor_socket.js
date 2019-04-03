@@ -135,7 +135,7 @@ function cierre_servidor(ruta)
 			{
 					//var wsserver = localStorage.getItem('SERVERX');
 					//alert("ws VALOE22:"+Object.values(wsserver)+"--"+wsserver+"--");
-					var wsserver = SERVERX;
+					//var wsserver = SERVERX;
 					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
