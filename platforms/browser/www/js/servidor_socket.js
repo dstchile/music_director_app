@@ -102,6 +102,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
+		$('body').append('<div id="pelicula" style="background-color:#000033; height:200px; width:100%;">pelicula de fondo</div>');
 		$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
