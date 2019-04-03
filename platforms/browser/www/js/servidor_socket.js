@@ -16,7 +16,6 @@ function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
 	try{
-		var wsserver = cordova.plugins.wsserver;	
 		window.plugins.insomnia.keepAwake();
 		}
 	catch(err){
@@ -58,7 +57,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		{
 		try
 			{
-			//var wsserver = cordova.plugins.wsserver;	
+			var wsserver = cordova.plugins.wsserver;	
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
