@@ -89,7 +89,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 					alert("ws"+Object.values(SERVERX)+"--");
-					localStorage.setItem('SERVERX', SERVERX);
+					localStorage.setItem('SERVERX', Object.values(SERVERX));
 
 				}, function onDidNotStart(reason) {
 					console.log('Did not start. Reason: %s', reason);
@@ -109,7 +109,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		var xxx = localStorage.getItem('SERVERX');
+		var xxx = JSON.parse(localStorage.getItem('SERVERX'));
 		alert("ws VALOE:"+Object.values(xxx)+"--");
 
 		//alert("servidor iniciado en:"+addr+" por:"+port+"---");
