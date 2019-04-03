@@ -101,6 +101,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}
 		catch(err)
 			{
+			localStorage.setItem('SERVERX', JSON.stringify(Object.values(SERVERX)));
 			alert("WSSERVER no disponible")
 			}
 		}
@@ -108,8 +109,8 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 
 function cierre_servidor(ruta)
 	{
-		var xxx = JSON.parse(localStorage.getItem('session'));
-		alert("ws"+Object.values(xxx)+"--");
+		var xxx = localStorage.getItem('SERVERX');
+		alert("ws VALOE:"+Object.values(xxx)+"--");
 
 		//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 		$('body').append('<div id="pelicula" style=" z-index:1000;background-color:transparent; height:100%; width:100%; position:absolute; top:1px;"></div>');
