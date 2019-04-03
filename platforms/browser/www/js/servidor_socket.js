@@ -113,7 +113,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 function cierre_servidor(ruta)
 	{
 		var xxx = localStorage.getItem('SERVERX');
-		alert("ws VALOE:"+Object.values(xxx)+"--");
+		alert("ws VALOE:"+Object.values(xxx)+"--"+xxx+"--");
 
 		//alert("servidor iniciado en:"+addr+" por:"+port+"---");
 		$('body').append('<div id="pelicula" style=" z-index:1000;background-color:transparent; height:100%; width:100%; position:absolute; top:1px;"></div>');
