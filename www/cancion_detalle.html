@@ -48,11 +48,11 @@ document.addEventListener("deviceready", lectura_inicial, false);
 			{
 				document.getElementById('boton-forward').style.display="none";
 				document.getElementById('boton-rewind').style.display="none";
-				document.getElementById('direccion').value="listado.html";
+				document.getElementById('direccion').value="listado.html?wsserver="+JSON.stringify(SERVERX);
 			}
 			else
 			{
-				document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo;
+				document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo+"&wsserver="+JSON.stringify(SERVERX);
 			}
 			console.log("LLego aqui")
 			//window.plugins.insomnia.keepAwake();
