@@ -9,6 +9,15 @@ var conta=0;
 var conej=0;
 var coner=0;
 var concl=0;
+try
+  {
+  var wsserver = cordova.plugins.wsserver;	
+  }
+catch(err)
+	{
+	alert("WSSERVER no disponible")
+	}
+	
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -42,13 +51,6 @@ function iniciando_servidor()
 		  var numero_telefono=row['numero_telefono'];
 		  inicio_proceso(nombre_usuario,numero_telefono)
 		  }
-		/*$.each(result.rows,function(index)
-			{
-			var row = result.rows.item(index);
-			var nombre_usuario=row['nombre_usuario'];
-			var numero_telefono=row['numero_telefono'];
-			inicio_proceso(nombre_usuario,numero_telefono)
-			});*/
 		}
 			
 	}
@@ -61,7 +63,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		{
 		try
 			{
-			var wsserver = cordova.plugins.wsserver;	
+			//var wsserver = cordova.plugins.wsserver;	
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
@@ -84,7 +86,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					}
 				}, function onStart(addr, port) {
 					console.log('Listening on %s:%d', addr, port);
-					$('body').append('<div id="con_pop">Servidor Iniciado</div>');
+					$('body').append('<div id="con_pop">Director listo</div>');
 					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
 					setTimeout(function(){$('#con_pop').remove()},5000);
 					//alert("servidor iniciado en:"+addr+" por:"+port+"---");
@@ -99,7 +101,6 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}
 		catch(err)
 			{
-			alert("WSSERVER no disponible")
 			}
 		}
 	}
@@ -110,7 +111,7 @@ function cierre_servidor(ruta)
 		setTimeout(function(){$('#con_pop').remove()},3000);
 		try
 			{
-				var wsserver = cordova.plugins.wsserver;	
+					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
 					setTimeout(function(){location.href=ruta},100);
