@@ -22,7 +22,7 @@ function getParameterByName(name)
 var wsserver =getParameterByName('wsserver');
 var wsserver = wsserver || {};
 alert("wsserver : "+Object.values(wsserver)+"--");
-	
+		
 function iniciando_servidor()
 	{	
 	//busca el nombrey numero de telefono del director
@@ -63,9 +63,10 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 		
 	var puerto=45000;
-	llamada_inicio(puerto,nombre_usuario,numero_telefono)					
-	function llamada_inicio(puerto,nombre_usuario,numero_telefono)
+	llamada_inicio(puerto,nombre_usuario,numero_telefono,wsserver)					
+	function llamada_inicio(puerto,nombre_usuario,numero_telefono,wsserver)
 		{
+			
 		try
 			{
 			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
