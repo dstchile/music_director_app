@@ -20,7 +20,7 @@ function getParameterByName(name)
 	}
 
 var wsserver =getParameterByName('wsserver');
-try{var wsserver = JSON.parse(wsserver);}catch(err){}
+/*try{var wsserver = JSON.parse(wsserver);}catch(err){}*/
 var wsserver = wsserver || {};
 alert("wsserver : "+Object.values(wsserver)+"--");
 		
