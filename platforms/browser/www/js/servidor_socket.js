@@ -1,4 +1,5 @@
 // JavaScript Document
+var wsserver_global={};
 
 document.addEventListener("deviceready", iniciando_servidor, false);
 var sesiones=new Array;
@@ -9,7 +10,6 @@ var conta=0;
 var conej=0;
 var coner=0;
 var concl=0;
-
 
 function getParameterByName(name) 
 	{
@@ -75,7 +75,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			alert("antes de:"+Object.values(wsserver))
 			if (Object.values(wsserver)=='' || wsserver==undefined){var wsserver = cordova.plugins.wsserver;}
 			alert("despues de:"+Object.values(wsserver))
-		
+			wsserver_global=wsserver;
 		
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
@@ -115,6 +115,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 		catch(err)
 			{
 			wsserver={prueba:"hola",prueba2:"hola 2"};
+			wsserver_global=wsserver;
 			alert("WSSERVER no disponible")
 			}
 			
