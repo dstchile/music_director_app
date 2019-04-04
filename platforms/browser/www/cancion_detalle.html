@@ -21,12 +21,10 @@ function getParameterByName(name)
 var id_cancion = getParameterByName('v1');
 var id_grupo = getParameterByName('v2');
 var id_posicion = getParameterByName('v3');
-var SERVERX = getParameterByName('wsserver');
 
 console.log("ID cancion: "+id_cancion)
 console.log("ID grupo: "+id_grupo);
 console.log("ID posicion: "+id_posicion);
-console.log("SERVERX : "+SERVERX);
 document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
@@ -35,11 +33,12 @@ document.addEventListener("deviceready", lectura_inicial, false);
 			{
 				if(id_grupo!='')
 					{
-						cierre_servidor('listado_canciones_grupo.html')
+						cierre_servidor('listado_canciones_grupo.html?v1='+id_grupo+'&wsserver='+JSON.stringify(wsserver_global))
 					}
 				else
 					{
-						cierre_servidor('listado.html')
+					alert("volviendo1")
+						cierre_servidor('listado.html?wsserver='+JSON.stringify(wsserver_global))
 					}
 				document.addEventListener('backbutton',pressKey,false);
 				
@@ -48,11 +47,12 @@ document.addEventListener("deviceready", lectura_inicial, false);
 			{
 				document.getElementById('boton-forward').style.display="none";
 				document.getElementById('boton-rewind').style.display="none";
-				document.getElementById('direccion').value="listado.html?wsserver="+JSON.stringify(SERVERX);
+				document.getElementById('direccion').value="listado.html?wsserver="+JSON.stringify(wsserver_global);
+			alert("volviendo2:"+Object.values(wsserver_global)+"--")
 			}
 			else
 			{
-				document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo+"&wsserver="+JSON.stringify(SERVERX);
+				document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo+"&wsserver="+JSON.stringify(wsserver_global);
 			}
 			console.log("LLego aqui")
 			//window.plugins.insomnia.keepAwake();
@@ -287,7 +287,22 @@ function velo(z){
 			vel=parseInt(dato)*100;
 		}
 }
-
+function salida(id_grupo)
+	{
+	if(id_grupo=='')
+	{
+		document.getElementById('boton-forward').style.display="none";
+		document.getElementById('boton-rewind').style.display="none";
+		document.getElementById('direccion').value="listado.html?wsserver="+JSON.stringify(wsserver_global);
+		cierre_servidor('listado.html?wsserver='+JSON.stringify(wsserver_global))
+	alert("volviendo2:"+Object.values(wsserver_global)+"--")
+	}
+	else
+	{
+		cierre_servidor('listado_canciones_grupo.html?v1='+id_grupo+'&wsserver='+JSON.stringify(wsserver_global))
+		document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo+"&wsserver="+JSON.stringify(wsserver_global);
+	}
+	}
 </script>
 </head>
 
@@ -301,7 +316,7 @@ function velo(z){
 <input type="hidden" id="can-ant">
 <div id="principal">
     <div id="menu-superior">
-    	<a onClick="cierre_servidor(direccion.value)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor(ruta.value);" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
+    	<a onClick="salida(id_grupo)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="cierre_servidor(ruta.value);" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
     </div>
     <div id="content-cancion">
         <textarea id="cancion" readonly></textarea>

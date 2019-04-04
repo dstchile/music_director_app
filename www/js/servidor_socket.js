@@ -20,6 +20,7 @@ function getParameterByName(name)
 	}
 
 var wsserver =getParameterByName('wsserver');
+try{var wsserver = JSON.parse(wsserver);}catch(err){}
 var wsserver = wsserver || {};
 alert("wsserver : "+Object.values(wsserver)+"--");
 		
@@ -116,7 +117,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			{
 			wsserver={prueba:"hola",prueba2:"hola 2"};
 			wsserver_global=wsserver;
-			alert("WSSERVER no disponible")
+			alert("WSSERVER no disponible:"+Object.values(wsserver_global)+"--")
 			}
 			
 	
