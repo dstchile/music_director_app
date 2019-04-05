@@ -141,6 +141,9 @@
 			{
 				alert("pasando el valor:"+Object.values(wsserver_global));
 				localStorage.setItem('wsserver', JSON.stringify(wsserver_global));
+				var wsserver=JSON.parse(localStorage.getItem('wsserver'));
+				alert("wsserver1 : "+Object.values(wsserver)+"--");
+				return 0;
 				cierre_servidor('cancion_detalle.html?v1='+id_c+'&wsserver='+JSON.stringify(wsserver_global)+'');
 			}
 		}	
