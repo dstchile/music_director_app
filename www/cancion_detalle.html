@@ -48,7 +48,6 @@ document.addEventListener("deviceready", lectura_inicial, false);
 				document.getElementById('boton-forward').style.display="none";
 				document.getElementById('boton-rewind').style.display="none";
 				document.getElementById('direccion').value="listado.html?wsserver="+JSON.stringify(wsserver_global);
-			alert("volviendo2:"+Object.values(wsserver_global)+"--")
 			}
 			else
 			{
@@ -294,8 +293,8 @@ function salida(id_grupo)
 		document.getElementById('boton-forward').style.display="none";
 		document.getElementById('boton-rewind').style.display="none";
 		document.getElementById('direccion').value="listado.html?wsserver="+JSON.stringify(wsserver_global);
+		alert("volviendo2:"+Object.values(wsserver_global)+"--")
 		cierre_servidor('listado.html?wsserver='+JSON.stringify(wsserver_global))
-	alert("volviendo2:"+Object.values(wsserver_global)+"--")
 	}
 	else
 	{
