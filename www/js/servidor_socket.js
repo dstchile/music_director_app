@@ -21,10 +21,13 @@ function getParameterByName(name)
 
 var wsserver = window.opener.wsserver;
 var wsserver2 = window.opener.wsserver_global;
+
+var wsserver3=JSON.parse(localStorage.getItem('wsserver'));
 //var wsserver =getParameterByName('wsserver');
 //try{var wsserver = JSON.parse(wsserver);}catch(err){}
+try{alert("wsserer3:"+Object.values(wsserver3)+"--");}catch(err){}
 var wsserver = wsserver || {};
-alert("wsserver1 : "+Object.values(wsserver)+"--wsserver2 : "+Object.values(wsserver2)+"--");
+alert("wsserver1 : "+Object.values(wsserver)+"--wsserver2 : "+Object.values(wsserver2)+"----wsserver3 : "+wsserver3+"--");
 		
 function iniciando_servidor()
 	{	
