@@ -1,5 +1,5 @@
 // JavaScript Document
-var wsserver_global;
+var wsserver_global={};
 
 document.addEventListener("deviceready", iniciando_servidor, false);
 var sesiones=new Array;
@@ -19,10 +19,12 @@ function getParameterByName(name)
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-var wsserver =getParameterByName('wsserver');
-try{var wsserver = JSON.parse(wsserver);}catch(err){}
+var wsserver = window.opener.wsserver;
+var wsserver2 = window.opener.wsserver_global;
+//var wsserver =getParameterByName('wsserver');
+//try{var wsserver = JSON.parse(wsserver);}catch(err){}
 var wsserver = wsserver || {};
-alert("wsserver : "+Object.values(wsserver)+"--");
+alert("wsserver1 : "+Object.values(wsserver)+"--wsserver2 : "+Object.values(wsserver2)+"--");
 		
 function iniciando_servidor()
 	{	
@@ -139,12 +141,16 @@ function cierre_servidor(ruta)
 					//var wsserver = cordova.plugins.wsserver;	
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
-					setTimeout(function(){location.href=ruta},100);
+					setTimeout(function(){
+						window.open(ruta, '_self');
+						//location.href=ruta 
+						},100);
 										});
 			}
 		catch(err)
 			{
-				location.href=ruta;
+				window.open(ruta, '_self');
+				//location.href=ruta;
 			}
 		
 	}
