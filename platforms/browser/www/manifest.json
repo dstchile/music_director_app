@@ -1,0 +1,11 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "Music Director",
+  "short_name": "Music Director",
+  "version": "cl.dstchile.music_director_app",
+  "description": "Gestor de acordes para grupos o bandas de rock, pop, alabanza,etc.",
+  "author": "PhoneGap Team",
+  "icons": [],
+  "start_url": "index.html"
+}

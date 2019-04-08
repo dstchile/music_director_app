@@ -1,0 +1,14 @@
+{
+  "devDependencies": {},
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-networkinterface": {},
+      "cordova-plugin-websocket": {},
+      "cordova-plugin-whitelist": {},
+      "cordova-plugin-dialogs": {}
+    }
+  },
+  "dependencies": {
+    "cordova-browser": "^6.0.0"
+  }
+}

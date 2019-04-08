@@ -10,7 +10,6 @@ var conta=0;
 var conej=0;
 var coner=0;
 var concl=0;
-
 function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -19,8 +18,10 @@ function getParameterByName(name)
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-var wsserver=JSON.parse(localStorage.getItem('wsserver'));
+//var wsserver=JSON.parse(localStorage.getItem('wsserver'));
 //var wsserver =getParameterByName('wsserver');
+var wsserver=window.opener.wsserver_global;
+
 //try{var wsserver = JSON.parse(wsserver);}catch(err){}
 var wsserver = wsserver || {};
 alert("wsserver1 : "+Object.values(wsserver)+"--");
@@ -70,17 +71,17 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	llamada_inicio(puerto,nombre_usuario,numero_telefono,wsserver)					
 	function llamada_inicio(puerto,nombre_usuario,numero_telefono,wsserver)
 		{
-			
-		try
-			{
 			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
 			setTimeout(function(){$('#con_pop').remove()},2000);
+		try
+			{
 			alert("antes de:"+Object.values(wsserver))
 			if (Object.values(wsserver)=='' || wsserver==undefined){var wsserver = cordova.plugins.wsserver;}
 			alert("despues de:"+Object.values(wsserver))
 			wsserver_global=wsserver;
 		
+			
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
@@ -143,14 +144,14 @@ function cierre_servidor(ruta)
 					wsserver.stop(function onStop(addr, port) {
 					console.log('Stopped listening on %s:%d', addr, port);
 					setTimeout(function(){
-						window.open(ruta, '_self');
+						window.open(ruta);
 						//location.href=ruta 
 						},100);
 										});
 			}
 		catch(err)
 			{
-				window.open(ruta, '_self');
+				window.open(ruta);
 				//location.href=ruta;
 			}
 		
