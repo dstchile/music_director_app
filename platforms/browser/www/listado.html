@@ -139,14 +139,15 @@
 		tiempo=false;
 		if(id_c!='' && mover==false)
 			{
-				alert("pasando el valor:"+Object.values(wsserver_global));
+				//alert("pasando el valor:"+Object.values(wsserver_global));
+				alert("pasando el valor:"+id_sesion+"---");
 				sessionStorage.setItem( 'formData' , JSON.stringify(wsserver_global));    
 				//window.localStorage.setItem('wsserver', wsserver_global.toString);
 				setTimeout(function(){
 						//var wsserver=JSON.parse(window.localStorage.getItem('wsserver'));
-						var wsserver=JSON.parse(sessionStorage.getItem( 'formData' ));
+						//var wsserver=JSON.parse(sessionStorage.getItem( 'formData' ));
 
-						alert("wsserver1 : "+Object.values(wsserver)+"--");
+						  alert("PASANDO : "+Object.values(wsserver_global)+"--");
 						cierre_servidor('cancion_detalle.html?v1='+id_c+'&wsserver='+JSON.stringify(wsserver_global)+'');
 						},3000);
 			}
