@@ -1,5 +1,4 @@
 // JavaScript Document
-window.wsserver_global={};
 document.addEventListener("deviceready", iniciando_servidor, false);
 var sesiones=new Array;
 var existe=false;
@@ -17,33 +16,15 @@ function getParameterByName(name)
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-//var wsserver=JSON.parse(localStorage.getItem('wsserver'));
-//var wsserver =getParameterByName('wsserver');
-try{
- var wsserver=window.opener.wsserver_global;
-}catch(err){}
-
-//try{var wsserver = JSON.parse(wsserver);}catch(err){}
-if (Object.values(wsserver)=='' || wsserver==undefined){
-	try{ 
-		var wsserver = cordova.plugins.wsserver;	
-		}
-	catch(err){
-		
-	}}			
-var wsserver = wsserver || {};
-alert("wsserver1 : "+Object.values(wsserver)+"--");
-
-		
 function iniciando_servidor()
 	{	
-	//busca el nombrey numero de telefono del director
 	try{
 		window.plugins.insomnia.keepAwake();
 		}
 	catch(err){
 		
 	}
+	//busca el nombre y numero de telefono del director
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
@@ -75,20 +56,15 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 	{
 		
 	var puerto=45000;
-	llamada_inicio(puerto,nombre_usuario,numero_telefono,wsserver)					
-	function llamada_inicio(puerto,nombre_usuario,numero_telefono,wsserver)
+	llamada_inicio(puerto,nombre_usuario,numero_telefono)					
+	function llamada_inicio(puerto,nombre_usuario,numero_telefono)
 		{
 			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
 			setTimeout(function(){$('#con_pop').remove()},2000);
 		try
 			{
-			alert("antes de:"+Object.values(wsserver))
-			if (Object.values(wsserver)=='' || wsserver==undefined){var wsserver = cordova.plugins.wsserver;}
-			alert("despues de:"+Object.values(wsserver))
-			wsserver_global=wsserver;
-		
-			
+			var wsserver = cordova.plugins.wsserver;
 			wsserver.start(puerto, {
 					'onFailure' :  function(addr,port, reason) {
 					console.log('Server detenido Rason:', addr, port, reason);
@@ -126,9 +102,8 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 			}
 		catch(err)
 			{
-			wsserver={prueba:"hola",prueba2:"hola 2"};
-			wsserver_global=wsserver;
-			alert("WSSERVER no disponible:"+Object.values(wsserver_global)+"--")
+			//alert("WSSERVER no disponible")
+			console.log("WSSERVER no disponible")
 			}
 			
 	

@@ -6,9 +6,7 @@
  <title>Documento sin título</title>
     <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
-	<script type="text/javascript" src="cordova.js"></script>
-    <script src="js/jquery-3.1.1.js"></script>
-	<script src="js/mensajes.js"></script>
+	<script src="js/jquery-3.1.1.js"></script>
 	<script>
 	document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
@@ -44,7 +42,7 @@
 					var existen_datos=true;
 					var row = result.rows.item(index);
 					document.getElementById('nombre_director').value=row['nombre_usuario'];
-					document.getElementById('numero_telefono').value=row['numero_telefono'];
+					document.getElementById('correo_electronico').value=row['correo_electronico'];
 					document.getElementById('memoid').value=row['id'];
 					
 					});*/
@@ -52,21 +50,21 @@
 			   		{
 					var row = result.rows.item(i);
 				  	document.getElementById('nombre_director').value=row['nombre_usuario'];
-					document.getElementById('numero_telefono').value=row['numero_telefono'];
+					document.getElementById('correo_electronico').value=row['correo_electronico'];
 					document.getElementById('memoid').value=row['id'];
 					}
 				$('#superior').empty();
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");
-					$('#superior').html('<a href="listado.html" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text-height"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-download-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-floppy"></span></a>');
+					$('#superior').html('<a onClick=hipervinculo("listado_director.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text-height"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-download-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-floppy"></span></a>');
 					//var ruta="listado.html";
 					//document.getElementById("retorno").href = ruta;
 					}
 				else
 					{
 					console.log("sin datos");
-					$('#superior').html('<a href="index.html" id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2" style="width:90vw"><span class="icon-user"> Nuevo Director</span></a>');
+					$('#superior').html('<a onClick=hipervinculo("index.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2" style="width:90vw"><span class="icon-user"> Nuevo Director</span></a>');
 					//var ruta="index.html";
 					//document.getElementById("retorno").href = ruta;
 					}
@@ -76,19 +74,19 @@
         
 function guardar_datos(){
 	var nombre_director = document.getElementById('nombre_director').value;
-	var numero_telefono = document.getElementById('numero_telefono').value;
+	var correo_electronico = document.getElementById('correo_electronico').value;
 	var memoid = document.getElementById('memoid').value;
 	
 	var nombre_directorv = nombre_director.replace(/'/g,"''");
-	var numero_telefonov = numero_telefono.replace(/'/g,"''");
+	var correo_electronicov = correo_electronico.replace(/'/g,"''");
 	
 	if(nombre_director=='')
 		{
 		mensaje_texto("Debe especificar el nombre del Director");	
 		}
-	else if(numero_telefono=='')
+	else if(correo_electronico=='')
 		{
-			mensaje_texto("Debe especificar un número de teléfono");	
+			mensaje_texto("Debe especificar un correo electrónico");	
 		}
 	else
 		{
@@ -98,11 +96,11 @@ function guardar_datos(){
 			{
 			if (memoid!='')
 				{
-				tx.executeSql("UPDATE datos_director set nombre_usuario='"+nombre_directorv+"' , numero_telefono='"+numero_telefonov+"' where id='"+memoid+"'");
+				tx.executeSql("UPDATE datos_director set nombre_usuario='"+nombre_directorv+"' , correo_electronico='"+correo_electronicov+"' where id='"+memoid+"'");
 				}
 			else
 				{
-				tx.executeSql("INSERT INTO datos_director (nombre_usuario,numero_telefono)VALUES('"+nombre_directorv+"','"+numero_telefonov+"')");														
+				tx.executeSql("INSERT INTO datos_director (nombre_usuario,correo_electronico)VALUES('"+nombre_directorv+"','"+correo_electronicov+"')");														
 				}
 			}
 		function errorCB(err) 
@@ -114,7 +112,7 @@ function guardar_datos(){
 			mensaje_texto('Datos guardados correctamente!');	
 				if (memoid=='')
 					{
-					location.href="listado.html";
+					location.href="listado_director.html";
 					}
 			}
 		}
@@ -123,8 +121,8 @@ function guardar_datos(){
 
 	</script>
 </head>
-<body>
-<div id="superior" style="min-height:20px; height:52px"></div>
+<body style="background-color:#666;">
+<!--<div id="superior" style="min-height:20px; height:52px"></div>-->
 <div class="titulo_cancion">
 	<font color="white">Nombre Director(use un nickname sencillo)</font>
 </div>
@@ -136,18 +134,18 @@ El nombre de Director es usado por la Aplicación para conectarse con los músic
 </div>
 <div style="background-color:#666; height:40px"></div>
 <div class="titulo_cancion">
-	<font color="white">Número de teléfono</font>
+	<font color="white">Correo Electrónico</font>
 </div>
 <div class="titulo_cancion centrado">
-	<input type="text" id="numero_telefono" name="numero_telefono" class="entrada_texto" >
+	<input type="text" id="correo_electronico" name="correo_electronico" class="entrada_texto" >
 </div>
 <div class="parrafo">
 El número de teléfono es usado por la Aplicación para descargar las canciones creadas desde la página web, te ayudará a ahorrar tiempo en la creación de canciones, de esta manera será mucho más rápido subir tus canciones a la aplicación.
 </div>
-<div style="background-color:#666; height:100px"></div>
-<div id="boton_guardar" class="base_cancion" align="center">
+<!--<div style="background-color:#666; height:100px"></div>-->
 	<input type="button" id="guardar" name="guardar" onClick="guardar_datos()" value="Guardar">	
-</div>
+<!--<div id="boton_guardar" class="base_cancion" align="center">
+</div>-->
 <input name="memoid" id="memoid" type="hidden">
 </body>
 </html>

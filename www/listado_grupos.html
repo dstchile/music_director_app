@@ -5,9 +5,7 @@
         <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
         <title>Music Director</title>
     <script src="js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="js/servidor_socket.js"></script>
-    <script type="text/javascript" src="js/mensajes.js"></script>
-	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+    <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script>
 		$(window).resize(function(){
@@ -117,7 +115,7 @@
 		tiempo=false;
 		if(id_c!='' && mover==false)
 			{
-				cierre_servidor('listado_canciones_grupo.html?v1='+id_c);
+				hipervinculo('listado_canciones_grupo.html?v1='+id_c);
 			}
 		}	
 	
@@ -140,10 +138,8 @@
 	</script>
     </head>
     <body>
-    <input type="hidden" id="valor_id">
-      <script type="text/javascript" src="cordova.js"></script>
-      <a class="boton2 ancho-back" onClick="cierre_servidor('index.html')"><span class="icon-left-open"></span></a><a onClick="cierre_servidor('listado.html')" class="boton2 ancho-b_listado"><span class="icon-th-list"></span></a><a onClick="cierre_servidor('listado_grupo.html')" class="boton2_activo ancho-b_grupos"><span class="icon-group"></span></a><a onClick="cierre_servidor('grupo_nuevo.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="cierre_servidor('datos_director.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
-	  <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(this.value)" onBlur="lectura_inicial(this.value)"></div>
+    <a class="boton2 ancho-back" href="index.html"><span class="icon-left-open"></span></a><a onClick="hipervinculo('listado_director.html')" class="boton2 ancho-b_listado"><span class="icon-th-list"></span></a><a onClick="hipervinculo('listado_grupos.html')" class="boton2_activo ancho-b_grupos"><span class="icon-group"></span></a><a onClick="hipervinculo('grupo_nuevo.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="hipervinculo('datos_director.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+	<div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(this.value)" onBlur="lectura_inicial(this.value)"></div>
     <div id="list" class="listadog">
     <ul id="Listado_canciones" class="listado_canciones"></ul>
     </div>

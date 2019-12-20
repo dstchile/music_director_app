@@ -12,7 +12,7 @@
 function nuevo_grupo(nombre){
 	if(nombre!='')
 		{
-			location.href="grupo_nuevo_agregar.html?v1="+nombre;
+			hipervinculo("grupo_nuevo_agregar.html?v1="+nombre);
 		}
 	else if(nombre=='')
 		{
@@ -28,7 +28,7 @@ div{
 }
 </style>
 <body>
-<a href="listado_grupos.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>NUEVO GRUPO</button>
+<a onClick="hipervinculo('listado_grupos.html')" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>NUEVO GRUPO</button>
 <div class="contenedor_grupo">
 <div style="text-align:left"><span class="icon-group">Nombre Grupo</span></div>
 <div><input type="text" id="nombre_grupo"></div>

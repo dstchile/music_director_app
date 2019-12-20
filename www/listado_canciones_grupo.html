@@ -4,15 +4,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Documento sin título</title>
     <script src="js/jquery-3.1.1.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
-	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+ 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 <script>
 function getParameterByName(name) 
 	{
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(location.search);
+		results = regex.exec(window.ruta_enviada);
 		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 	
@@ -54,7 +53,7 @@ function getParameterByName(name)
 					var compas=row['compas'];
 					var letra_cancion=row['letra_cancion'];
 					var tono=row['tono'];
-					$('#Lis_grupo').append("<li id='ccan"+id_cancion+"'><a href='cancion_detalle.html?v1="+row['id_cancion']+"&v2="+id_grupo+"&v3="+row['id']+"'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+					$('#Lis_grupo').append("<li id='ccan"+id_cancion+"'><a onClick=hipervinculo('cancion_detalle.html?v1="+row['id_cancion']+"&v2="+id_grupo+"&v3="+row['id']+"')><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
 					}				
 				};
 			function resgrupo(tx,result){
@@ -72,7 +71,7 @@ function getParameterByName(name)
 <body>
 <input type="hidden" id="nombre_g">
 <div id="menu-superior">
-<a href="listado_grupos.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw"><span id="t-can"></span></a>
+<a onClick="hipervinculo('listado_grupos.html')" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw"><span id="t-can"></span></a>
 </div>
 <div id="list" class="listado3v">
     <ul id="Lis_grupo" class="listado_canciones"></ul>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Music Director</title>
+
+    <script src="js/jquery-3.1.1.js"></script>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<script type="text/javascript" src="js/servidor_socket.js"></script>
+    <script type="text/javascript" src="js/mensajes.js"></script>
+	<script>
+	
+	document.addEventListener("deviceready", lectura_inicial, false);
+	function lectura_inicial(ob,x)
+		{
+			document.addEventListener('backbutton',pressKey,false);
+			function pressKey()
+			{
+				cierre_servidor('index.html')
+				document.addEventListener('backbutton',pressKey,false);
+				
+			}
+	
+		
+		$("#carga_pagina").load("listado_director.html");
+		}
+	var ruta_enviada="";
+	function hipervinculo(url)
+		{
+		console.log(url)
+		ruta_enviada=url;	
+		$("#carga_pagina").load(url);
+		}
+		
+	</script>
+    </head>
+    <body>
+    <input type="hidden" id="valor_id">
+    <script type="text/javascript" src="cordova.js"></script>
+    <div id="carga_pagina"></div>
+    </body>
+</html>

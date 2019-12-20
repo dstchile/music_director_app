@@ -6,18 +6,17 @@
  <title>Documento sin título</title>
     <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
-	<script type="text/javascript" src="cordova.js"></script>
-   	<script src="js/jquery-3.1.1.js"></script>
+	<script src="js/jquery-3.1.1.js"></script>
 	<script>
 	function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    results = regex.exec(location.search);
+    results = regex.exec(window.ruta_enviada);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-
+	var ruta_retorno="";
 	document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
@@ -64,14 +63,12 @@
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");
-					var ruta="listado.html";
-					document.getElementById("retorno").href = ruta;
+					ruta_retorno="cancion_detalle.html?v1="+id_cancion;
 					}
 				else
 					{
 					console.log("sin datos");
-					var ruta="index.html";
-					document.getElementById("retorno").href = ruta;
+					ruta_retorno="listado_director.html";
 					}
 				
 				}
@@ -180,7 +177,7 @@ function guardar_cancion(){
 				function successCB() 
 					{
 						alert("La Cancion se guardo correctamente!")
-						location.href="listado.html";
+						hipervinculo("listado_director.html");
 					}
 				}
 			}
@@ -192,7 +189,7 @@ function guardar_cancion(){
 </head>
 
 <body>
-<a href="listado.html" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>CANCION</button>
+<a onClick="hipervinculo(ruta_retorno)" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>CANCION</button>
 <div class="titulo_cancion">
 	<span class="icon-headphones"></span><font color="white">Titulo Cancion </font></div>
 <div class="titulo_cancion centrado">
