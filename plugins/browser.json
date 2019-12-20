@@ -1,52 +1,55 @@
 {
-  "prepare_queue": {
-    "installed": [],
-    "uninstalled": []
-  },
-  "config_munge": {
-    "files": {}
-  },
-  "installed_plugins": {
-    "cordova-plugin-add-swift-support": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
     },
-    "cordova-plugin-chrome-apps-socket": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
+    "config_munge": {
+        "files": {}
     },
-    "cordova-plugin-deviceinfo": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
+    "installed_plugins": {
+        "cordova-plugin-add-swift-support": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-chrome-apps-socket": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-deviceinfo": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-ip-mac-address": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-networkinterface": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-node": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-websocket": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cz.blocshop.socketsforcordova": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        }
     },
-    "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-ip-mac-address": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-networkinterface": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-node": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-websocket": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cz.blocshop.socketsforcordova": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
+    "dependent_plugins": {
+        "cordova-plugin-chrome-apps-common": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-chrome-apps-system-network": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-websocket-server": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        }
     }
-  },
-  "dependent_plugins": {
-    "cordova-plugin-chrome-apps-common": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-chrome-apps-system-network": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    },
-    "cordova-plugin-websocket-server": {
-      "PACKAGE_NAME": "cl.dstchile.music_director_app"
-    }
-  }
 }

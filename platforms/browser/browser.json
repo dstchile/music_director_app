@@ -56,6 +56,9 @@
         },
         "cordova-plugin-dialogs": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-android-permissions": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {},
@@ -160,6 +163,14 @@
             "merges": [
                 "navigator.notification"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-android-permissions/www/permissions-dummy.js",
+            "id": "cordova-plugin-android-permissions.Permissions",
+            "pluginId": "cordova-plugin-android-permissions",
+            "clobbers": [
+                "cordova.plugins.permissions"
+            ]
         }
     ],
     "plugin_metadata": {
@@ -175,6 +186,7 @@
         "cordova-plugin-chrome-apps-system-network": "1.1.2",
         "cordova-plugin-chrome-apps-socket": "1.2.3",
         "cordova-plugin-websocket": "0.12.2",
-        "cordova-plugin-dialogs": "2.0.1"
+        "cordova-plugin-dialogs": "2.0.1",
+        "cordova-plugin-android-permissions": "1.0.2"
     }
 }

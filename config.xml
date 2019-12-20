@@ -7,7 +7,10 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
+	<plugin name="cordova-plugin-android-permissions" source="npm"/>
 	<plugin name="cordova-plugin-networkinterface" source="npm"/>
+    <plugin name="cordova-plugin-device" source="npm"/>
+	<gap:plugin name="cordova-plugin-network-information" source="npm"/>
     <gap:plugin name="cordova-plugin-websocket-server" source="npm" version="1.4.3"/>
     <plugin name="cordova-plugin-websocket" source="npm"/>
     <plugin name="cordova-plugin-whitelist" source="npm"/>
