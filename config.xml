@@ -22,6 +22,9 @@
     <access origin="*"/>
 	
 	<platform name="android">
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_WIFE_STATE" />
 	<icon src="www/img/iconos/android/icon-36-ldpi.png" density="ldpi" width="36" height="36"/>
 	<icon src="www/img/iconos/android/icon-48-mdpi.png" density="mdpi" width="48" height="48"/>
 	<icon src="www/img/iconos/android/icon-72-hdpi.png" density="hdpi" width="72" height="72"/>
