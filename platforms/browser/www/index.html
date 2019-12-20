@@ -30,7 +30,87 @@
 		document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
-				localStorage.removeItem('wsserver');
+			/////////////comporbación de permisos////////////////
+			var permissions = cordova.plugins.permissions;
+			permissions.hasPermission(permissions.ACCESS_NETWORK_STATE, function(status) 
+				{
+				  if (status.hasPermission) 
+					{
+					// here you can savely start your own plugin because you already have CAMERA permission
+					}
+				  else 
+					{
+					// need to request camera permission
+					permissions.requestPermission(permissions.ACCESS_NETWORK_STATE, success, error);
+					function error() 
+						{
+						alert("Hubo un error , intente habilitar el permiso manualmente en las configuraciones del teléfono")
+					  // camera permission not turned on
+						}
+				
+					function success(status) 
+						{
+						if (status.hasPermission) 
+							{
+						// user accepted, here you can start your own plugin
+							}
+						}
+					}
+				});
+			permissions.hasPermission(permissions.INTERNET, function(status) 
+				{
+				  if (status.hasPermission) 
+					{
+					// here you can savely start your own plugin because you already have CAMERA permission
+					}
+				  else 
+					{
+					// need to request camera permission
+					permissions.requestPermission(permissions.INTERNET, success, error);
+					function error() 
+						{
+						alert("Hubo un error , intente habilitar el permiso manualmente en las configuraciones del teléfono")
+					  // camera permission not turned on
+						}
+				
+					function success(status) 
+						{
+						if (status.hasPermission) 
+							{
+						// user accepted, here you can start your own plugin
+							}
+						}
+					}
+				});	
+			permissions.hasPermission(permissions.READ_PHONE_STATE, function(status) 
+				{
+				  if (status.hasPermission) 
+					{
+					// here you can savely start your own plugin because you already have CAMERA permission
+					}
+				  else 
+					{
+					// need to request camera permission
+					permissions.requestPermission(permissions.READ_PHONE_STATE, success, error);
+					function error() 
+						{
+						alert("Hubo un error , intente habilitar el permiso manualmente en las configuraciones del teléfono")
+					  // camera permission not turned on
+						}
+				
+					function success(status) 
+						{
+						if (status.hasPermission) 
+							{
+						// user accepted, here you can start your own plugin
+							}
+						}
+					}
+				});	
+			
+		/////////////comporbación de permisos////////////////
+		
+
 				try
 					{
 						window.plugins.insomnia.allowSleepAgain();
