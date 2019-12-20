@@ -14,4 +14,9 @@
     <gap:plugin name="cordova-plugin-splashscreen" source="npm" />
     <content src="index.html" />
     <access origin="*" />
+    <config-file parent="/manifest" platform="android">
+        <uses-permission android:name="android.permission.INTERNET" />
+        <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        <uses-permission android:name="android.permission.ACCESS_WIFE_STATE" />
+    </config-file>
 </widget>
