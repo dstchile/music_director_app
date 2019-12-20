@@ -11,7 +11,7 @@
     <gap:plugin name="cordova-plugin-websocket-server" source="npm" version="1.4.3"/>
     <plugin name="cordova-plugin-websocket" source="npm"/>
     <plugin name="cordova-plugin-whitelist" source="npm"/>
-    <plugin name="cordova-plugin-dialogs" source="npm" version="6.7.2"/>
+    <plugin name="cordova-plugin-dialogs" source="npm version="6.7.2"/>
     <gap:plugin name="cordova-plugin-screen-orientation" source="npm"/>
 	<gap:plugin name="cordova-plugin-insomnia" source="npm" version="4.1.0"/>
     <gap:plugin name="cordova-plugin-splashscreen" source="npm"/>
