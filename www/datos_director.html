@@ -58,7 +58,7 @@
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");
-					$('#superior').html('<a onClick=hipervinculo("vista_director.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text-height"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-download-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-floppy"></span></a>');
+					$('#superior').html('<a onClick=hipervinculo("vista_servidor.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text-height"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-download-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-floppy"></span></a>');
 					//var ruta="listado.html";
 					//document.getElementById("retorno").href = ruta;
 					}
@@ -113,7 +113,7 @@ function guardar_datos(){
 			mensaje_texto('Datos guardados correctamente!');	
 				if (memoid=='')
 					{
-					location.href="listado_director.html";
+					location.href="vista_servidor.html";
 					}
 			}
 		}

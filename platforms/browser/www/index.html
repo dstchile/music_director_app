@@ -32,9 +32,9 @@
 			{
 			/////////////comporbación de permisos////////////////
 			var permissions = cordova.plugins.permissions;
-			permissions.hasPermission(permissions.ACCESS_NETWORK_STATE, function(status) 
+			permissions.checkPermission(permissions.ACCESS_NETWORK_STATE, function(status) 
 				{
-				  if (status.hasPermission) 
+				  if (status.checkPermission) 
 					{
 					// here you can savely start your own plugin because you already have CAMERA permission
 					}
@@ -50,16 +50,16 @@
 				
 					function success(status) 
 						{
-						if (status.hasPermission) 
+						if (status.checkPermission) 
 							{
 						// user accepted, here you can start your own plugin
 							}
 						}
 					}
 				});
-			permissions.hasPermission(permissions.INTERNET, function(status) 
+			permissions.checkPermission(permissions.INTERNET, function(status) 
 				{
-				  if (status.hasPermission) 
+				  if (status.checkPermission) 
 					{
 					// here you can savely start your own plugin because you already have CAMERA permission
 					}
@@ -75,16 +75,16 @@
 				
 					function success(status) 
 						{
-						if (status.hasPermission) 
+						if (status.checkPermission) 
 							{
 						// user accepted, here you can start your own plugin
 							}
 						}
 					}
 				});	
-			permissions.hasPermission(permissions.READ_PHONE_STATE, function(status) 
+			permissions.checkPermission(permissions.READ_PHONE_STATE, function(status) 
 				{
-				  if (status.hasPermission) 
+				  if (status.checkPermission) 
 					{
 					// here you can savely start your own plugin because you already have CAMERA permission
 					}
@@ -100,7 +100,32 @@
 				
 					function success(status) 
 						{
-						if (status.hasPermission) 
+						if (status.checkPermission) 
+							{
+						// user accepted, here you can start your own plugin
+							}
+						}
+					}
+				});	
+			permissions.checkPermission(permissions.ACCESS_WIFI_STATE, function(status) 
+				{
+				  if (status.checkPermission) 
+					{
+					// here you can savely start your own plugin because you already have CAMERA permission
+					}
+				  else 
+					{
+					// need to request camera permission
+					permissions.requestPermission(permissions.ACCESS_WIFI_STATE, success, error);
+					function error() 
+						{
+						alert("Hubo un error , intente habilitar el permiso manualmente en las configuraciones del teléfono")
+					  // camera permission not turned on
+						}
+				
+					function success(status) 
+						{
+						if (status.checkPermission) 
 							{
 						// user accepted, here you can start your own plugin
 							}
