@@ -108,6 +108,20 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.permissions"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/www/device.js",
+        "id": "cordova-plugin-device.device",
+        "pluginId": "cordova-plugin-device",
+        "clobbers": [
+            "device"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-device/src/browser/DeviceProxy.js",
+        "id": "cordova-plugin-device.DeviceProxy",
+        "pluginId": "cordova-plugin-device",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -126,7 +140,8 @@ module.exports.metadata =
     "cordova-plugin-chrome-apps-socket": "1.2.3",
     "cordova-plugin-websocket": "0.12.2",
     "cordova-plugin-dialogs": "2.0.1",
-    "cordova-plugin-android-permissions": "1.0.2"
+    "cordova-plugin-android-permissions": "1.0.2",
+    "cordova-plugin-device": "2.0.3"
 }
 // BOTTOM OF METADATA
 });

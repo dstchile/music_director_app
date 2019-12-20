@@ -39,6 +39,9 @@
         },
         "cordova-plugin-android-permissions": {
             "PACKAGE_NAME": "cl.dstchile.music_director_app"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "cl.dstchile.music_director_app"
         }
     },
     "dependent_plugins": {
