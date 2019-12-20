@@ -18,6 +18,7 @@
 	<a href="servidor.html" style="color:#FFF" >SERVIDOR</a>
 	<a href="cliente.html" >CLIENTE</a>
 	<a href="cancion_detalle_musico.html" >musico</a>
+	<a href="#" onClick="borrar_director()">borrar directos</a>
 		</div>
 	</div>
     </body>
@@ -87,6 +88,27 @@
 				}
 			}        
 		});
-	    </script>
+	    
+        
+        function borrar_director()
+			{
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+			db.transaction(populateDB, errorCB, successCB);
+			function populateDB(tx) 
+				{
+				tx.executeSql("DROP TABLE datos_director ");
+				//tx.executeSql("DELETE from datos_director where id='1'");
+				}
+			function errorCB(err) 
+				{
+				alert("Error processing 2 SQL: "+err.code);
+				}
+			function successCB() 
+				{
+				console.log("borrado")
+				}
+			}        
+		
+        </script>
    
 </html>
