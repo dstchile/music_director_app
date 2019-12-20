@@ -60,18 +60,18 @@ function iniciando_servidor()
 		  {
 		  var row = result.rows.item(i);
 		  var nombre_usuario=row['nombre_usuario'];
-		  var numero_telefono=row['numero_telefono'];
-		  inicio_proceso(nombre_usuario,numero_telefono)
+		  var correo_electronico=row['correo_electronico'];
+		  inicio_proceso(nombre_usuario,correo_electronico)
 		  }
 		}
 			
 	}
-function inicio_proceso(nombre_usuario,numero_telefono)
+function inicio_proceso(nombre_usuario,correo_electronico)
 	{
 		
 	var puerto=45000;
-	llamada_inicio(puerto,nombre_usuario,numero_telefono)					
-	function llamada_inicio(puerto,nombre_usuario,numero_telefono)
+	llamada_inicio(puerto,nombre_usuario,correo_electronico)					
+	function llamada_inicio(puerto,nombre_usuario,correo_electronico)
 		{
 			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
 			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
@@ -94,7 +94,7 @@ function inicio_proceso(nombre_usuario,numero_telefono)
 					},
 					'onMessage' : function(conn, msg) {
 					console.log(conn, msg);
-					mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono);
+					mensajes_servidor(wsserver,conn,msg,nombre_usuario,correo_electronico);
 					},
 					'onClose' : function(conn, code, reason, wasClean) {
 					console.log('A user disconnected from %s', conn.remoteAddr);			
@@ -154,7 +154,7 @@ function cierre_servidor(ruta)
 	}
 	
 	
-function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
+function mensajes_servidor(wsserver,conn,msg,nombre_usuario,correo_electronico)
 	{
 	if (msg=='001')
 		{
@@ -177,7 +177,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 							sesiones[largo]=conn.remoteAddr;
 						}
 					
-					var send_data = JSON.stringify({"direccion":ip_servidor , "nombre_usuario":nombre_usuario});
+					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
 					
@@ -188,7 +188,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 	if (msg=='002')
 		{
 		
-		wsserver.send({'uuid':conn.uuid}, numero_telefono);
+		wsserver.send({'uuid':conn.uuid}, correo_electronico);
 		wsserver.close({'uuid':conn.uuid});
 		
 		}
