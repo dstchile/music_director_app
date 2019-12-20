@@ -8,6 +8,7 @@ var conta=0;
 var conej=0;
 var coner=0;
 var concl=0;
+var ip_servidor='';
 function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -22,7 +23,20 @@ function iniciando_servidor()
 		window.plugins.insomnia.keepAwake();
 		}
 	catch(err){
-		
+	
+	function onSuccess( ipInformation ) 
+		{
+		//ipInformation.ip
+		//ipInformation.subnet
+		ip_servidor=ipInformation.ip;
+		}
+	function onError( error ) 
+		{
+		// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
+		//alert( error );
+		}
+	networkinterface.getWiFiIPAddress( onSuccess, onError );
+	networkinterface.getCarrierIPAddress( onSuccess, onError );	
 	}
 	//busca el nombre y numero de telefono del director
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
@@ -163,7 +177,7 @@ function mensajes_servidor(wsserver,conn,msg,nombre_usuario,numero_telefono)
 							sesiones[largo]=conn.remoteAddr;
 						}
 					
-					var send_data = JSON.stringify({"direccion":result[interface].ipv4Addresses , "nombre_usuario":nombre_usuario});
+					var send_data = JSON.stringify({"direccion":ip_servidor , "nombre_usuario":nombre_usuario});
 					wsserver.send({'uuid':conn.uuid}, send_data);
 					wsserver.close({'uuid':conn.uuid});
 					
