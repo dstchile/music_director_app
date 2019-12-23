@@ -17,7 +17,7 @@ function conectar_servidor()
 			alert("conectando");
 			var direccion= document.getElementById('ip_servidor').value;
 			var puerto= document.getElementById('id_socket').value;
-			var ws = new WebSocket('ws://'+direccion+':'+puerto);
+			var ws = new WebSocket('wss://'+direccion);
 	
 	 
 			ws.onopen = function () {
@@ -95,7 +95,7 @@ function conectar_servidor2()
 	
 			var accessToken = "abcdefghiklmnopqrstuvwxyz";
 			var wsOptions = {
-				url: "ws://"+direccion+":"+puerto,
+				url: "ws://"+direccion,
 				timeout: 5000,
 				pingInterval: 10000,
 				headers: {"Authorization": "Bearer " + accessToken},
@@ -106,14 +106,17 @@ CordovaWebsocketPlugin.wsConnect(wsOptions,
                 function(recvEvent) 
 					{
                     console.log("Received callback from WebSocket: "+recvEvent["callbackMethod"]);
-                	},
+                	alert("eceived callback from WebSocke")
+					},
                 function(success) 
 					{
                     console.log("Connected to WebSocket with id: " + success.webSocketId);
-                	},
+                	alert("Connected to WebSocket with id:")
+					},
                 function(error) 
 					{
-                    console.log("Failed to connect to WebSocket: "+
+                    alert("Failed")
+					console.log("Failed to connect to WebSocket: "+
                                 "code: "+error["code"]+
                                 ", reason: "+error["reason"]+
                                 ", exception: "+error["exception"]);
