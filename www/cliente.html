@@ -5,8 +5,8 @@
 <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <title>Documento sin título</title>
 <script type="text/javascript" src="cordova.js"></script>
-<script src="js/socket.io.js"></script>
-<script src="js/require.js"></script>
+<script src="js2/socket.io.js"></script>
+<!--<script src="js/require.js"></script>-->
 <script>
 function conectar_servidor()
 	{
@@ -16,7 +16,8 @@ function conectar_servidor()
 			
 			alert("conectando");
 			var direccion= document.getElementById('ip_servidor').value;
-			var ws = new WebSocket('ws://'+direccion);
+			var puerto= document.getElementById('id_socket').value;
+			var ws = new WebSocket('ws://'+direccion+':'+puerto);
 	
 	 
 			ws.onopen = function () {
@@ -82,7 +83,45 @@ function conectar_servidor()
 				this.close();
 			}
 		}
-
+function conectar_servidor2()
+	{
+	document.addEventListener("deviceready", chat, false);
+	function chat()
+		{
+			
+			alert("conectando");
+			var direccion= document.getElementById('ip_servidor').value;
+			var puerto= document.getElementById('id_socket').value;
+	
+			var accessToken = "abcdefghiklmnopqrstuvwxyz";
+			var wsOptions = {
+				url: "ws://"+direccion+":"+puerto,
+				timeout: 5000,
+				pingInterval: 10000,
+				headers: {"Authorization": "Bearer " + accessToken},
+				acceptAllCerts: false
+				}
+ 
+CordovaWebsocketPlugin.wsConnect(wsOptions,
+                function(recvEvent) 
+					{
+                    console.log("Received callback from WebSocket: "+recvEvent["callbackMethod"]);
+                	},
+                function(success) 
+					{
+                    console.log("Connected to WebSocket with id: " + success.webSocketId);
+                	},
+                function(error) 
+					{
+                    console.log("Failed to connect to WebSocket: "+
+                                "code: "+error["code"]+
+                                ", reason: "+error["reason"]+
+                                ", exception: "+error["exception"]);
+                	}
+            		);
+		
+		}
+	}
 </script>
 </head>
 
@@ -99,6 +138,10 @@ function conectar_servidor()
   <input type="text" name="ip_servidor" id="ip_servidor" />
 <input type="button" name="conectar" id="conectar" value="Conectar" onclick="conectar_servidor()" />
  <input type="button" name="desconectar" id="desconectar" value="Desonectar" onclick="desconectar_servidor()" />
+<p>plugin advanced
+<p>
+  <input type="button" name="conectar2" id="conectar2" value="Conectar" onclick="conectar_servidor2()" />
+  <input type="button" name="desconectar2" id="desconectar2" value="Desonectar" onclick="desconectar_servidor2()" />
 <div id="log">waiting...</div>
 </p>
 <p>

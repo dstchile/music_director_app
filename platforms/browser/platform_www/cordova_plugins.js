@@ -141,7 +141,8 @@ module.exports.metadata =
     "cordova-plugin-websocket": "0.12.2",
     "cordova-plugin-dialogs": "2.0.1",
     "cordova-plugin-android-permissions": "1.0.2",
-    "cordova-plugin-device": "2.0.3"
+    "cordova-plugin-device": "2.0.3",
+    "cordova-plugin-advanced-websocket": "1.1.5"
 }
 // BOTTOM OF METADATA
 });
