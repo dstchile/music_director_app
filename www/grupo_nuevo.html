@@ -1,25 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <title>Documento sin título</title>
 <script src="js/jquery-3.1.1.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/conexion.js"></script>
+<script type="text/javascript" src="js/mensajes.js"></script>
 <link href="css/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/fontello.css" type="text/css">
 
 <script>
+var id_grupo='';
+function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+	document.addEventListener("deviceready", lectura_inicial, false);
+
+function lectura_inicial(){
+	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		id_grupo = getParameterByName('v1');
+		tx.executeSql('SELECT * FROM grupos WHERE id="'+id_grupo+'"',[],querySuccess,errorCB);
+		console.log( "Leyendo datos guardados." );
+		}
+	function errorCB(err) 
+		{
+		alert("Error processing SQL: "+err.code);
+		}
+	function querySuccess(tx,result)
+		{
+		console.log( "generando query." );
+		if (result.rows.length>=1)
+			{
+				var row = result.rows.item(0);
+				var id_grupo=row['id'];
+				var nombre=row['nombre_grupo'];
+				document.getElementById('nombre_grupo').value=nombre;
+			}
+		else
+			{
+			}
+		}
+	}
+
+
 
 function nuevo_grupo(nombre){
-	if(nombre!='')
+	const pattern = new RegExp('^[A-ZÑ 0-9\-\_]+$', 'i');
+	nombre=nombre.toUpperCase();
+	if(nombre=='') 
 		{
-			hipervinculo("grupo_nuevo_agregar.html?v1="+nombre);
+		ventana_mensaje("Debe especificar un nombre para el grupo");
+		//alert("Debe especificar un nombre para el grupo")
+		} 
+	else if(nombre.length<=2 || nombre.length>30)
+		{
+		ventana_mensaje("El nombre debe contener a lo menos 3 caracteres y como máximo 30");
+		//alert("El nombre debe contener a lo menos 3 caracteres y como máximo 30")
 		}
-	else if(nombre=='')
+	else if(!pattern.test(nombre))
 		{
-			alert("Debe ingresar un nombre de grupo")
+		ventana_mensaje("El nombre debe contener solo letras o números y -_");
+		//alert("El nombre debe contener solo letras o números y -_")
+		}
+	else
+		{
+		hipervinculo("grupo_nuevo_agregar.html?v1="+nombre+"&v2="+id_grupo);
 		}
 }
-
+function hipervinculo(url)
+		{
+		console.log(url)
+		location.href=url;
+		}	
 </script>
 </head>
 <style>
@@ -31,9 +94,9 @@ div{
 <a onClick="hipervinculo('listado_grupos.html')" title="lista" class="boton2 ancho-back"><span class="icon-left-open"></span></a><button class="boton2" style="width: 90vw" disabled>NUEVO GRUPO</button>
 <div class="contenedor_grupo">
 <div style="text-align:left"><span class="icon-group">Nombre Grupo</span></div>
-<div><input type="text" id="nombre_grupo"></div>
+<div><input type="text" id="nombre_grupo" onFocus="this.select()"></div>
 <div></div>
-<div><button id="n_grupo" onClick="nuevo_grupo(nombre_grupo.value)">LISTADO</button></div>
+<div><input type="button" id="n_grupo" name="n_grupo" onClick="nuevo_grupo(nombre_grupo.value)" value="Siguiente" class="botones"></div>
 </div>
 </body>
 </html>

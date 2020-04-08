@@ -87,10 +87,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-advanced-websocket": {
+    "cordova-plugin-globalization": {
         "source": {
             "type": "registry",
-            "id": "cordova-plugin-advanced-websocket"
+            "id": "cordova-plugin-globalization"
         },
         "is_top_level": true,
         "variables": {}

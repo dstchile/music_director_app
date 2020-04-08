@@ -7,8 +7,20 @@
     <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 	<script src="js/jquery-3.1.1.js"></script>
-	<script type="text/javascript" src="js/mensajes.js"></script>
+	<script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/mensajes.js"></script>
+	<script type="text/javascript" src="js/conexion.js"></script>
 	<script>
+	function getParameterByName(name) 
+	{
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+    results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	var origen = getParameterByName('origen');
+	}
+
+	var ruta_retorno='';
 	document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
@@ -36,37 +48,28 @@
 				
 				console.log( "generando query." );
 				var existen_datos=false;
-				/*
-				//////este codigo falla en android 5.0
-				$.each(result.rows,function(index)
-					{
-					var existen_datos=true;
-					var row = result.rows.item(index);
-					document.getElementById('nombre_director').value=row['nombre_usuario'];
-					document.getElementById('correo_electronico').value=row['correo_electronico'];
-					document.getElementById('memoid').value=row['id'];
-					
-					});*/
 				for (var i=0; i<result.rows.length; i++) 
 			   		{
 					var row = result.rows.item(i);
-				  	document.getElementById('nombre_director').value=row['nombre_usuario'];
+				  	document.getElementById('usuario').value=row['nombre_usuario'];
 					document.getElementById('correo_electronico').value=row['correo_electronico'];
-					document.getElementById('memoid').value=row['id'];
+					document.getElementById('id_user').value=row['id'];
+					document.getElementById('id_user_web').value=row['id_web'];
+					document.getElementById('password').value=row['password'];
 					}
 				$('#superior').empty();
 				if (result.rows.length>=1)
 					{
 					console.log("con datos");
-					$('#superior').html('<a onClick=hipervinculo("vista_servidor.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text-height"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-download-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-floppy"></span></a>');
-					//var ruta="listado.html";
+					//$('#superior').html('<a onClick=hipervinculo("configuraciones.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2_activo ancho-b_listado"><span class="icon-user"></span></a><a href="#" class="boton2 ancho-b_grupos"><span class="icon-text-height"></span></a><a href="#" class="boton2 ancho-b_agregar"><span class="icon-download-cloud"></span></a><a href="#" class="boton2 ancho-b_config"><span class="icon-floppy"></span></a>');
+					ruta_retorno="configuraciones.html";
 					//document.getElementById("retorno").href = ruta;
 					}
 				else
 					{
 					console.log("sin datos");
-					$('#superior').html('<a onClick=hipervinculo("index.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2" style="width:90vw"><span class="icon-user"> Nuevo Director</span></a>');
-					//var ruta="index.html";
+					//$('#superior').html('<a onClick=hipervinculo("index.html") id="retorno" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a href="#" class="boton2" style="width:90vw"><span class="icon-user"> Nuevo Director</span></a>');
+					ruta_retorno="index.html";
 					//document.getElementById("retorno").href = ruta;
 					}
 				
@@ -74,79 +77,169 @@
 			}        
         
 function guardar_datos(){
-	var nombre_director = document.getElementById('nombre_director').value;
+	var usuario = document.getElementById('usuario').value;
 	var correo_electronico = document.getElementById('correo_electronico').value;
-	var memoid = document.getElementById('memoid').value;
+	var password = document.getElementById('password').value;
+	var id_user = document.getElementById('id_user').value;
 	
-	var nombre_directorv = nombre_director.replace(/'/g,"''");
+	var usuariov = usuario.replace(/'/g,"''");
 	var correo_electronicov = correo_electronico.replace(/'/g,"''");
+	var passwordv = password.replace(/'/g,"''");
 	
-	if(nombre_director=='')
+	if(usuario=='')
 		{
-		mensaje_texto("Debe especificar el nombre del Director");	
+		ventana_mensaje("Debe especificar el nombre del Director");
+		//mensaje_texto("Debe especificar el nombre del Director");	
 		}
 	else if(correo_electronico=='')
 		{
-			mensaje_texto("Debe especificar un correo electrónico");	
+			ventana_mensaje("Debe especificar un correo electrónico");
+			//mensaje_texto("Debe especificar un correo electrónico");	
+		}
+	else if(password=='')
+		{
+			ventana_mensaje("Debe especificar un password de 6 caracteres entre números y letras");
+			//mensaje_texto("Debe especificar un password de 6 caracteres entre números y letras");	
 		}
 	else
 		{
-		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
-		db.transaction(populateDB, errorCB, successCB);
-		function populateDB(tx) 
-			{
-			if (memoid!='')
+		var dato="NUEVA_CUENTA";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("usuario", usuario);
+		formData.append("correo_electronico", correo_electronico);
+		formData.append("password", password);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			success: function (result) 
 				{
-				tx.executeSql("UPDATE datos_director set nombre_usuario='"+nombre_directorv+"' , correo_electronico='"+correo_electronicov+"' where id='"+memoid+"'");
-				}
-			else
-				{
-				tx.executeSql("INSERT INTO datos_director (nombre_usuario,correo_electronico)VALUES('"+nombre_directorv+"','"+correo_electronicov+"')");														
-				}
-			}
-		function errorCB(err) 
-			{
-			alert("Error processing 2 SQL: "+err.code);
-			}
-		function successCB() 
-			{
-			mensaje_texto('Datos guardados correctamente!');	
-				if (memoid=='')
+				console.log(result);
+				var obj = JSON.parse(result);
+				
+				if (obj.respuesta!=null)
 					{
-					location.href="vista_servidor.html";
+					if (obj.respuesta=='FAIL')
+						{
+						alert(obj.mensaje)
+						ventana_mensaje(obj.mensaje);
+						}
+					else
+						{
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(populateDB, errorCB, successCB);
+						function populateDB(tx) 
+							{
+							if (id_user!='')
+								{
+								tx.executeSql("UPDATE datos_director set nombre_usuario='"+usuariov+"' , correo_electronico='"+correo_electronicov+"', password='"+passwordv+"', id_web='"+obj.respuesta+"' where id='"+id_user+"'");
+								}
+							else
+								{
+								tx.executeSql("INSERT INTO datos_director (nombre_usuario,correo_electronico,password,id_web)VALUES('"+usuariov+"','"+correo_electronicov+"','"+passwordv+"','"+obj.respuesta+"')");														
+								}
+							}
+						function errorCB(err) 
+							{
+							alert("Error processing 2 SQL: "+err.code);
+							}
+						function successCB() 
+							{
+							if (obj.mensaje=='USUARIO VALIDADO')
+								{
+								console.log("USUARIO VALIDADO")	
+								ventana_mensaje_acepta("Su cuenta está activa, le sugerimos ir a configuraciones y sincronizar con el servidor para respaldar o recuperar su data.",function()
+									{
+									if (id_user=='')
+										{
+										var origen = getParameterByName('origen');
+										if (origen=='DIRECTOR')
+											{
+											location.href="listado_director.html";
+											}
+										if (origen=='MUSICO')
+											{
+											location.href="busca_director.html";
+											}
+										}
+									});
+								}
+							else
+								{
+								ventana_mensaje_acepta("Datos guardados correctamente!",function()
+									{
+									if (id_user=='')
+										{
+										var origen = getParameterByName('origen');
+										if (origen=='DIRECTOR')
+											{
+											location.href="listado_director.html";
+											}
+										if (origen=='MUSICO')
+											{
+											location.href="busca_director.html";
+											}
+										}
+									});
+								}
+							}
+						
+						}
 					}
-			}
+				
+				}
+			});
+		
 		}
 	}
-
+function hipervinculo(url)
+		{
+		console.log(url)
+		location.href=url;
+		}
 
 	</script>
 </head>
-<body style="background-color:#666;">
-<!--<div id="superior" style="min-height:20px; height:52px"></div>-->
-<div class="titulo_cancion">
-	<font color="white">Nombre Director(use un nickname sencillo)</font>
-</div>
-<div class="titulo_cancion centrado">
-	<input type="text" id="nombre_director" name="nombre_director" class="entrada_texto" >
+<body style="background-color:#666; overflow:scroll;">
+<div id="menu-superior">
+<a href="#" onClick="hipervinculo(ruta_retorno)" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw;line-height:50px; color:#FFF" disabled ><span class="icon-user"></span>Datos de la cuenta</a>
 </div>
 <div class="parrafo">
-El nombre de Director es usado por la Aplicación para conectarse con los músicos, es recomendable usar un nombre facil de identificar por tus músicos para que puedan sincronizar facilmente.
+Por favor complete los datos solicitados.
 </div>
-<div style="background-color:#666; height:40px"></div>
-<div class="titulo_cancion">
+<div class="titulo_texto">
+	<font color="white">Usuario</font>
+</div>
+<div class="titulo_cancion centrado">
+	<input type="text" id="usuario" name="usuario" class="entrada_texto" >
+</div>
+<div class="titulo_texto">
 	<font color="white">Correo Electrónico</font>
 </div>
 <div class="titulo_cancion centrado">
 	<input type="text" id="correo_electronico" name="correo_electronico" class="entrada_texto" >
 </div>
+<div class="titulo_texto">
+	<font color="white">Password</font>
+</div>
+<div class="titulo_cancion centrado">
+	<input type="password" id="password" name="password" class="entrada_texto" onFocus="this.select()" >
+</div>
 <div class="parrafo">
-El número de teléfono es usado por la Aplicación para descargar las canciones creadas desde la página web, te ayudará a ahorrar tiempo en la creación de canciones, de esta manera será mucho más rápido subir tus canciones a la aplicación.
+El password debe contener mínimo 6 caracteres y debe estar compuesto por letras y números.
 </div>
 <!--<div style="background-color:#666; height:100px"></div>-->
-	<input type="button" id="guardar" name="guardar" onClick="guardar_datos()" value="Guardar">	
+<div style="text-align:center;">
+	<input type="button" id="guardar" name="guardar" onClick="guardar_datos()" value="Guardar" class="botones">	
+</div>
 <!--<div id="boton_guardar" class="base_cancion" align="center">
 </div>-->
-<input name="memoid" id="memoid" type="hidden">
+<input name="id_user" id="id_user" type="hidden">
+<input name="id_user_web" id="id_user_web" type="hidden">
+<div style="height:600px;">
+</div>
 </body>
 </html>

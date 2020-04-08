@@ -1,42 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Documento sin título</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Music Director</title>
     <script src="js/jquery-3.1.1.js"></script>
- 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/conexion.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ 	<script src="js/jquery.ui.touch-punch.min.js"></script>
+    <link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
 <script>
+var id_grupo='';
 function getParameterByName(name) 
 	{
 		name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 		var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-		results = regex.exec(window.ruta_enviada);
-		return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+		results = regex.exec(location.search);
+    	return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
+	$(function()
+		{
+		$('#Lis_grupo').sortable(
+			{
+			start:function(){},
+			stop:function(){
+				var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+				db.transaction(queryDB);
+				function queryDB(tx)
+					{
+					console.log("VERIFICANDO ORDEN:");	
+					$("#Lis_grupo li").each(function()
+						{
+						var i = $(this).index();
+						var id_c = $(this).attr('id');
+						console.log("orden:"+i+" registro:"+id_c)
+						var id_grupo = getParameterByName('v1');
+						tx.executeSql('UPDATE lista_grupos SET orden="'+i+'" where id_cancion="'+id_c+'" and id_grupo="'+id_grupo+'" ');
+						});
+					console.log("VERIFICANDO ORDEN:");	
+					recepcion();
+					}
+				}
+			});
+		$('#Lis_grupo').disableSelection();
+		});
 	
 		$(window).resize(function(){
 		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
-		   var alto=$(window).height();
-		   var ancho=$(window).width();
-		   if(ancho>alto)
-			   {
-				  document.getElementById('list').className="listado3h";
-			   }
-		   else
-			   {
-				  document.getElementById('list').className="listado3v";
-			   }
-		   //alert("alto: "+alto+" ancho:"+ancho);
+		   	var alto=$(window).height();
+			var ancho=$(window).width();
+			console.log("alto: "+alto+" ancho:"+ancho);
+			var alto_list=alto-50;
+			document.getElementById("list").style.height=alto_list+'px';
 		})
 	
 	document.addEventListener("deviceready", recepcion, false);
 	function recepcion(){
-			var id_grupo = getParameterByName('v1');
+			var alto=$(window).height();
+			var ancho=$(window).width();
+			console.log("alto: "+alto+" ancho:"+ancho);
+			var alto_list=alto-50;
+			document.getElementById("list").style.height=alto_list+'px';
+			
+			id_grupo = getParameterByName('v1');
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 			db.transaction(queryDB);
 			function queryDB(tx){
-				tx.executeSql('SELECT * FROM director JOIN lista_grupos ON director.id=lista_grupos.id_cancion WHERE lista_grupos.id_grupo="'+id_grupo+'" ORDER BY lista_grupos.id asc',[],resultadoCanciones);
+				tx.executeSql('SELECT * FROM canciones JOIN lista_grupos ON canciones.id=lista_grupos.id_cancion WHERE lista_grupos.id_grupo="'+id_grupo+'" ORDER BY lista_grupos.orden asc',[],resultadoCanciones);
 				tx.executeSql('SELECT nombre_grupo FROM grupos WHERE id="'+id_grupo+'"',[],resgrupo);
 				
 				};
@@ -53,7 +86,9 @@ function getParameterByName(name)
 					var compas=row['compas'];
 					var letra_cancion=row['letra_cancion'];
 					var tono=row['tono'];
-					$('#Lis_grupo').append("<li id='ccan"+id_cancion+"'><a onClick=hipervinculo('cancion_detalle.html?v1="+row['id_cancion']+"&v2="+id_grupo+"&v3="+row['id']+"')><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+					var orden=row['orden'];
+					//onClick=hipervinculo('cancion_detalle.html?v1="+row['id_cancion']+"&v2="+id_grupo+"&v3="+row['orden']+"');
+					$('#Lis_grupo').append("<li id='"+id_cancion+"'><a id='a"+id_cancion+"' class='listado_canciones_fondo' ontouchstart='mouse_abajo("+id_cancion+")'  ontouchmove='mouse_movimiento("+id_cancion+")' ontouchcancel='mouse_movimiento("+id_cancion+")' ontouchend='mouse_arriba("+id_cancion+","+orden+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
 					}				
 				};
 			function resgrupo(tx,result){
@@ -62,19 +97,67 @@ function getParameterByName(name)
 				document.getElementById('t-can').textContent=nombre;
 				};
 		}
+function hipervinculo(url)
+		{
+		var z= document.getElementById('ruta').value;
+		if (url=='grupo_nuevo.html'){url='grupo_nuevo.html?v1='+id_grupo;}
+		console.log("valor z:"+z);
+		console.log(url)
+		location.href=url;
+		}			
+var posx=0;
+var posy=0;
+function mouse_abajo(id_cancion)
+		{
+		var coordenadas = $("#"+id_cancion).position();
+		posx=coordenadas.left;
+		posy=coordenadas.top;
+		console.log("iniciando id cancion:"+id_cancion+" pos x:"+posx+" posy:"+posy)
+		}
+	function mouse_movimiento(id_cancion)
+		{
+		var coordenadas = $("#"+id_cancion).position();
+		console.log("moviendo id cancion:"+id_cancion+"  Y: " + coordenadas.top + " X: " + coordenadas.left+" ")
+		var valy=Math.abs(coordenadas.top-posy);
+		var valx=Math.abs(coordenadas.left-posx);
+		console.log("soltandoresta pos x: " + valx + " pos y: " + valy)
+		if (valy<=5 && valx<=5)
+			{
+			}
+		else
+			{
+			$("#"+id_cancion).position(valx,valy);
+			}
 		
+		}
+	function mouse_arriba(id_cancion,orden)
+		{
+		var coordenadas = $("#"+id_cancion).position();
+		console.log("soltando id cancion:"+id_cancion+"  Y: " + coordenadas.top + " X: " + coordenadas.left)
+		console.log("soltando id cancion:"+id_cancion+"  pos x: " + posx + " pos y: " + posy)
+		var valy=Math.abs(coordenadas.top-posy);
+		var valx=Math.abs(coordenadas.left-posx);
+		console.log("soltandoresta pos x: " + valx + " pos y: " + valy)
+		if (valy<=5 && valx<=5)
+			{
+			console.log("activando")
+			$("#a"+id_cancion).addClass('listado_canciones_fondo_active').siblings().removeClass('listado_canciones_fondo_active')	
+			hipervinculo('cancion_detalle.html?v1='+id_cancion+'&v2='+id_grupo+'&v3='+orden)
+			}
+		}
 </script>
-
 
 </head>
 
 <body>
 <input type="hidden" id="nombre_g">
+<input type="hidden" id="ruta">
 <div id="menu-superior">
-<a onClick="hipervinculo('listado_grupos.html')" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw"><span id="t-can"></span></a>
+<a onClick="hipervinculo('listado_grupos.html')" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw"><span id="t-can"></span></a><a onClick="hipervinculo('grupo_nuevo.html');" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
 </div>
-<div id="list" class="listado3v">
-    <ul id="Lis_grupo" class="listado_canciones"></ul>
+<div id="list" class="listado_canciones_grupos">
+    <ul id="Lis_grupo" class="listado_canciones" style="width:90%">
+	</ul>
 </div>
 </body>
 </html>

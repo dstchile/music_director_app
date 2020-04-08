@@ -1,19 +1,44 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
 <title>Documento sin título</title>
 <script src="js/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/conexion.js"></script>
+<script type="text/javascript" src="js/mensajes.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="js/jquery.ui.touch-punch.min.js"></script>
 <link href="css/estilos.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="css/fontello.css" type="text/css">
 <script>
+var fecha_actualizacion='';
+var altura_marco='';
 function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    results = regex.exec(window.ruta_enviada);
+    results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
+	
+	$(function()
+		{
+		$('#Listado_canciones2').sortable(
+			{
+			scroll:true,
+			start:function(){},
+			stop:function(){
+				$("#Listado_canciones2 li").each(function(){
+					var i = $(this).index();
+					})
+				}
+			});
+		$('#Listado_canciones2').disableSelection();
+		});
+	var id_user_web='';
 	document.addEventListener("deviceready", recepcion, false);
 
 	function recepcion(){
@@ -22,27 +47,57 @@ function getParameterByName(name)
 			var nombre_grupo = nombre_grupo.toUpperCase();
 			document.getElementById('t-can').textContent=nombre_grupo;
 		}
-	
 	$(window).resize(function(){
 		//aqui el codigo que se ejecutara cuando se redimencione la ventana
 		var alto=$(window).height();
 		var ancho=$(window).width();
-		if(ancho>alto)
-			{
-				document.getElementById("list").className="listado_grupo2";
-				document.getElementById("list2").className="listado_grupo2";
-			}
-		else
-			{
-				document.getElementById("list").className="listado_grupo";
-				document.getElementById("list2").className="listado_grupo";
-			}
-		//alert("alto: "+alto+" ancho:"+ancho);
+		console.log("alto: "+alto+" ancho:"+ancho);
+		var alto_list2=(alto/2)-100
+		document.getElementById("list2").style.height=alto_list2+'px';
+		var alto_list=(alto/2)-70
+		document.getElementById("list").style.height=alto_list+'px';
+		altura_marco=(alto/2);
+			
 	})
 
 	document.addEventListener("deviceready", lectura_datos, false);
 	function lectura_datos()
 		{
+			var alto=$(window).height();
+			var ancho=$(window).width();
+			console.log("alto: "+alto+" ancho:"+ancho);
+			var alto_list2=(alto/2)-100;
+			document.getElementById("list2").style.height=alto_list2+'px';
+			var alto_list=(alto/2)-70
+			document.getElementById("list").style.height=alto_list+'px';
+			altura_marco=(alto/2);
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+			db.transaction(queryDB1,errorCB1);
+			function queryDB1(tx)
+				{
+				tx.executeSql('SELECT * FROM datos_director ',[],querySuccess1,errorCB1);
+				console.log( "Leyendo datos guardados." );
+				}
+			function errorCB1(err) 
+				{
+				if (err.code!=0)
+					{
+					alert("1Error processing SQL: "+err.code);
+					}
+				}
+			function querySuccess1(tx,result)
+				{
+				console.log( "generando query." );
+				for (var i=0; i<result.rows.length; i++) 
+			   		{
+					var row = result.rows.item(i);
+				  	id_user=row['id'];
+					id_user_web=row['id_web'];
+					document.getElementById('id_user_web').value=row['id_web'];
+					console.log("id_web usuario:"+id_user_web+"---")
+					}
+				}
+			
 			var x=document.getElementById('busqueda').value;
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
 			db.transaction(queryDB,errorCB);
@@ -51,11 +106,11 @@ function getParameterByName(name)
 					var busq = x;
 					if(busq!='')
 						{
-							tx.executeSql('SELECT * FROM director WHERE titulo_cancion LIKE "%'+busq+'%" OR cantante LIKE "%'+busq+'%" OR letra_cancion LIKE "%'+busq+'%"',[],querySuccess,errorCB);
+							tx.executeSql('SELECT * FROM canciones WHERE titulo_cancion LIKE "%'+busq+'%" OR cantante LIKE "%'+busq+'%" OR letra_cancion LIKE "%'+busq+'%"',[],querySuccess,errorCB);
 						}
 					else
 						{
-							tx.executeSql('SELECT * FROM director',[],querySuccess,errorCB);
+							tx.executeSql('SELECT * FROM canciones',[],querySuccess,errorCB);
 						}
 				}
 			function errorCB(err) 
@@ -64,7 +119,6 @@ function getParameterByName(name)
 				}
 			function querySuccess(tx,result)
 				{
-				lectura_datos2();
 				$('#Listado_canciones').empty();
 				for (var i=0; i<result.rows.length; i++) 
 					{
@@ -80,21 +134,33 @@ function getParameterByName(name)
 					console.log("id cancion: "+id_cancion+" memo cancion: "+mid)
 					if(id_cancion!=mid)
 					{
-						$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#' ontouchstart='espera("+id_cancion+")' onClick='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+					//<!--onClick='espera("+id_cancion+")'-->
+						$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'  class='listado_canciones_fondo'><a href='#' id='hcan"+id_cancion+"' ontouchstart='insertar("+id_cancion+")'  ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
 					}
 					memocancion[id_cancion]=titulo;
 					memocantante[id_cancion]=cantante;
 					memotono[id_cancion]=tono;
 					}
+				lectura_datos2();
+				
 				}
 		}
 		function lectura_datos2()
 		{
+			console.log("lectora datos 2");
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
 			db.transaction(queryDB,errorCB);
 			function queryDB(tx)
 				{
-					tx.executeSql('SELECT * FROM lista_grupos WHERE id_grupo="" ORDER BY id desc',[],querySuccess,errorCB);
+				id_grupo = getParameterByName('v2');
+				if (id_grupo!='')
+					{
+					tx.executeSql('SELECT * FROM canciones join lista_grupos ON canciones.id=lista_grupos.id_cancion WHERE lista_grupos.id_grupo="'+id_grupo+'" ORDER BY lista_grupos.orden desc',[],querySuccess,errorCB);
+					}
+				else
+					{
+					tx.executeSql('SELECT * FROM canciones join lista_grupos ON canciones.id=lista_grupos.id_cancion WHERE lista_grupos.id_grupo="" ORDER BY lista_grupos.id desc',[],querySuccess,errorCB);
+					}
 				}
 			function errorCB(err) 
 				{
@@ -106,78 +172,142 @@ function getParameterByName(name)
 				for (var i=0; i<result.rows.length; i++) 
 					{
 					var row = result.rows.item(i);
+					console.log(row)
 					var id=row['id'];
 					var id_cancion=row['id_cancion'];
 					var id_grupo=row['id_grupo'];
-					document.getElementById('ccan'+id_cancion).style.backgroundColor="#c61";
-					var mcan=memocancion[id_cancion];
-					var mcant=memocantante[id_cancion];
-					var mtono=memotono[id_cancion];
- 					$('#Listado_canciones2').append("<li><a href='#'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+mcan+"</font></span></p><p><span class='icon-mic'> - "+mcant+"</span></p><p><span class='icon-music'> - "+mtono+"</span></p></a><button id='sacar"+id_cancion+"' onClick='eliminar_de("+id_cancion+")'><span class='icon-trash'></span></button></li>");
+					try {
+						console.log("coloreando marcados")
+						document.getElementById('ccan'+id_cancion).style.backgroundColor="#c61";
+						document.getElementById('hcan'+id_cancion).style.color="#FFFFFF";
+						}
+					catch(err){}
+					var mcan=row['titulo_cancion'];
+					var mcant=row['cantante'];
+					var mtono=row['tono'];
+					//var mcan=memocancion[id_cancion];
+					//var mcant=memocantante[id_cancion];
+					//var mtono=memotono[id_cancion];
+ 					//$('#Listado_canciones2').append("<li id='"+id_cancion+"'><a href='#'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+mcan+"</font></span></p><p><span class='icon-mic'> - "+mcant+"</span></p><p><span class='icon-music'> - "+mtono+"</span></p></a><button id='sacar"+id_cancion+"' onClick='eliminar("+id_cancion+")'><span class='icon-trash'></span></button></li>");
+					$('#Listado_canciones2').append("<li id='"+id_cancion+"'   class='listado_canciones_fondo'><a href='#' ontouchstart='lista2_otstart("+id_cancion+")'  ontouchmove='lista2_movimiento("+id_cancion+")' ontouchcancel='lista2_movimiento("+id_cancion+")' ontouchend='lista2_otend("+id_cancion+")'><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+mcan+"</font></span></p><p><span class='icon-mic'> - "+mcant+"</span></p><p><span class='icon-music'> - "+mtono+"</span></p></a></li>");
 					memoid[id_cancion]='no';
 					}
 				}
 		}
-	var tiempo=false;
-	var v_id=0;
-	var mover=false;
-	function espera(id_c){
-		v_id=id_c;
-		var tit=document.getElementById('can'+id_c).value;
-		tiempo=true;
-		mover=false;
-		setTimeout(function(){procesar(id_c,tit);clearTimeout();},500)
+	function lista2_otstart(id_cancion)
+		{
+		console.log("iniciando id cancion:"+id_cancion)
+		}
+	function lista2_movimiento(id_cancion)
+		{
+		var coordenadas = $("#"+id_cancion).position();
+		console.log("moviendo id cancion:"+id_cancion+"  Y: " + coordenadas.top + " X: " + coordenadas.left+" mensaje:"+mensaje_activo+"  altura marco:"+altura_marco)
+		if (coordenadas.top<=altura_marco && mensaje_activo=='off')
+			{
+			console.log("mensaje1")
+			mensaje1();
+			}
+		if (coordenadas.top>altura_marco && mensaje_activo=='on')
+			{
+			console.log("mensaje2")
+			mensaje2();
+			}
+		}
+	function lista2_otend(id_cancion)
+		{
+		var coordenadas = $("#"+id_cancion).position();
+		console.log("soltando id cancion:"+id_cancion+"  Y: " + coordenadas.top + " X: " + coordenadas.left)
+		if (coordenadas.top<=altura_marco && mensaje_activo=='on')
+			{
+			console.log("mensaje2")
+			mensaje2();
+			eliminar(id_cancion);
+			}
 		
 		}
-	function procesar(id_c,tit){
+	var tiempo='false';
+	var v_id=0;
+	var mover='false';
+	function insertar(id_c)
+		{
+		v_id=id_c;
+		var tit=document.getElementById('can'+id_c).value;
+		tiempo='true';
+		mover='false';
+		console.log("tiempo IN:"+tiempo)
+		setTimeout(function(){
+				console.log("tiempo dl:"+tiempo+"  mover:"+mover)
+				if(tiempo=='false'&& mover=='false')
+					{
+					console.log("PROCESANDO tiempo dl2:"+tiempo)
+					procesar(id_c,tit);clearTimeout();
+					}
+				},200)
+		
+		}
+	function procesar(id_c,tit)
+		{
 		if(tiempo && v_id==id_c && memoid[id_c]!='no')
 			{
 				document.getElementById('valor_id').value=id_c;
 				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
-				document.addEventListener("deviceready", eliminar, false);
+			insertando()
 			}
 		}
-		function movimiento(){
-			tiempo=false;
-			mover=true;
+	function movimiento()
+		{
+			tiempo='false';
+			mover='true';
+			console.log("movimiento ")
 		}
-		function noespera(id_c){
-			tiempo=false;
-			}	
+	function noespera(id_c)
+		{
+			tiempo='false';
+			console.log("tiempo OUT:"+tiempo)
+		}	
 		
-		function eliminar(){
+	function insertando(){
 			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
-			el(db)
-		}
-		function eliminar_de(id_c){
-			
-			document.getElementById('valor_id').value=id_c;
-			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
-			el_de(db)
-		}
-		
-		
-		
-		
-		function el(db){
 			db.transaction(queryDB);
 			function queryDB(tx)
 				{
-					var id_c=document.getElementById('valor_id').value;
-					tx.executeSql('INSERT INTO lista_grupos (id_grupo,id_cancion)values("","'+id_c+'")');
-					lectura_datos2();
-					$('#list2').scrollTop(0);
+				var id_c=document.getElementById('valor_id').value;
+				console.log("INSERTANDO CANCION A LA LISTA ID_CANCION:"+id_c);
+				id_grupo = getParameterByName('v2');
+				console.log("INSERTANDO CANCION A LA LISTA ID_GRUPO:"+id_grupo);
+				if (id_grupo!='')
+					{
+					tx.executeSql('INSERT INTO lista_grupos (id_grupo,id_cancion,orden)values("'+id_grupo+'","'+id_c+'","0")');
+					}
+				else
+					{
+					tx.executeSql('INSERT INTO lista_grupos (id_grupo,id_cancion,orden)values("","'+id_c+'","0")');
+					}
+				console.log("aqui");
+				lectura_datos2();
+				$('#list2').scrollTop(0);
 				}
 		}
-		function el_de(db){
+	function eliminar(id_c)
+		{
+			document.getElementById('valor_id').value=id_c;
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 			db.transaction(queryDB);
 			function queryDB(tx)
 				{
-					var id_c=document.getElementById('valor_id').value;
+				id_grupo = getParameterByName('v2');
+				if (id_grupo!='')
+					{
+					tx.executeSql('DELETE FROM lista_grupos WHERE id_cancion="'+id_c+'" AND id_grupo="'+id_grupo+'"');
+					}
+				else
+					{
 					tx.executeSql('DELETE FROM lista_grupos WHERE id_cancion="'+id_c+'" AND id_grupo=""');
-					document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
-					memoid[id_c]='';
-					lectura_datos2();
+					}
+				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
+				document.getElementById('hcan'+id_c).style.color="#000000";
+				memoid[id_c]='';
+				lectura_datos2();
 				}
 		}
 		function guardar_grupo(){
@@ -185,37 +315,221 @@ function getParameterByName(name)
 			db.transaction(queryDB);
 			function queryDB(tx)
 				{
+				id_grupo = getParameterByName('v2');
+				if (id_grupo!='')
+					{
+					tx.executeSql('SELECT * FROM lista_grupos WHERE id_grupo="'+id_grupo+'"',[],insert)
+					}
+				else
+					{
 					tx.executeSql('SELECT * FROM lista_grupos WHERE id_grupo=""',[],insert)
+					}
 				}
 			function insert(tx,result){
-					var x=result.rows.length;
-					if(x>0)
+				var x=result.rows.length;
+				var ng=document.getElementById('nombre_g').value;
+				if(x==0)
+					{
+					ventana_mensaje("Debe seleccionar al menos una cancion");
+					//alert("Debe seleccionar al menos una cancion")
+					}
+				else
+					{
+					fecha_actualizacion=""+ano_actual+"-"+mes_actual+"-"+dia_actual+" "+hora+":"+minuto+":"+segundo;
+					id_grupo = getParameterByName('v2');
+					if (id_grupo!='')
 						{
-							var ng=document.getElementById('nombre_g').value;
-							tx.executeSql('INSERT INTO grupos (nombre_grupo)VALUES("'+ng+'")',[],insertExito);
+						tx.executeSql('UPDATE grupos SET nombre_grupo="'+ng+'" ,fecha="'+fecha_actualizacion+'" where id="'+id_grupo+'" ',[],insertExito);
 						}
 					else
 						{
-							alert("Debe seleccionar al menos una cancion")
+						tx.executeSql('INSERT INTO grupos (nombre_grupo,fecha)VALUES("'+ng+'","'+fecha_actualizacion+'")',[],insertExito);
 						}
+					}
 				}
-			function insertExito(tx,result){
-					result.insertId;
-					tx.executeSql('UPDATE lista_grupos set id_grupo="'+result.insertId+'" WHERE id_grupo=""',[],updateExito)
+			function insertExito(tx,result)
+				{
+				id_grupo = getParameterByName('v2');
+				if (id_grupo!='')
+					{
+					}
+				else
+					{
+					var id_grupo=result.insertId;
+					}
+				var ng=document.getElementById('nombre_g').value;
+				const promise = new Promise((resolve, reject) => 
+					{
+					//insertamos el grupo en la web//////		
+					//insertamos el grupo en la web//////		
+					//insertamos el grupo en la web//////		
+					console.log("id_grupo:"+id_grupo+" --")
+					var dato="NUEVO_GRUPO";
+					var formData = new FormData();
+					formData.append("dato", dato);
+					formData.append("id_grupo", id_grupo);
+					formData.append("id_user_web", id_user_web);
+					formData.append("nombre_grupo", ng);
+					formData.append("fecha", fecha_actualizacion);
+					$.ajax({
+						type: 'POST',
+						url: servidor+'conexion_app.php',
+						data: formData,
+						processData: false,
+						contentType: false,
+						timeout: 5000,//5 segundos
+						success: function (resultx) 
+							{
+							console.log(resultx);
+							var obj = JSON.parse(resultx);
+							resolve(id_grupo);
+							}
+						})
+					.fail(function(resultx)
+						{
+						console.log("ERROR DE COMUNICACION");	
+						resolve(id_grupo);
+						});
+
+					});
+				
+				promise
+					.then(()=>{
+					//////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////
+					var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+					db.transaction(queryDB);
+					function queryDB(tx)
+						{
+						tx.executeSql('UPDATE lista_grupos set id_grupo="'+id_grupo+'" WHERE id_grupo=""',[],updateExito(id_grupo,id_user_web))
+						console.log("VERIFICANDO ORDEN:");	
+						$("#Listado_canciones2 li").each(function()
+							{
+							var i = $(this).index();
+							var id_c = $(this).attr('id');
+							console.log("orden:"+i+" registro:"+id_c)
+							tx.executeSql('UPDATE lista_grupos SET orden="'+i+'" where id_cancion="'+id_c+'" and id_grupo="'+id_grupo+'" ');
+							});
+						console.log("VERIFICANDO ORDEN:");	
+						
+					
+						
+						}
+					});
 				}
-			function updateExito(tx,result){
+			function updateExito(id_grupo,id_user_web)
+				{
+				var id_canciones=Array()	
+				var id_ordenes=Array()	
+						
+				const promise = new Promise((resolve, reject) => {
+					//////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////
+					console.log("listado de canciones:"+id_grupo+"---")
 					var ng=document.getElementById('nombre_g').value;
-					alert("Grupo "+ng+" guardado con exito");
-					hipervinculo("listado_grupos.html");
+					var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+					db.transaction(queryDB);
+					function queryDB(tx)
+						{
+						tx.executeSql('SELECT * FROM canciones JOIN lista_grupos ON canciones.id=lista_grupos.id_cancion WHERE lista_grupos.id_grupo="'+id_grupo+'" ORDER BY lista_grupos.id asc',[],resultadoCanciones);
+						};
+					function resultadoCanciones(tx,result)
+						{
+						for (var i=0; i<result.rows.length; i++) 
+							{
+							var row = result.rows.item(i);
+							var id_cancion=row['id_cancion'];
+							id_canciones[i]=id_cancion;
+							id_ordenes[i]=row['orden'];
+							console.log("id cancion:"+id_cancion+"-- id_orden:"+row['orden'])
+							}				
+						console.log("arrays de canciones :"+id_canciones+"--arryas ordenes:"+id_ordenes)
+						resolve(id_grupo,id_canciones,id_ordenes);
+						};
+					//////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////
+					//////////////////////////////////////////////////////
+				});
+				
+				promise
+					.then(()=>{
+						//insertamos el grupo en la web//////		
+						//insertamos el grupo en la web//////		
+						//insertamos el grupo en la web//////		
+						console.log("id_grupo:"+id_grupo+" --");
+						console.log("id_canciones:"+id_canciones+" --");
+						console.log("id_ordenes:"+id_ordenes+" --");
+						console.log("id_user_web:"+id_user_web+" --");
+						var dato="LISTA_GRUPO";
+						var formData = new FormData();
+						formData.append("dato", dato);
+						formData.append("id_grupo", id_grupo);
+						formData.append("id_user_web", id_user_web);
+						formData.append("lista_canciones", id_canciones);
+						formData.append("lista_ordenes", id_ordenes);
+						$.ajax({
+							type: 'POST',
+							url: servidor+'conexion_app.php',
+							data: formData,
+							processData: false,
+							contentType: false,
+							timeout: 5000,
+							success: function (result) 
+								{
+								console.log(result);
+								var obj = JSON.parse(result);
+								if (obj.respuesta!=null)
+									{
+									if (obj.respuesta=='FAIL')
+										{
+										alert(obj.mensaje)
+										}
+									else
+										{
+										//alert("la lista de grupo se guardo correctamente!")
+										ventana_mensaje_acepta("El grupo se guardo correctamente!",function()
+											{
+											hipervinculo("listado_grupos.html");
+											});
+										}
+									}
+								
+								}
+							});
+						//////////////////////////////////////////////////////
+						//////////////////////////////////////////////////////
+						})
+					.catch(error => console.error(error));
 				}
 		}
-		
+function hipervinculo(url)
+		{
+		console.log(url)
+		location.href=url;
+		}			
 		
 var memoid=new Array;
 var memocancion=new Array;
 var memocantante=new Array;
 var memotono=new Array;
 </script>
+<style>
+/*::-webkit-scrollbar {  width: 25px; overflow-x:hidden;}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-track:horizontal {
+	overflow-x:hidden;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius:10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}*/
+</style>
 </head>
 
 
@@ -224,18 +538,21 @@ var memotono=new Array;
 <div id="menu-superior">
 <a href="grupo_nuevo.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw" disabled><span id="t-can"></span></a>
 </div>
-<div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_datos();" onBlur="lectura_datos();"></div>
+<div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" onFocus="this.select()" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_datos();" onBlur="lectura_datos();"></div>
 <div id="list" class="listado_grupo">
 <ul id="Listado_canciones" class="listado_canciones"></ul>
 </div>
-<div class="agregados">AGREGADOS</div>
-<div id="list2" class="listado_grupo">
-<ul id="Listado_canciones2" class="listado_canciones flex"></ul>
+<div class="mi_lista">MI LISTA</div>
+<!--<div id="list2" class="listado_grupo">-->
+<div id="list2" class="listado_grupo" style="  scroll-snap-type: y mandatory;">
+<ul id="Listado_canciones2" class="listado_canciones flex" style="width:90%">
+</ul>
 </div>
 <div id="boton_guardar" class="base_cancion" align="center">
-	<input type="button" id="guardar" name="guardar" onClick="guardar_grupo()" value="Guardar">
+	<input type="button" id="guardar" name="guardar" onClick="guardar_grupo()" value="Guardar" class="botones">
 </div>
 <input type="hidden" id="valor_id">
 <input type="hidden" id="nombre_g">
+<input name="id_user_web" id="id_user_web" type="hidden" value="">
 </body>
 </html>

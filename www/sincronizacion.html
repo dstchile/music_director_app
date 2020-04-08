@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title>Music Director</title>
+
+    <script src="js/jquery-3.1.1.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/conexion.js"></script>
+	<script type="text/javascript" src="js/mensajes.js"></script>
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<script>
+var id_user_web='';
+var titulo='';
+var cantante='';
+var velocidad='';
+var tono='';
+var compas='';
+var letra='';
+var id_cancion='';
+var id_grupo='';
+var fecha_actualizacion='';
+var tamano_letra='';
+	 	$(window).resize(function(){
+		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+		   var alto=$(window).height();
+		   var ancho=$(window).width();
+		})
+	document.addEventListener("deviceready", lectura_inicial, false);
+	function lectura_inicial(ob,x)
+		{
+			document.addEventListener('backbutton',pressKey,false);
+			function pressKey()
+			{
+				cierre_servidor('index.html')
+				document.addEventListener('backbutton',pressKey,false);
+				
+			}
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+		db.transaction(queryDB,errorCB);
+		function queryDB(tx)
+			{
+			tx.executeSql('SELECT * FROM datos_director ',[],querySuccess,errorCB);
+			console.log( "Leyendo datos guardados." );
+			}
+		function errorCB(err) 
+			{
+			alert("Error processing SQL: "+err.code);
+			}
+		function querySuccess(tx,result)
+			{
+			console.log( "generando query." );
+			for (var i=0; i<result.rows.length; i++) 
+				{
+				var row = result.rows.item(i);
+				id_user_web=row['id_web'];
+				}
+			console.log("is_usuario:"+id_user_web);
+			}
+		
+		
+		}
+function sincronizar_datos()
+	{
+	document.getElementById('vitrina').innerHTML="";
+		
+	var vitrina=document.getElementById('vitrina').innerHTML;
+	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Sincronizando.........";
+	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+	
+	var vitrina=document.getElementById('vitrina').innerHTML;
+	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Subiendo canciones.........";
+	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		
+	console.log("SUBIENDO CANCIONES")
+	var id_canciones=Array()	
+	var titulos=Array();
+	var cantantes=Array();
+	var velocidades=Array();
+	var tonos=Array();
+	var compases=Array();
+	var letras=Array();
+	var fechas=Array();
+	var tamano_letras=Array();
+	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+	db.transaction(queryDB,errorCB);
+	function queryDB(tx)
+		{
+		tx.executeSql('SELECT * FROM canciones ',[],querySuccess,errorCB);
+		console.log( "Leyendo datos guardados." );
+		}
+	function errorCB(err) 
+		{
+		alert("Error processing SQL: "+err.code);
+		}
+	function querySuccess(tx,result)
+		{
+		console.log( "generando query." );
+		for (var i=0; i<result.rows.length; i++) 
+			{
+			var row = result.rows.item(i);
+			var id_cancion=row['id'];
+			id_canciones[i]=id_cancion;
+			titulos[i]=row['titulo_cancion'];
+			cantantes[i]=row['cantante'];
+			velocidades[i]=row['velocidad'];
+			tonos[i]=row['tono'];
+			compases[i]=row['compas'];
+			letras[i]=row['letra_cancion'];
+			fechas[i]=row['fecha'];
+			tamano_letras[i]=row['tamano_letra'];
+			console.log("id cancion:"+id_cancion+"--")
+						
+			}
+		if (result.rows.length==0)
+			{
+			console.log("NO HAY CANCIONES")
+			var vitrina=document.getElementById('vitrina').innerHTML;
+			document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Subiendo canciones........N/A";
+			document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+			  
+			descargando_canciones();
+			}
+		else
+			{
+			console.log("arrays de canciones :"+id_canciones+"--")
+			//bajando_nuevas_canciones();
+			console.log("id_usuario:"+id_user_web+" --")
+			var dato="SUBIENDO_CANCIONES";
+			var formData = new FormData();
+			formData.append("dato", dato);
+			formData.append("id_user_web", id_user_web);
+			formData.append("id_canciones",id_canciones );
+			formData.append("titulos", titulos);
+			formData.append("cantantes", cantantes);
+			formData.append("velocidades", velocidades);
+			formData.append("tonos", tonos);
+			formData.append("compases", compases);
+			formData.append("letras", letras);
+			formData.append("fechas", fechas);
+			formData.append("tamano_letras", tamano_letras);
+			$.ajax({
+				type: 'POST',
+				url: servidor+'conexion_app.php',
+				data: formData,
+				processData: false,
+				contentType: false,
+				timeout: 5000,//5 segundos
+				success: function (resultado) 
+					{
+					console.log(resultado);
+					var obj = JSON.parse(resultado);
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Subiendo canciones.........Listo";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					bajando_nuevas_canciones();
+					}
+				})
+			.fail(function(resultx)
+				{
+				console.log("ERROR DE COMUNICACION");	
+				});
+			}
+		}
+	
+	function descargando_canciones()
+		{
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando canciones.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		console.log("DESCARGANDO CANCIONES")
+		console.log("id_usuario:"+id_user_web+" --")
+		var dato="DESCARGANDO_CANCIONES";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("id_user_web", id_user_web);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			timeout: 5000,//5 segundos
+			success: function (resultado) 
+				{
+				console.log(resultado);
+				var obj = JSON.parse(resultado);
+				var i=0;
+				if (obj.cancion.length>=1)
+					{
+					secuencia(i,obj);
+					}
+				else
+					{
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando canciones.........:N/A";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					bajando_nuevas_canciones();
+					}
+				function secuencia(i,obj)
+					{
+					p2= Promise.resolve();
+					p2.then(()=> new Promise(()=>
+						{
+						console.log("id_cancion:"+obj.cancion[i][0]);	
+						var titulo=obj.cancion[i][1];
+						var cantante=obj.cancion[i][2];
+						var velocidad=obj.cancion[i][3];
+						var tono=obj.cancion[i][4];
+						var compas=obj.cancion[i][5];
+						var letra=obj.cancion[i][6];
+						var id_cancion=obj.cancion[i][0];
+						var fecha_actualizacion=obj.cancion[i][7];
+						var tamano_letra=obj.cancion[i][8];
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(populateDB, errorCB);
+						function populateDB(tx) 
+							{
+							tx.executeSql("INSERT INTO canciones (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion,id,fecha,tamano_letra)VALUES('"+titulo+"','"+cantante+"','"+velocidad+"','"+tono+"','"+compas+"','"+letra+"','"+id_cancion+"','"+fecha_actualizacion+"','"+tamano_letra+"')",[],successCB);														
+							}
+						function errorCB(err) 
+							{
+						 	console.log("registros:"+obj.cancion.length);
+						 	console.log("contador i:"+i);
+						 	i++;
+						  	///////////
+						 	var porcentaje=100/obj.cancion.length;
+						 	porcentaje=Math.round(porcentaje*i);
+							var vitrina=document.getElementById('vitrina').innerHTML;
+						 	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando canciones.........:"+porcentaje+"%";
+						 	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+						 	///////////
+						 	console.log("Error 2 SQL"+err.code)
+						 	if (i<obj.cancion.length)
+						 		{
+						  		secuencia(i,obj);
+						  		}
+						 	else
+								{
+								bajando_nuevas_canciones();
+								}
+							}
+						function successCB(tx,result) 
+						 	{
+						 	console.log("registros:"+obj.cancion.length);
+						 	console.log("contador i:"+i);
+						 	i++;
+						 	///////////
+						 	var porcentaje=100/obj.cancion.length;
+						 	porcentaje=Math.round(porcentaje*i);
+							var vitrina=document.getElementById('vitrina').innerHTML;
+						 	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando canciones.........:"+porcentaje+"%";
+						 	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+						 	///////////
+						 
+						 	if (i<obj.cancion.length)
+						  		{
+						  		secuencia(i,obj);
+						  		}
+							else
+								{
+								bajando_nuevas_canciones();
+								}
+							}
+						 }
+					  ));
+					}
+				console.log("FIN");	
+				}
+			})
+		.fail(function(resultx)
+			{
+			console.log("ERROR DE COMUNICACION");	
+			});
+
+		}
+	function bajando_nuevas_canciones()
+		{
+		console.log("BAJANDO NUEVAS CANCIONES")
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevas canciones.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		console.log("id_usuario:"+id_user_web+" --")
+		var dato="BAJANDO_NUEVAS_CANCIONES";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("id_user_web", id_user_web);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			timeout: 5000,//5 segundos
+			success: function (resultado) 
+				{
+				console.log(resultado);
+				var obj = JSON.parse(resultado);
+				var i=0;
+				if (obj.respuesta=='NODATA')
+					{
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevas canciones.........:N/A";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					bajando_canciones_actualizadas();
+					}
+				else
+					{
+					secuencia(i,obj);
+					}
+				function secuencia(i,obj)
+					{
+					p2= Promise.resolve();
+					p2.then(()=> new Promise(()=>
+						{
+						console.log("id_cancion:"+obj.cancion[i][0]);	
+						var titulo=obj.cancion[i][1];
+						var cantante=obj.cancion[i][2];
+						var velocidad=obj.cancion[i][3];
+						var tono=obj.cancion[i][4];
+						var compas=obj.cancion[i][5];
+						var letra=obj.cancion[i][6];
+						var id_cancion_web=obj.cancion[i][0];
+						var fecha_actualizacion=obj.cancion[i][7];
+						var tamano_letra=obj.cancion[i][8];
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(populateDB, errorCB);
+						function populateDB(tx) 
+							{
+							tx.executeSql("INSERT INTO canciones (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion,fecha,tamano_letra)VALUES('"+titulo+"','"+cantante+"','"+velocidad+"','"+tono+"','"+compas+"','"+letra+"','"+fecha_actualizacion+"','"+tamano_letra+"')",[],successCB);														
+							}
+						function errorCB(err) 
+							{
+						 	console.log("registros:"+obj.cancion.length);
+						 	console.log("contador i:"+i);
+						 	i++;
+						  	///////////
+						 	var porcentaje=100/obj.cancion.length;
+						 	porcentaje=porcentaje*i;
+						 	var vitrina=document.getElementById('vitrina').innerHTML;
+						 	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevas canciones.........:"+porcentaje+"%";
+						 	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+						 	///////////
+						 	console.log("Error 2 SQL"+err.code)
+						 	if (i<obj.cancion.length)
+						 		{
+						  		secuencia(i,obj);
+						  		}
+						 	else
+								{
+								bajando_canciones_actualizadas();
+								}
+							}
+						function successCB(tx,result) 
+						 	{
+						 	console.log("Insert ID2 = " + result.insertId);
+							var id_cancion = result.insertId;
+							console.log("id_cancion:"+id_cancion)
+							console.log("id_user_web:"+id_user_web)
+							console.log("id_cancion_web:"+id_cancion_web)
+							var dato="ACTUALIZA_ID_CANCION";
+							var formData = new FormData();
+							formData.append("dato", dato);
+							formData.append("id_cancion", id_cancion);
+							formData.append("id_user_web", id_user_web);
+							formData.append("id_cancion_web", id_cancion_web);
+							$.ajax({
+								type: 'POST',
+								url: servidor+'conexion_app.php',
+								data: formData,
+								processData: false,
+								contentType: false,
+								success: function (result) 
+									{
+									console.log(result);
+									var obj2 = JSON.parse(result);
+									
+									if (obj2.respuesta!=null)
+										{
+										if (obj2.respuesta=='FAIL')
+											{
+											alert(obj2.mensaje)
+											}
+										else
+											{
+											console.log("registros:"+obj.cancion.length);
+											console.log("contador i:"+i);
+											i++;
+											///////////
+											var porcentaje=100/obj.cancion.length;
+											porcentaje=Math.round(porcentaje*i);
+											var vitrina=document.getElementById('vitrina').innerHTML;
+											document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevas canciones.........:"+porcentaje+"%";
+											document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+											///////////
+										 
+											if (i<obj.cancion.length)
+												{
+												secuencia(i,obj);
+												}
+											else
+												{
+												bajando_canciones_actualizadas();
+												}
+											}
+										}
+									
+									}
+								});
+							
+							}
+						 }
+					  ));
+					}
+				console.log("FIN");	
+				}
+			})
+		.fail(function(resultx)
+			{
+			console.log("ERROR DE COMUNICACION");	
+			});
+		}
+	function bajando_canciones_actualizadas()
+		{
+		console.log("BAJANDO CANCIONES ACTUALIZADAS")
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando canciones actualizadas.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		console.log("id_usuario:"+id_user_web+" --")
+		var dato="DESCARGANDO_CANCIONES";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("id_user_web", id_user_web);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			timeout: 5000,//5 segundos
+			success: function (resultado) 
+				{
+				console.log(resultado);
+				var obj = JSON.parse(resultado);
+				var i=0;
+				if (obj.cancion.length>=1)
+					{
+					secuencia(i,obj);
+					}
+				else
+					{
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando canciones actualizadas.........:N/A";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					subiendo_nuevos_grupos();
+					}
+				function secuencia(i,obj)
+					{
+					p2= Promise.resolve();
+					p2.then(()=> new Promise(()=>
+						{
+						console.log("id_cancion:"+obj.cancion[i][0]);	
+						var titulo=obj.cancion[i][1];
+						var cantante=obj.cancion[i][2];
+						var velocidad=obj.cancion[i][3];
+						var tono=obj.cancion[i][4];
+						var compas=obj.cancion[i][5];
+						var letra=obj.cancion[i][6];
+						var id_cancion=obj.cancion[i][0];
+						var fecha_actualizacion=obj.cancion[i][7];
+						var tamano_letra=obj.cancion[i][8];
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(queryDB,errorCB);
+						function queryDB(tx)
+							{
+							tx.executeSql('SELECT * FROM canciones where id='+id_cancion+' ',[],querySuccess);
+							console.log( "Leyendo datos guardados." );
+							}
+						function errorCB(err) 
+							{
+							if (err.code!=0)
+								{
+								alert("1Error processing SQL: "+err.code);
+								}
+							}
+						function querySuccess(tx,result)
+							{
+							console.log( "generando query." );
+							if (result.rows.length>=1)
+								{
+								var row = result.rows.item(0);
+								var fecha=row['fecha'];
+								if (fecha_actualizacion>fecha)
+									{
+									var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+									db.transaction(populateDB, errorCB);
+									function populateDB(tx) 
+										{
+										tx.executeSql("UPDATE canciones set titulo_cancion='"+titulo+"' , cantante='"+cantante+"', velocidad='"+velocidad+"' , tono='"+tono+"' , compas='"+compas+"' , letra_cancion='"+letra+"', fecha='"+fecha_actualizacion+"', tamano_letra='"+tamano_letra+"' where id='"+id_cancion+"'",[],successCB);
+										}
+									function errorCB(err) 
+										{
+										console.log("registros:"+obj.cancion.length);
+										console.log("contador i:"+i);
+										i++;
+										///////////
+										var porcentaje=100/obj.cancion.length;
+										porcentaje=Math.round(porcentaje*i);
+										var vitrina=document.getElementById('vitrina').innerHTML;
+										document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando canciones actualizadas.........:"+porcentaje+"%";
+										document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+										///////////
+										console.log("Error 2 SQL"+err.code)
+										if (i<obj.cancion.length)
+											{
+											secuencia(i,obj);
+											}
+										else
+											{
+											subiendo_nuevos_grupos();
+											}
+										}
+									function successCB(tx,result) 
+										{
+										console.log("registros:"+obj.cancion.length);
+										console.log("contador i:"+i);
+										i++;
+										///////////
+										var porcentaje=100/obj.cancion.length;
+										porcentaje=Math.round(porcentaje*i);
+										var vitrina=document.getElementById('vitrina').innerHTML;
+										document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando canciones actualizadas.........:"+porcentaje+"%";
+										document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+										///////////
+									 
+										if (i<obj.cancion.length)
+											{
+											secuencia(i,obj);
+											}
+										else
+											{
+											subiendo_nuevos_grupos();
+											}
+										}
+									}
+								else
+									{
+									console.log("registros:"+obj.cancion.length);
+									console.log("contador i:"+i);
+									i++;
+									///////////
+									var porcentaje=100/obj.cancion.length;
+									porcentaje=Math.round(porcentaje*i);
+									var vitrina=document.getElementById('vitrina').innerHTML;
+									document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando canciones actualizadas.........:"+porcentaje+"%";
+									document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+									///////////
+								 
+									if (i<obj.cancion.length)
+										{
+										secuencia(i,obj);
+										}
+									else
+										{
+										subiendo_nuevos_grupos();
+										}
+									}
+								}
+							else
+								{
+								var vitrina=document.getElementById('vitrina').innerHTML;
+								document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando canciones actualizadas.........:N/A";
+								document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+								///////////
+							 	subiendo_nuevos_grupos();
+								}
+							}
+						
+						
+						 }
+					  ));
+					}
+				console.log("FIN");	
+				}
+			})
+		.fail(function(resultx)
+			{
+			console.log("ERROR DE COMUNICACION");	
+			});
+		}
+	function subiendo_nuevos_grupos()
+		{
+		console.log("SUBIENDO NUEVOS GRUPOS")
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Subiendo grupos.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+			
+		var id_grupos=Array()	
+		var titulos=Array();
+		var cantantes=Array();
+		var velocidades=Array();
+		var tonos=Array();
+		var compases=Array();
+		var letras=Array();
+		var fechas=Array();
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+		db.transaction(queryDB,errorCB);
+		function queryDB(tx)
+			{
+			tx.executeSql('SELECT * FROM grupos ',[],querySuccess,errorCB);
+			console.log( "Leyendo datos guardados." );
+			}
+		function errorCB(err) 
+			{
+			alert("Error processing SQL: "+err.code);
+			}
+		function querySuccess(tx,result)
+			{
+			console.log( "generando query." );
+			for (var i=0; i<result.rows.length; i++) 
+				{
+				var row = result.rows.item(i);
+				var id_grupo=row['id'];
+				id_grupos[i]=id_grupo;
+				titulos[i]=row['nombre_grupo'];
+				fechas[i]=row['fecha'];
+				console.log("id grupo:"+id_grupo+"--")
+							
+				}
+			if (result.rows.length==0)
+				{
+				console.log("NO HAY GRUPOS")
+				var vitrina=document.getElementById('vitrina').innerHTML;
+				document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Subiendo grupos........N/A";
+				document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+				  
+				descargando_grupos();
+				}
+			else
+				{
+				console.log("arrays de grupos :"+id_grupos+"--")
+				//bajando_nuevas_canciones();
+				console.log("id_usuario:"+id_user_web+" --")
+				var dato="SUBIENDO_GRUPOS";
+				var formData = new FormData();
+				formData.append("dato", dato);
+				formData.append("id_user_web", id_user_web);
+				formData.append("id_grupos",id_grupos );
+				formData.append("titulos", titulos);
+				formData.append("fechas", fechas);
+				$.ajax({
+					type: 'POST',
+					url: servidor+'conexion_app.php',
+					data: formData,
+					processData: false,
+					contentType: false,
+					timeout: 5000,//5 segundos
+					success: function (resultado) 
+						{
+						console.log(resultado);
+						var obj = JSON.parse(resultado);
+						var vitrina=document.getElementById('vitrina').innerHTML;
+						document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Subiendo grupos.........Listo";
+						document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+						bajando_nuevos_grupos();
+						}
+					})
+				.fail(function(resultx)
+					{
+					console.log("ERROR DE COMUNICACION");	
+					});
+				}
+			}
+		}
+	function descargando_grupos()
+		{
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando grupos.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		console.log("DESCARGANDO GRUPOS")
+		console.log("id_usuario:"+id_user_web+" --")
+		var dato="DESCARGANDO_GRUPOS";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("id_user_web", id_user_web);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			timeout: 5000,//5 segundos
+			success: function (resultado) 
+				{
+				console.log(resultado);
+				var obj = JSON.parse(resultado);
+				var i=0;
+				if (obj.grupo.length>=1)
+					{
+					secuencia(i,obj);
+					}
+				else
+					{
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando grupos.........:N/A";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					bajando_nuevos_grupos();
+					}
+				function secuencia(i,obj)
+					{
+					p2= Promise.resolve();
+					p2.then(()=> new Promise(()=>
+						{
+						console.log("id_grupo:"+obj.grupo[i][0]);	
+						var id_grupo=obj.grupo[i][0];
+						var titulo=obj.grupo[i][1];
+						var fecha_actualizacion=obj.grupo[i][2];
+						var listado=obj.grupo[i][3];
+						console.log("listado:"+listado+"---")
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(populateDB, errorCB);
+						function populateDB(tx) 
+							{
+							tx.executeSql("INSERT INTO grupos (nombre_grupo,id,fecha)VALUES('"+titulo+"','"+id_grupo+"','"+fecha_actualizacion+"')",[],successCB);														
+							}
+						function errorCB(err) 
+							{
+						 	console.log("registros:"+obj.grupo.length);
+						 	console.log("contador i:"+i);
+						 	i++;
+						  	///////////
+						 	var porcentaje=100/obj.grupo.length;
+						 	porcentaje=Math.round(porcentaje*i);
+							var vitrina=document.getElementById('vitrina').innerHTML;
+						 	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando grupos.........:"+porcentaje+"%";
+						 	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+						 	///////////
+						 	console.log("Error 2 SQL"+err.code)
+						 	if (i<obj.cancion.length)
+						 		{
+						  		secuencia(i,obj);
+						  		}
+						 	else
+								{
+								bajando_nuevos_grupos();
+								}
+							}
+						function successCB(tx,result) 
+						 	{
+						 	var listado=obj.grupo[i][3];
+							console.log("listado2x:"+listado.length)
+							if (listado.length>=1) 
+                				{
+								console.log("listado2:"+listado.length)
+								var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+								db.transaction(populateDB, errorCB,successCB);
+								function populateDB(tx) 
+									{
+									console.log("listado2:"+listado.length)
+									for (var j=0;j<listado.length;j++)
+										{
+										console.log("listado id_cancion:"+listado[j][0])
+										tx.executeSql("INSERT INTO lista_grupos (id_grupo,id_cancion,orden)VALUES('"+id_grupo+"','"+listado[j][0]+"','"+listado[j][1]+"')");														
+										}
+									}
+								function errorCB(err) 
+									{
+									console.log("registros:"+obj.grupo.length);
+									console.log("contador i:"+i);
+									i++;
+									///////////
+									var porcentaje=100/obj.grupo.length;
+									porcentaje=Math.round(porcentaje*i);
+									var vitrina=document.getElementById('vitrina').innerHTML;
+									document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando grupos.........:"+porcentaje+"%";
+									document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+									///////////
+									console.log("Error 2 SQL"+err.code)
+									if (i<obj.grupo.length)
+										{
+										secuencia(i,obj);
+										}
+									else
+										{
+										bajando_nuevos_grupos();
+										}
+									}
+								function successCB(tx,result) 
+									{
+									console.log("registros:"+obj.grupo.length);
+									console.log("contador i:"+i);
+									i++;
+									///////////
+									var porcentaje=100/obj.grupo.length;
+									porcentaje=Math.round(porcentaje*i);
+									var vitrina=document.getElementById('vitrina').innerHTML;
+									document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando grupos.........:"+porcentaje+"%";
+									document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+									///////////
+								 
+									if (i<obj.grupo.length)
+										{
+										secuencia(i,obj);
+										}
+									else
+										{
+										bajando_nuevos_grupos();
+										}
+									}
+								}
+							else
+								{
+								console.log("registros 22:"+obj.grupo.length);
+								console.log("contador i:"+i);
+								i++;
+								///////////
+								var porcentaje=100/obj.grupo.length;
+								porcentaje=Math.round(porcentaje*i);
+								var vitrina=document.getElementById('vitrina').innerHTML;
+								document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Descargando grupos.........:"+porcentaje+"%";
+								document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+								///////////
+							 
+								if (i<obj.grupo.length)
+									{
+									secuencia(i,obj);
+									}
+								else
+									{
+									bajando_nuevos_grupos();
+									}
+								}
+								
+							}
+						 }
+					  ));
+					}
+				console.log("FIN");	
+				}
+			})
+		.fail(function(resultx)
+			{
+			console.log("ERROR DE COMUNICACION");	
+			});
+
+		}
+	
+	function bajando_nuevos_grupos()
+		{
+		console.log("BAJANDO NUEVOS GRUPOS")
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		console.log("id_usuario:"+id_user_web+" --")
+		var dato="BAJANDO_NUEVOS_GRUPOS";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("id_user_web", id_user_web);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			timeout: 5000,//5 segundos
+			success: function (resultado) 
+				{
+				console.log(resultado);
+				var obj = JSON.parse(resultado);
+				var i=0;
+				if (obj.respuesta=='NODATA')
+					{
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........:N/A";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					bajando_grupos_actualizados();
+					}
+				else
+					{
+					secuencia(i,obj);
+					}
+				function secuencia(i,obj)
+					{
+					p2= Promise.resolve();
+					p2.then(()=> new Promise(()=>
+						{
+						console.log("id_grupo:"+obj.grupo[i][0]);	
+						var id_grupo_web=obj.grupo[i][0];
+						var titulo=obj.grupo[i][1];
+						var fecha_actualizacion=obj.grupo[i][2];
+						var listado=obj.grupo[i][3];
+						console.log("listado:"+listado+"---")
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(populateDB, errorCB);
+						function populateDB(tx) 
+							{
+							tx.executeSql("INSERT INTO grupos (nombre_grupo,fecha)VALUES('"+titulo+"','"+fecha_actualizacion+"')",[],successCB);														
+							}
+						function errorCB(err) 
+							{
+						 	console.log("registros:"+obj.grupo.length);
+						 	console.log("contador i:"+i);
+						 	i++;
+						  	///////////
+						 	var porcentaje=100/obj.grupo.length;
+						 	porcentaje=Math.round(porcentaje*i);
+							var vitrina=document.getElementById('vitrina').innerHTML;
+						 	document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........:"+porcentaje+"%";
+						 	document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+						 	///////////
+						 	console.log("Error 2 SQL"+err.code)
+						 	if (i<obj.grupo.length)
+						 		{
+						  		secuencia(i,obj);
+						  		}
+						 	else
+								{
+								bajando_grupos_actualizados();
+								}
+							}
+						function successCB(tx,result) 
+						 	{
+						 	console.log("Insert ID2 = " + result.insertId);
+							id_grupo = result.insertId;
+							
+							var listado=obj.grupo[i][3];
+							console.log("listado2x:"+listado.length)
+							if (listado.length>=1) 
+                				{
+								console.log("listado2:"+listado.length)
+								var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+								db.transaction(populateDB, errorCB,successCB);
+								function populateDB(tx) 
+									{
+									console.log("listado2:"+listado.length)
+									for (var j=0;j<listado.length;j++)
+										{
+										console.log("listado id_cancion:"+listado[j][0])
+										tx.executeSql("INSERT INTO lista_grupos (id_grupo,id_cancion,orden)VALUES('"+id_grupo+"','"+listado[j][0]+"','"+listado[j][1]+"')");														
+										}
+									}
+								function errorCB(err) 
+									{
+									console.log("registros:"+obj.grupo.length);
+									console.log("contador i:"+i);
+									i++;
+									///////////
+									var porcentaje=100/obj.grupo.length;
+									porcentaje=Math.round(porcentaje*i);
+									var vitrina=document.getElementById('vitrina').innerHTML;
+									document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........:"+porcentaje+"%";
+									document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+									///////////
+									console.log("Error 2 SQL"+err.code)
+									if (i<obj.grupo.length)
+										{
+										secuencia(i,obj);
+										}
+									else
+										{
+										bajando_grupos_actualizados();
+										}
+									}
+								function successCB(tx,result) 
+									{
+									console.log("ACTUALIZA ID GRUPO");
+									console.log("id_grupo:"+id_grupo);
+									console.log("id_user_web:"+id_user_web);
+									console.log("id_grupo_web:"+id_grupo_web);
+									var dato="ACTUALIZA_ID_GRUPO";
+									var formData = new FormData();
+									formData.append("dato", dato);
+									formData.append("id_grupo", id_grupo);
+									formData.append("id_user_web", id_user_web);
+									formData.append("id_grupo_web", id_grupo_web);
+									$.ajax({
+										type: 'POST',
+										url: servidor+'conexion_app.php',
+										data: formData,
+										processData: false,
+										contentType: false,
+										success: function (result) 
+											{
+											console.log(result);
+											var obj2 = JSON.parse(result);
+											
+											if (obj2.respuesta!=null)
+												{
+												if (obj2.respuesta=='FAIL')
+													{
+													alert(obj2.mensaje)
+													}
+												else
+													{
+													console.log("registros:"+obj.grupo.length);
+													console.log("contador i:"+i);
+													i++;
+													///////////
+													var porcentaje=100/obj.grupo.length;
+													porcentaje=Math.round(porcentaje*i);
+													var vitrina=document.getElementById('vitrina').innerHTML;
+													document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........:"+porcentaje+"%";
+													document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+													///////////
+												 
+													if (i<obj.grupo.length)
+														{
+														secuencia(i,obj);
+														}
+													else
+														{
+														bajando_grupos_actualizados();
+														}
+													}
+												}
+											
+											}
+										})
+									.fail(function(resultx)
+										{
+										console.log("registros:"+obj.grupo.length);
+										console.log("contador i:"+i);
+										i++;
+										///////////
+										var porcentaje=100/obj.grupo.length;
+										porcentaje=Math.round(porcentaje*i);
+										var vitrina=document.getElementById('vitrina').innerHTML;
+										document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........:"+porcentaje+"%";
+										document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+										///////////
+									 
+										if (i<obj.grupo.length)
+											{
+											secuencia(i,obj);
+											}
+										else
+											{
+											bajando_grupos_actualizados();
+											}	
+										console.log("ERROR DE COMUNICACION");	
+										});
+									}
+								}
+							else
+								{
+								console.log("registros 22:"+obj.grupo.length);
+								console.log("contador i:"+i);
+								i++;
+								///////////
+								var porcentaje=100/obj.grupo.length;
+								porcentaje=Math.round(porcentaje*i);
+								var vitrina=document.getElementById('vitrina').innerHTML;
+								document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando nuevos grupos.........:"+porcentaje+"%";
+								document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+								///////////
+							 
+								if (i<obj.grupo.length)
+									{
+									secuencia(i,obj);
+									}
+								else
+									{
+									bajando_grupos_actualizados();
+									}
+								}
+								
+							}
+						 }
+					  ));
+					}
+				console.log("FIN");	
+				}
+			})
+		.fail(function(resultx)
+			{
+			console.log("ERROR DE COMUNICACION");	
+			});
+
+		
+		}
+	function bajando_grupos_actualizados()
+		{
+		console.log("BAJANDO GRUPOS ACTUALIZADOS")
+		var vitrina=document.getElementById('vitrina').innerHTML;
+		document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........";
+		document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+		console.log("DESCARGANDO GRUPOS")
+		console.log("id_usuario:"+id_user_web+" --")
+		var dato="DESCARGANDO_GRUPOS";
+		var formData = new FormData();
+		formData.append("dato", dato);
+		formData.append("id_user_web", id_user_web);
+		$.ajax({
+			type: 'POST',
+			url: servidor+'conexion_app.php',
+			data: formData,
+			processData: false,
+			contentType: false,
+			timeout: 5000,//5 segundos
+			success: function (resultado) 
+				{
+				console.log(resultado);
+				var obj = JSON.parse(resultado);
+				var i=0;
+				if (obj.grupo.length>=1)
+					{
+					secuencia(i,obj);
+					}
+				else
+					{
+					var vitrina=document.getElementById('vitrina').innerHTML;
+					document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........:N/A";
+					document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+					final();
+					}
+				function secuencia(i,obj)
+					{
+					p2= Promise.resolve();
+					p2.then(()=> new Promise(()=>
+						{
+						console.log("id_grupo:"+obj.grupo[i][0]);	
+						var id_grupo=obj.grupo[i][0];
+						var titulo=obj.grupo[i][1];
+						var fecha_actualizacion=obj.grupo[i][2];
+						var listado=obj.grupo[i][3];
+						console.log("listado:"+listado+"---")
+						var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+						db.transaction(queryDB,errorCB);
+						function queryDB(tx)
+							{
+							tx.executeSql('SELECT * FROM grupos where id="'+id_grupo+'" ',[],querySuccess);
+							console.log( "Leyendo datos guardados." );
+							}
+						function errorCB(err) 
+							{
+							if (err.code!=0)
+								{
+								alert("1Error processing SQL: "+err.code);
+								}
+							}
+						function querySuccess(tx,result)
+							{
+							console.log( "generando query." );
+							if (result.rows.length>=1)
+								{
+								var row = result.rows.item(0);
+								var fecha=row['fecha'];
+								if (fecha_actualizacion>fecha)
+									{
+									var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+									db.transaction(populateDB, errorCB);
+									function populateDB(tx) 
+										{
+										tx.executeSql("UPDATE grupos SET nombre_grupo='"+titulo+"' ,fecha='"+fecha_actualizacion+"' where id='"+id_grupo+"' ",[],successCB);														
+										}
+									function errorCB(err) 
+										{
+										console.log("registros:"+obj.grupo.length);
+										console.log("contador i:"+i);
+										i++;
+										///////////
+										var porcentaje=100/obj.grupo.length;
+										porcentaje=Math.round(porcentaje*i);
+										var vitrina=document.getElementById('vitrina').innerHTML;
+										document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........:"+porcentaje+"%";
+										document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+										///////////
+										console.log("Error 2 SQL"+err.code)
+										if (i<obj.cancion.length)
+											{
+											secuencia(i,obj);
+											}
+										else
+											{
+												console.log("FIN");	
+												console.log("FIN");	
+												console.log("FIN");	
+											final();
+											}
+										}
+									function successCB(tx,result) 
+										{
+										var listado=obj.grupo[i][3];
+										console.log("listado2x:"+listado.length)
+										if (listado.length>=1) 
+											{
+											console.log("listado2:"+listado.length)
+											var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+											db.transaction(populateDB, errorCB,successCB);
+											function populateDB(tx) 
+												{
+												console.log("listado2:"+listado.length)
+												for (var j=0;j<listado.length;j++)
+													{
+													console.log("listado id_cancion:"+listado[j][0])
+													tx.executeSql("INSERT INTO lista_grupos (id_grupo,id_cancion,orden)VALUES('"+id_grupo+"','"+listado[j][0]+"','"+listado[j][1]+"')");														
+													}
+												}
+											function errorCB(err) 
+												{
+												console.log("registros:"+obj.grupo.length);
+												console.log("contador i:"+i);
+												i++;
+												///////////
+												var porcentaje=100/obj.grupo.length;
+												porcentaje=Math.round(porcentaje*i);
+												var vitrina=document.getElementById('vitrina').innerHTML;
+												document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........:"+porcentaje+"%";
+												document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+												///////////
+												console.log("Error 2 SQL"+err.code)
+												if (i<obj.grupo.length)
+													{
+													secuencia(i,obj);
+													}
+												else
+													{
+													console.log("FIN");	
+													console.log("FIN");	
+													console.log("FIN");	
+													final();
+													}
+												}
+											function successCB(tx,result) 
+												{
+												console.log("registros:"+obj.grupo.length);
+												console.log("contador i:"+i);
+												i++;
+												///////////
+												var porcentaje=100/obj.grupo.length;
+												porcentaje=Math.round(porcentaje*i);
+												var vitrina=document.getElementById('vitrina').innerHTML;
+												document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........:"+porcentaje+"%";
+												document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+												///////////
+											 
+												if (i<obj.grupo.length)
+													{
+													secuencia(i,obj);
+													}
+												else
+													{
+													console.log("FIN");	
+													console.log("FIN");	
+													console.log("FIN");	
+													final();
+													}
+												}
+											}
+										else
+											{
+											console.log("registros 22:"+obj.grupo.length);
+											console.log("contador i:"+i);
+											i++;
+											///////////
+											var porcentaje=100/obj.grupo.length;
+											porcentaje=Math.round(porcentaje*i);
+											var vitrina=document.getElementById('vitrina').innerHTML;
+											document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........:"+porcentaje+"%";
+											document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+											///////////
+										 
+											if (i<obj.grupo.length)
+												{
+												secuencia(i,obj);
+												}
+											else
+												{
+												console.log("FIN");	
+												console.log("FIN");	
+												console.log("FIN");	
+												final();
+												}
+											}
+											
+										}
+									
+									}
+								else
+									{
+									console.log("registros 22:"+obj.grupo.length);
+									console.log("contador i:"+i);
+									i++;
+									///////////
+									var porcentaje=100/obj.grupo.length;
+									porcentaje=Math.round(porcentaje*i);
+									var vitrina=document.getElementById('vitrina').innerHTML;
+									document.getElementById('vitrina').innerHTML=""+vitrina+"<br />Bajando grupos actualizados.........:"+porcentaje+"%";
+									document.getElementById("vitrina").scrollTop=document.getElementById("vitrina").scrollHeight;
+									///////////
+								 
+									if (i<obj.grupo.length)
+										{
+										secuencia(i,obj);
+										}
+									else
+										{
+										console.log("FIN");	
+										console.log("FIN");	
+										console.log("FIN");	
+										final();
+										}
+									
+									}
+								}
+						 	}
+						}));
+					}
+				}
+			})
+		.fail(function(resultx)
+			{
+			console.log("ERROR DE COMUNICACION");	
+			});
+
+		
+		}
+	}
+function final()
+	{
+	//alert("PROCESO COMPLETADO");	
+	ventana_mensaje("PROCESO COMPLETADO");
+	}
+function hipervinculo(url)
+		{
+		console.log(url)
+		location.href=url;
+		}
+	
+	</script>
+    </head>
+    <body style="background-color:#666;">
+      <div data-role="content">
+        <div id="menu-superior">
+        <a href="configuraciones.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><a style="width: 90vw;line-height:50px; color:#FFF" disabled ><span class="icon-arrows-cw">Sincronización</span></a>
+        </div>
+	    <p>&nbsp;</p>
+     	<div class="parrafo">
+        Presione el botón sincronizar para que la APP recopile o actualice su data desde el servidor.
+        </div>
+        <p>&nbsp;</p>
+     	<div style="text-align:center;">
+            <input type="button" id="sincronizar" name="sincronizar" onClick="sincronizar_datos()" value="Sincronizar" class="botones">	
+        	<p>&nbsp;</p>
+     		<div id="vitrina" class="vitrina"></div>
+        </div>
+        <p>&nbsp;</p>
+      </div>
+    </div>
+  	</body>
+</html>

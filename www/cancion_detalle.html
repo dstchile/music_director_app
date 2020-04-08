@@ -5,29 +5,45 @@
  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
  <title>Documento sin título</title>
  <script src="js/jquery-3.1.1.js"></script>
-<link href="css/estilos.css" rel="stylesheet" type="text/css" />
-<link href="css/fontello.css" rel="stylesheet" type="text/css" />
+ <script type="text/javascript" src="cordova.js"></script>
+ <script type="text/javascript" src="js/conexion.js"></script>
+ <script type="text/javascript" src="js/mensajes.js"></script>
+ <script type="text/javascript" src="js/servidor_socket.js"></script>
+ <link href="css/estilos.css" rel="stylesheet" type="text/css" />
+ <link href="css/fontello.css" rel="stylesheet" type="text/css" />
 <script>
 
 function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-    //results = regex.exec(location.search);
-    results = regex.exec(window.ruta_enviada);
+    results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 var id_cancion = getParameterByName('v1');
 var id_grupo = getParameterByName('v2');
 var id_posicion = getParameterByName('v3');
-
-console.log("ruta enviada:"+window.ruta_enviada)
+var letra='';
+var tono='';
+var compas='';
+var tamano_l='';
 console.log("ID cancion: "+id_cancion)
 console.log("ID grupo: "+id_grupo);
 console.log("ID posicion: "+id_posicion);
+var alto_pantalla='';
+$(window).resize(function(){
+   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+   alto_pantalla=$(window).height();
+   console.log("alto: "+alto_pantalla);
+})
+
 document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial()
 		{
+			alto_pantalla=$(window).height();
+			console.log("alto: "+alto_pantalla);
+		
+			
 			document.addEventListener('backbutton',pressKey,false);
 			function pressKey()
 			{
@@ -62,9 +78,9 @@ function lista_programas(db){
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
 		{
-		tx.executeSql('SELECT * FROM director WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
-		tx.executeSql('SELECT * FROM lista_grupos WHERE id>"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id asc LIMIT 1',[],siguiente_cancion);
-		tx.executeSql('SELECT * FROM lista_grupos WHERE id<"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY id desc LIMIT 1',[],anterior_cancion);
+		tx.executeSql('SELECT * FROM canciones WHERE id="'+id_cancion+'"',[],querySuccess,errorCB);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE orden>"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY orden asc LIMIT 1',[],siguiente_cancion);
+		tx.executeSql('SELECT * FROM lista_grupos WHERE orden<"'+id_posicion+'" AND id_grupo="'+id_grupo+'" ORDER BY orden desc LIMIT 1',[],anterior_cancion);
 		console.log( "Leyendo datos guardados." );
 		}
 		function errorCB(err) 
@@ -86,21 +102,38 @@ function lista_programas(db){
 				document.getElementById('t-can').textContent=titulo;
 				var velocidad=row['velocidad'];
 				document.getElementById('text-velocidad').value=velocidad;
-				var compas=row['compas'];
-				var letra_cancion=''+row['titulo_cancion']+'\n\n'+row['cantante']+'\n\n\n\n\n\n'+row['letra_cancion'];
-				var tono=row['tono'];
-				console.log("Titulo cancion: "+titulo);
+				compas=row['compas'];
+				tono=row['tono'];
+				letra=row['letra_cancion'];
+				//var letra_cancion=''+row['titulo_cancion']+'\n\n'+row['cantante']+'\n\n\n\n\n\n'+row['letra_cancion'];
+				var letra_cancion='<div style="display:block; width:100%; text-align:center"><span style=" font-weight: bold; font-size:16px">'+row['titulo_cancion']+'</span><br><br>';
+				letra_cancion+='<span style=" font-weight: bold;">'+row['cantante']+'</span></div><br><br><br><br><br>';
+				var letra0=letra.replace(/ /gi,"&nbsp;");
+				var letra1=letra0.replace(/\n/gi,"<br>");
+				var letra2=letra1.replace(/\t/gi,"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+				letra_cancion+="<br>"+letra2;
 				document.getElementById('cancion').innerHTML=letra_cancion;
-				var ruta="cancion_nueva.html?v1="+id_cancion;
+				document.getElementById('compas').value=compas;
+				document.getElementById('tono').value=tono;
+				console.log("Titulo cancion: "+titulo);
+				if (tamano_l=='')
+					{
+					tamano_l=row['tamano_letra']
+					document.getElementById('cancion').style.fontSize=tamano_l+"px";	
+					}
+				//document.getElementById('cancion').innerHTML=letra_cancion;
+				var ruta="cancion_nueva.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion;
 				document.getElementById("ruta").value = ruta;
 			};
+		iniciando_servidor();
+
  		}
 		function siguiente_cancion(tx,result)
 		{
 			if(result.rows.length>0)
 			{
 				var row = result.rows.item(0);
-				var ics=row['id'];
+				var ics=row['orden'];
 				var icans=row['id_cancion'];
 				document.getElementById('boton-forward').value=ics;
 				document.getElementById('can-sig').value=icans;
@@ -116,7 +149,7 @@ function lista_programas(db){
 			if(result.rows.length>0)
 			{
 				var row = result.rows.item(0);
-				var ica=row['id'];
+				var ica=row['orden'];
 				var icana=row['id_cancion'];
 				document.getElementById('boton-rewind').value=ica;
 				document.getElementById('can-ant').value=icana;
@@ -135,6 +168,7 @@ function repro(estado){
 	vel=parseInt(vel)*100;
 	if(estado=="play")
 		{
+			//$('#franja').fadeIn(1500);
 			document.getElementById('boton-forward').className +=" disnone";
 			document.getElementById('boton-rewind').className +=" disnone";
 			document.getElementById('boton-play').className +=" disnone";
@@ -182,25 +216,34 @@ function repro(estado){
 			var id_cancion = document.getElementById('can-sig').value;
 			hipervinculo("cancion_detalle.html?v1="+id_cancion+"&v2="+id_grupo+"&v3="+id_posicion);
 		}
+	inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
 	
 }
-
+//variable control de franja desplazadora;
+var zf=0;
 function delay(i,sh){
 	if(i<sh)
 		{
 			var vel=document.getElementById('text-velocidad').value;
 			var est = document.getElementById('estado').value;
-			vel=(150/vel)*100;
+			vel=(240/vel)*100;
 			if(est=="PLAY")
 				{
 					setTimeout(function(){
 					console.log("i= "+i);
+					var alto_scroll = document.getElementById("cancion").scrollHeight;
+					var alto_scroll = alto_scroll-alto_pantalla+50;
+					console.log("alto scroll:"+alto_scroll)	
 					//////codigo para contador/////
 					if (i<0)
 						{
 						var con=(Math.round(i/10))*-1;	
 						document.getElementById('contador').style.display='';
 						document.getElementById('contador').innerHTML=con;
+					
+						zf=100+i;
+						$('#franja').scrollTop(zf);			
+						document.getElementById('franja').style.top=zf+'px';
 						}
 					else
 						{
@@ -209,6 +252,16 @@ function delay(i,sh){
 						document.getElementById('contador').innerHTML='';
 						document.getElementById('contador').style.display='none';
 						}
+					if (i>alto_scroll)
+						{
+						console.log("i supero el alto de la pantalla")
+						zf++;
+						console.log("zf:"+zf)
+						$('#franja').scrollTop(zf);			
+						document.getElementById('franja').style.top=zf+'px';
+						}
+					
+					
 					//////////////////////////////	
 					i++;
 					delay(i,sh);
@@ -218,9 +271,9 @@ function delay(i,sh){
 				{
 					//document.getElementById('cancion').scrollTo(0,0);
 					$('#cancion').scrollTop(0);			
+					$('#franja').fadeOut(1500);
 					document.getElementById('contador').innerHTML='';
 					document.getElementById('contador').style.display='none';
-						
 				}
 		}
 	else
@@ -240,6 +293,8 @@ function delay(i,sh){
 			document.getElementById('content-cancion').className="";
 			//document.getElementById('cancion').scrollTo(0,0);
 			$('#cancion').scrollTop(0);			
+		inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
+		$('#franja').fadeOut(1500);
 										
 		}
 }
@@ -264,6 +319,8 @@ function pau(x){
 			document.getElementById('boton-pause').value=1;
 			document.getElementById('estado').value="PAUSE";
 		}
+	inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
+		
 }
 
 function velo(z){
@@ -301,12 +358,135 @@ function salida(id_grupo)
 		document.getElementById('direccion').value="listado_canciones_grupo.html?v1="+id_grupo;
 	}
 	}
+function hipervinculo(url)
+		{
+		const promise = new Promise((resolve, reject) => 
+			{
+			var id_cancion = getParameterByName('v1');
+			estado='EN ESPERA';
+			console.log("EN ESPERA");
+			console.log("estado:"+estado);
+			console.log("id_usuario_web:"+id_user_web+" --")
+			
+			var dato="PROCESO";
+			var formData = new FormData();
+			formData.append("dato", dato);
+			formData.append("id_user_web", id_user_web);
+			formData.append("id_cancion", id_cancion);
+			formData.append("estado", estado);
+			$.ajax({
+				type: 'POST',
+				url: servidor+'conexion_app.php',
+				data: formData,
+				processData: false,
+				contentType: false,
+				timeout: 3000,//5 segundos
+				success: function (resultx) 
+					{
+					console.log(resultx);
+					var obj = JSON.parse(resultx);
+					//$('body').append('<div id="con_pop">Conexión lista</div>');
+					//setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+					//setTimeout(function(){$('#con_pop').remove()},5000);
+			
+					//mensajes_servidor(wsserver,conn,msg,nombre_usuario,correo_electronico);
+					resolve();
+					}
+				})
+			.fail(function(resultx)
+				{
+				$('body').append('<div id="con_pop">'+reason+'<span id="disco">Error de conexión</span></div>');
+				setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+				setTimeout(function(){$('#con_pop').remove()},5000);
+				console.log("ERROR DE COMUNICACION");	
+				resolve();
+				});
+			});
+		promise
+		.then(()=>{
+		  //////////////////////////////////////////////////////
+			console.log(url)
+			location.href=url;
+			//////////////////////////////////////////////////////
+			});
+		}
+var anchomax='';
+function tamano_letra(valor)
+	{
+	var sh = document.getElementById('cancion').scrollWidth;
+	var tamano=document.getElementById('cancion').style.fontSize;	
+	var regex = /(\d+)/g;
+	tamano=tamano.match(regex); 
+	console.log("tamamo"+tamano);
+
+	tamDiv = document.getElementById('cancion');
+	tamDiv.scrollWidth = 0;
+	n= 0;
+	currPos = 0;
+	newPos = 1;
+	while (newPos > currPos)
+		{
+		 currPos = tamDiv.scrollWidth;
+		 n = n+1;
+		 tamDiv.scrollWidth = n;
+		 newPos = tamDiv.scrollWidth;
+		}
+	var currPos=currPos;	
+	if (anchomax==''){anchomax=currPos;}
+	console.log("scrollmax:"+currPos+" anchov:"+anchomax+" scr sh:"+sh)	
+	if (valor=='mas')
+		{
+		tamano++;
+		tamano++;
+		document.getElementById('cancion').style.fontSize=tamano+"px";	
+		var sh = document.getElementById('cancion').scrollWidth;
+		if (sh>anchomax)
+			{
+			tamano--;
+			tamano--;
+			document.getElementById('cancion').style.fontSize=tamano+"px";	
+			ventana_mensaje("Se ha alcanzado el máximo de tamaño");
+			}
+		else
+			{
+			update_tamano();
+			}
+		}
+	if (valor=='menos'&& tamano>14)
+		{
+		tamano--;
+		tamano--;
+		document.getElementById('cancion').style.fontSize=tamano+"px";	
+		update_tamano();
+		}
+	if (tamano<=14 && valor=='menos')
+		{
+		ventana_mensaje("Se ha alcanzado el mínimo de tamaño");
+		}
+	function update_tamano()
+		{
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+		db.transaction(populateDB, errorCB);
+		function populateDB(tx) 
+			{
+			var id_cancion = getParameterByName('v1');
+			tx.executeSql("UPDATE canciones set tamano_letra='"+tamano+"' where id='"+id_cancion+"' ");
+			}
+		function errorCB(err) 
+			{
+			alert("Error processing 2 SQL: "+err.code);
+			}
+		}
+	}
+
 </script>
 </head>
 
 <body>
 <input type="hidden" id="estado">
 <input type="hidden" id="ncantante">
+<input type="hidden" id="tono">
+<input type="hidden" id="compas">
 <input type="hidden" id="direccion">
 <input type="hidden" id="ruta">
 <input type="hidden" id="can-sig">
@@ -316,8 +496,14 @@ function salida(id_grupo)
     	<a onClick="salida(id_grupo)" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a onClick="hipervinculo(ruta.value);" id="boton-editar" class="boton2" ><span class="icon-edit"></span></a>
     </div>
     <div id="content-cancion">
-        <textarea id="cancion" readonly></textarea>
+        <!--<textarea id="cancion" readonly></textarea>-->
+    	<div id="cancion" style="font-size:14px; font-family:Arial, Helvetica, sans-serif; font-weight:300;"></div>
     </div>
+    <div id="menu-inferior-flotante">
+      	<button id="boton-menost" class="color-boton" onClick="tamano_letra('menos')"><span class="icon-minus"></span></button>
+      	<button id="boton-mast" class="color-boton" onClick="tamano_letra('mas')"><span class="icon-plus"></span></button>
+   	</div>
+    
     <div id="menu-inferior">
     	<button id="boton-rewind" onClick="repro('back')" style="display:none" class="color-boton"><span class="icon-to-start"></span></button>
         <button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
@@ -330,6 +516,7 @@ function salida(id_grupo)
     </div>
     <div id="contador">
     </div>
+<div id="franja"></div>
 </div>
 </body>
 </html>

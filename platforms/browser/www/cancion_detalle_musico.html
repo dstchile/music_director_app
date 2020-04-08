@@ -4,7 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
  <title>Documento sin título</title>
- <script type="text/javascript" src="js/cliente_socket2.js"></script>
+ <script type="text/javascript" src="js/mensajes.js"></script>
+ <script type="text/javascript" src="js/conexion.js"></script>
+ <script type="text/javascript" src="js/cliente_socket.js"></script>
  <script src="js/jquery-3.1.1.js"></script>
 <link href="css/estilos.css" rel="stylesheet" type="text/css" />
 <link href="css/fontello.css" rel="stylesheet" type="text/css" />
@@ -17,8 +19,27 @@ function getParameterByName(name)
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
 
-var address_server = getParameterByName('v1');
-console.log("dirección servidor: "+address_server)
+var id_director = getParameterByName('v1');
+console.log("ID DIRECTOR: "+id_director)
+var letra_cancion='';
+var velocidad='';
+var tono='';
+var compas='';
+var tamano_l='';
+var alto_pantalla='';
+$(window).resize(function(){
+   //aqui el codigo que se ejecutara cuando se redimencione la ventana
+   alto_pantalla=$(window).height();
+   console.log("alto: "+alto_pantalla);
+   anchomax='';
+})
+document.addEventListener("deviceready", lectura_inicial, false);
+	function lectura_inicial()
+		{
+			alto_pantalla=$(window).height();
+			console.log("alto: "+alto_pantalla);
+		
+		}
 
 function repro(estado){
 	
@@ -26,6 +47,7 @@ function repro(estado){
 	vel=parseInt(vel)*100;
 	if(estado=="play")
 		{
+			//$('#franja').fadeIn(1500);
 			document.getElementById('boton-play').className +=" disnone";
 			document.getElementById('boton-pause').className="color-boton";
 			document.getElementById('boton-stop').className="color-boton";
@@ -60,7 +82,7 @@ function repro(estado){
 		}
 	
 }
-
+var zf=0;
 function delay(i,sh){
 	if(i<sh)
 		{
@@ -71,12 +93,18 @@ function delay(i,sh){
 				{
 					setTimeout(function(){
 					//console.log("i= "+i);
+					var alto_scroll = document.getElementById("cancion").scrollHeight;
+					var alto_scroll = alto_scroll-alto_pantalla+50;
 					//////codigo para contador/////
 					if (i<0)
 						{
 						var con=(Math.round(i/10))*-1;	
 						document.getElementById('contador').style.display='';
 						document.getElementById('contador').innerHTML=con;
+						
+						zf=100+i;
+						$('#franja').scrollTop(zf);			
+						document.getElementById('franja').style.top=zf+'px';
 						}
 					else
 						{
@@ -85,6 +113,15 @@ function delay(i,sh){
 						document.getElementById('contador').innerHTML='';
 						document.getElementById('contador').style.display='none';
 						}
+					if (i>alto_scroll)
+						{
+						//console.log("i supero el alto de la pantalla")
+						zf++;
+						//console.log("zf:"+zf)
+						$('#franja').scrollTop(zf);			
+						document.getElementById('franja').style.top=zf+'px';
+						}
+					
 					//////////////////////////////	
 					i++;
 					delay(i,sh);
@@ -94,6 +131,7 @@ function delay(i,sh){
 				{
 					//document.getElementById('cancion').scrollTo(0,0);
 					$('#cancion').scrollTop(0);			
+					$('#franja').fadeOut(1500);
 					document.getElementById('contador').innerHTML='';
 					document.getElementById('contador').style.display='none';
 						
@@ -161,13 +199,21 @@ function velo(z){
 		}
 }
 
-function guardar_cancion(){
+function guardar_cancion()
+	{
+	var titulo=document.getElementById('t-can').textContent;
+	var cantante=document.getElementById('ncantante').value;
+	if (titulo!='' && cantante!='')
+		{		
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
 		{
-		alert("titulo:"+titulo_cancion+" -- "+cantante+"---");
-		tx.executeSql('SELECT * FROM director WHERE titulo_cancion="'+titulo_cancion+'" and cantante="'+cantante+'"',[],querySuccess,errorCB);
+		var titulo=document.getElementById('t-can').textContent;
+		var cantante=document.getElementById('ncantante').value;
+		var titulov = titulo.replace(/'/g,"''");
+		var cantantev = cantante.replace(/'/g,"''");
+		tx.executeSql('SELECT * FROM canciones WHERE titulo_cancion="'+titulov+'" and cantante="'+cantantev+'"',[],querySuccess,errorCB);
 		console.log( "Leyendo datos guardados." );
 		}
 		function errorCB(err) 
@@ -176,30 +222,127 @@ function guardar_cancion(){
 		}
 		function querySuccess(tx,result)
 			{
+			var titulo=document.getElementById('t-can').textContent;
+			var cantante=document.getElementById('ncantante').value;
+			var titulov = titulo.replace(/'/g,"''");
+			var cantantev = cantante.replace(/'/g,"''");
+			var letrav = letra_cancion.replace(/'/g,"''");
+			
 				console.log( "generando query." );
-				for (var i=0; i<result.rows.length; i++) 
+				var fecha_actualizacion=""+ano_actual+"-"+mes_actual+"-"+dia_actual+" "+hora+":"+minuto+":"+segundo;
+
+				if (result.rows.length==1)
 					{
-					var row = result.rows.item(i);
+					var row = result.rows.item(0);
 					var id_cancion=row['id'];
-					
-					var velo=document.getElementById('text-velocidad').value;
-					var letrav=document.getElementById('cancion').value=obj.letra;
-					var tono="";
-					var comp="";
-					tx.executeSql("UPDATE director set velocidad='"+velo+"' , tono='"+ton+"' , compas='"+comp+"' , letra_cancion='"+letrav+"' where id='"+id_cancion+"'");
-					//document.getElementById("boton-editar").href = ruta;
-					};
-				if (result.rows.lemgth==0)
+					console.log( "CANCION ENCONTRADA.  vel:"+velocidad+" tono:"+tono+" compas:"+compas+" --letra:"+letrav+" fecha:"+fecha_actualizacion+"  id:"+id_cancion+"---" );
+					tx.executeSql("UPDATE canciones set velocidad='"+velocidad+"' , tono='"+tono+"' , compas='"+compas+"' , letra_cancion='"+letrav+"', fecha='"+fecha_actualizacion+"', tamano_letra='"+tamano_l+"' where id='"+id_cancion+"'");
+					ventana_mensaje("Canción actualizada")
+					}
+				if (result.rows.length==0)
 					{
-					var velo=document.getElementById('text-velocidad').value;
-					var letrav=document.getElementById('cancion').value=obj.letra;
-					var tono="";
-					var comp="";
-					tx.executeSql("INSERT INTO director (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion)VALUES('"+titulo_cancion+"','"+cantante+"','"+velo+"','"+ton+"','"+comp+"','"+letrav+"')");														
+					console.log( "CANCION NOOOO ENCONTRADA." );
+					tx.executeSql("INSERT INTO canciones (titulo_cancion,cantante,velocidad,tono,compas,letra_cancion,fecha,tamano_letra)VALUES('"+titulov+"','"+cantantev+"','"+velocidad+"','"+tono+"','"+compas+"','"+letrav+"','"+fecha_actualizacion+"','"+tamano_l+"')");														
+					ventana_mensaje("Canción guardada")
 					}
 						
 			}
-}
+		}
+	}
+var anchomax='';
+function tamano_letra(valor)
+	{
+	var sh = document.getElementById('cancion').scrollWidth;
+	var tamano=document.getElementById('cancion').style.fontSize;	
+	var regex = /(\d+)/g;
+	tamano=tamano.match(regex); 
+	console.log("tamamo"+tamano);
+
+	tamDiv = document.getElementById('cancion');
+	tamDiv.scrollWidth = 0;
+	n= 0;
+	currPos = 0;
+	newPos = 1;
+	while (newPos > currPos)
+		{
+		 currPos = tamDiv.scrollWidth;
+		 n = n+1;
+		 tamDiv.scrollWidth = n;
+		 newPos = tamDiv.scrollWidth;
+		}
+	var currPos=currPos;	
+	if (anchomax==''){anchomax=currPos;}
+	console.log("scrollmax:"+currPos+" anchov:"+anchomax+" scr sh:"+sh)	
+	if (valor=='mas')
+		{
+		tamano++;
+		tamano++;
+		document.getElementById('cancion').style.fontSize=tamano+"px";	
+		var sh = document.getElementById('cancion').scrollWidth;
+		if (sh>anchomax)
+			{
+			tamano--;
+			tamano--;
+			document.getElementById('cancion').style.fontSize=tamano+"px";	
+			ventana_mensaje("Se ha alcanzado el máximo de tamaño");
+			}
+		else
+			{
+			update_tamano();
+			}
+		}
+	if (valor=='menos'&& tamano>14)
+		{
+		tamano--;
+		tamano--;
+		document.getElementById('cancion').style.fontSize=tamano+"px";	
+		update_tamano();
+		}
+	if (tamano<=14 && valor=='menos')
+		{
+		ventana_mensaje("Se ha alcanzado el mínimo de tamaño");
+		}
+	function update_tamano()
+		{
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+		db.transaction(populateDB, errorCB);
+		function populateDB(tx) 
+			{
+			var titulo=document.getElementById('t-can').textContent;
+			var cantante=document.getElementById('ncantante').value;
+			var titulov = titulo.replace(/'/g,"''");
+			var cantantev = cantante.replace(/'/g,"''");
+			tx.executeSql('SELECT * FROM canciones WHERE titulo_cancion="'+titulov+'" and cantante="'+cantantev+'"',[],querySuccess,errorCB);
+			console.log( "Leyendo datos guardados." );
+			}
+		function errorCB(err) 
+			{
+			alert("Error processing SQL: "+err.code);
+			}
+		function querySuccess(tx,result)
+			{
+			var titulo=document.getElementById('t-can').textContent;
+			var cantante=document.getElementById('ncantante').value;
+			var titulov = titulo.replace(/'/g,"''");
+			var cantantev = cantante.replace(/'/g,"''");
+			
+			if (result.rows.length==1)
+				{
+				var row = result.rows.item(0);
+				var id_cancion=row['id'];
+				console.log( "CANCION ENCONTRADA." );
+				tx.executeSql("UPDATE canciones set tamano_letra='"+tamano+"' where id='"+id_cancion+"' ");
+				}
+			if (result.rows.length==0)
+				{
+				console.log( "CANCION NOOOO ENCONTRADA." );
+				ventana_mensaje("Debes guardar la canción para recordar el ajuste de tamaño de letra <span class='icon-download-alt' ></span>")
+				}
+					
+			}
+		}
+	}
+
 </script>
 </head>
 
@@ -209,20 +352,26 @@ function guardar_cancion(){
 <input type="hidden" id="ncantante">
 <div id="principal">
     <div id="menu-superior">
-    	<a href="index.html" onClick="cierre_servidor('index.php')" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-editar" class="boton2" onClick="guardar_cancion()" ><span class="icon-floppy"></span></a>
+    	<a href="index.html" title="lista" id="boton-back" class="boton2 ancho-back"><span class="icon-left-open"></span></a><span id="t-can"></span><a id="boton-guardar" class="boton2" onClick="guardar_cancion()" ><span class="icon-download-alt"></span></a>
     </div>
     <div id="content-cancion-musico">
-        <textarea id="cancion" readonly></textarea>
+        <!--<textarea id="cancion" readonly></textarea>-->
+   		<div id="cancion" style="font-size:14px; font-family:Arial, Helvetica, sans-serif; font-weight:300;"></div>
     </div>
    
-    <div id="menu-inferior">
-    	<button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
-        <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
-        <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
-        <input type="number" readonly id="text-velocidad" class="disnone">
-        <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
-        <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
+   	<div id="menu-inferior-flotante">
+      	<button id="boton-menost" class="color-boton" onClick="tamano_letra('menos')"><span class="icon-minus"></span></button>
+      	<button id="boton-mast" class="color-boton" onClick="tamano_letra('mas')"><span class="icon-plus"></span></button>
+   	</div>
+    <div id="menu-inferior" style="visibility:hidden;">
+    <button id="boton-play" onClick="repro('play')" class="color-boton"><span class="icon-play"></span></button>
+    <button id="boton-pause" class="color-boton disnone" onClick="pau(this.value)"><span id="pausa" class="icon-pause"></span></button>
+    <button id="boton-menos" class="color-boton disnone" onClick="velo('menos')"><span class="icon-minus"></span></button>
+    <input type="number" readonly id="text-velocidad" class="disnone">
+    <button id="boton-mas" class="color-boton disnone" onClick="velo('mas')"><span class="icon-plus"></span></button>
+    <button id="boton-stop" class="color-boton disnone" onClick="repro('stop')"><span class="icon-stop"></span></button>
     </div>
+    <div id="franja"></div>
     <div id="contador"></div>
     <div id="mensajeria">Esperando a Servidor</div>
 </div>

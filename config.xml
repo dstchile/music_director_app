@@ -7,6 +7,7 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
     </author>
+	<plugin name="cordova-plugin-globalization" source="npm"/>
 	<plugin name="cordova-plugin-android-permissions" source="npm"/>
 	<plugin name="cordova-plugin-networkinterface" source="npm"/>
     <plugin name="cordova-plugin-device" source="npm"/>

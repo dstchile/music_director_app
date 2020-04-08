@@ -7,17 +7,17 @@
     <script src="js/jquery-3.3.1.min.js"></script>
 	<link href="css/estilos.css" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/lenguaje.js"></script>
     </head>
     <body>
+     
     <div class="content">
 		<div class="content-menu">
 			<ul>
-				<li><a href="" id="director" class="boton1">DIRECTOR</a></li>
-				<li><a href="busca_director.html" title="lista" class="boton1">MÚSICO</a></li>
+				<li><a href="" id="director" class="boton1">MIS CANCIONES</a></li>
+				<li><a href="" id="musico" title="lista" class="boton1">CONECTARME</a></li>
 			</ul>
-	<a href="servidor.html" style="color:#FFF" >SERVIDOR</a>
-	<a href="cliente.html" >CLIENTE</a>
-	<a href="cancion_detalle_musico.html" >musico</a>
+	<a href="#" onClick="borrar_tablas()">borrar tablas</a>
 	<a href="#" onClick="borrar_director()">borrar directos</a>
 		</div>
 	</div>
@@ -26,10 +26,10 @@
 	 	 
      $(document).ready(function() 
 		{
-	   
-		document.addEventListener("deviceready", lectura_inicial, false);
+	   	document.addEventListener("deviceready", lectura_inicial, false);
 		function lectura_inicial()
 			{
+				lectura_datos();
 			/////////////comporbación de permisos////////////////
 			var permissions = cordova.plugins.permissions;
 			permissions.checkPermission(permissions.ACCESS_NETWORK_STATE, function(status) 
@@ -143,19 +143,22 @@
 				catch(err)
 					{
 					}
-				lectura_datos();
 				console.log("carga de BD");
 			}
+		
 		function lectura_datos(db)
 			{
-			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+				
+			
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 			db.transaction(queryDB,errorCB);
 			function queryDB(tx)
 				{
-				tx.executeSql('CREATE TABLE IF NOT EXISTS director (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo_cancion TEXT NOT NULL, cantante TEXT NOT NULL, velocidad INTEGER NOT NULL, tono TEXT NOT NULL, compas TEXT NOT NULL, letra_cancion TEXT NOT NULL)');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS datos_director (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario TEXT NOT NULL, correo_electronico TEXT NOT NULL)');
-				tx.executeSql('CREATE TABLE IF NOT EXISTS grupos (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_grupo TEXT NOT NULL)')
-				tx.executeSql('CREATE TABLE IF NOT EXISTS lista_grupos (id INTEGER PRIMARY KEY AUTOINCREMENT, id_grupo INTEGER NOT NULL, id_cancion INTEGER NOT NULL)')
+				tx.executeSql('CREATE TABLE IF NOT EXISTS canciones (id INTEGER PRIMARY KEY AUTOINCREMENT, titulo_cancion TEXT NOT NULL, cantante TEXT NOT NULL, velocidad INTEGER NOT NULL, tono TEXT NOT NULL, compas TEXT NOT NULL, letra_cancion TEXT NOT NULL, fecha TEXT NOT NULL, tamano_letra TEXT NOT NULL)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS datos_director (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario TEXT NOT NULL, correo_electronico TEXT NOT NULL, password TEXT NOT NULL, id_web TEXT NOT NULL)');
+				tx.executeSql('CREATE TABLE IF NOT EXISTS grupos (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre_grupo TEXT NOT NULL, fecha TEXT NOT NULL)')
+				tx.executeSql('CREATE TABLE IF NOT EXISTS lista_grupos (id INTEGER PRIMARY KEY AUTOINCREMENT, id_grupo INTEGER NOT NULL, id_cancion INTEGER NOT NULL, orden INTEGER NOT NULL)')
+				tx.executeSql('CREATE TABLE IF NOT EXISTS mis_directores (id INTEGER PRIMARY KEY AUTOINCREMENT, id_director INTEGER NOT NULL, nombre_director INTEGER NOT NULL, email_director INTEGER NOT NULL)')
 				tx.executeSql('SELECT * FROM datos_director ',[],querySuccess,errorCB);
 				console.log( "Leyendo datos guardados." );
 				}
@@ -174,19 +177,25 @@
 				for (var i=0; i<result.rows.length; i++) 
 			   		{
 					var row = result.rows.item(i);
-				  	}
+				  	var id_user=row['id'];
+					var id_user_web=row['id_web'];
+					}
 				console.log("regisotr:"+result.rows.length);
 				if (result.rows.length>=1)
 					{
 					console.log("con datos director");
-					var ruta="vista_servidor.html";
+					var ruta="listado_director.html?id_user="+id_user+"&id_user_web="+id_user_web;
 					document.getElementById("director").href = ruta;
+					var rutam="busca_director.html";
+					document.getElementById("musico").href = rutam;
 					}
 				else
 					{
 					console.log("sin datos director");
 					var ruta="datos_director.html";
-					document.getElementById("director").href = ruta;
+					document.getElementById("director").href = ruta+"?origen=DIRECTOR";
+					document.getElementById("musico").href = ruta+"?origen=MUSICO";
+					
 					}
 					
 				
@@ -194,26 +203,67 @@
 			}        
 		});
 	    
-        
-        function borrar_director()
+        function borrar_tablas()
 			{
-			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
 			db.transaction(populateDB, errorCB, successCB);
+			console.log("version:"+db.version+"--");
 			function populateDB(tx) 
 				{
-				tx.executeSql("DROP TABLE datos_director ");
-				//tx.executeSql("DELETE from datos_director where id='1'");
+				//tx.executeSql('DROP TABLE IF EXISTS datos_director ');
+				tx.executeSql('DROP TABLE IF EXISTS director ');
+				tx.executeSql('DROP TABLE IF EXISTS canciones ');
+				tx.executeSql('DROP TABLE IF EXISTS grupos ');
+				tx.executeSql('DROP TABLE IF EXISTS lista_grupos ');
+				tx.executeSql('DROP TABLE IF EXISTS mis_directores ');
 				}
 			function errorCB(err) 
 				{
-				alert("Error processing 2 SQL: "+err.code);
+				if (err.code!=0)
+					{
+					alert("Error processing 2 SQL: "+err.code);
+					}
 				}
 			function successCB() 
 				{
-				console.log("borrado")
+				alert("Tablas Borradas");
 				}
-			}        
-		
+			
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			}
+        function borrar_director()
+			{
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
+			db.transaction(populateDB, errorCB, successCB);
+			console.log("version:"+db.version+"--");
+			function populateDB(tx) 
+				{
+				tx.executeSql('DROP TABLE IF EXISTS datos_director ');
+				}
+			function errorCB(err) 
+				{
+				if (err.code!=0)
+					{
+					alert("Error processing 2 SQL: "+err.code);
+					}
+				}
+			function successCB() 
+				{
+				alert("Tablas Borradas");
+				}
+			
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			////////////////////////////LIMPIAMOS LA BASE DE DATOS DESDE CERO/////////////////////////////
+			}
         </script>
    
 </html>

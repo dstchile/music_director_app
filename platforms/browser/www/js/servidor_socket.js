@@ -1,14 +1,16 @@
 // JavaScript Document
-document.addEventListener("deviceready", iniciando_servidor, false);
-var sesiones=new Array;
-var existe=false;
-var id_sesion=0;
-var conversacion=new Array;
-var conta=0;
-var conej=0;
-var coner=0;
-var concl=0;
-var ip_servidor='';
+//document.addEventListener("deviceready", iniciando_servidor, false);
+//var sesiones=new Array;
+//var existe=false;
+//var id_sesion=0;
+//var conversacion=new Array;
+//var conta=0;
+//var conej=0;
+//var coner=0;
+//var concl=0;
+var nombre_usuario='';
+var correo_electronico='';
+var id_user_web='';
 function getParameterByName(name) 
 	{
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -22,23 +24,8 @@ function iniciando_servidor()
 	try{
 		window.plugins.insomnia.keepAwake();
 		}
-	catch(err){
-	
-	function onSuccess( ipInformation ) 
-		{
-		//ipInformation.ip
-		//ipInformation.subnet
-		ip_servidor=ipInformation.ip;
-		}
-	function onError( error ) 
-		{
-		// Note: onError() will be called when an IP address can't be found. eg WiFi is disabled, no SIM card, Airplane mode etc.
-		//alert( error );
-		}
-	networkinterface.getWiFiIPAddress( onSuccess, onError );
-	networkinterface.getCarrierIPAddress( onSuccess, onError );	
-	}
-	//busca el nombre y numero de telefono del director
+	catch(err){}
+	//busca los dats del usuario
 	var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); 
 	db.transaction(queryDB,errorCB);
 	function queryDB(tx)
@@ -59,99 +46,78 @@ function iniciando_servidor()
 		for (var i=0; i<result.rows.length; i++) 
 		  {
 		  var row = result.rows.item(i);
-		  var nombre_usuario=row['nombre_usuario'];
-		  var correo_electronico=row['correo_electronico'];
-		  inicio_proceso(nombre_usuario,correo_electronico)
+		  nombre_usuario=row['nombre_usuario'];
+		  correo_electronico=row['correo_electronico'];
+		  id_user_web=row['id_web'];
+		  inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
 		  }
 		}
 			
 	}
-function inicio_proceso(nombre_usuario,correo_electronico)
+function inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
 	{
+	var id_cancion = getParameterByName('v1');
+	var estado=document.getElementById('estado').value;
+	var titulo=document.getElementById('t-can').textContent;
+	var velocidad=document.getElementById('text-velocidad').value;
+	var cantante=document.getElementById('ncantante').value;
 		
-	var puerto=45000;
-	llamada_inicio(puerto,nombre_usuario,correo_electronico)					
-	function llamada_inicio(puerto,nombre_usuario,correo_electronico)
-		{
-			$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
-			setTimeout(function (){$('#con_pop').fadeOut(500);},2000);
-			setTimeout(function(){$('#con_pop').remove()},2000);
-		try
-			{
-			var wsserver = cordova.plugins.wsserver;
-			wsserver.start(puerto, {
-					'onFailure' :  function(addr,port, reason) {
-					console.log('Server detenido Rason:', addr, port, reason);
-					//////////mensaje de falla/////////
-					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
-					},
-					'onOpen' : function(conn) {
-					//'uuid'=conn.uuid;
-					//'direccion del cliente'=conn.remoteAddr;
-					console.log('A user connected', conn.remoteAddr);
-					},
-					'onMessage' : function(conn, msg) {
-					console.log(conn, msg);
-					mensajes_servidor(wsserver,conn,msg,nombre_usuario,correo_electronico);
-					},
-					'onClose' : function(conn, code, reason, wasClean) {
-					console.log('A user disconnected from %s', conn.remoteAddr);			
-					}
-				}, function onStart(addr, port) {
-					console.log('Listening on %s:%d', addr, port);
-					$('body').append('<div id="con_pop">Director listo</div>');
-					$('#pelicula').remove()
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
-		
-				}, function onDidNotStart(reason) {
-					console.log('Did not start. Reason: %s', reason);
-					//////////mensaje de falla/////////
-					$('body').append('<div id="con_pop">'+reason+'<span id="disco"></span></div>');
-					setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
-					setTimeout(function(){$('#con_pop').remove()},5000);
-				});
-			}
-		catch(err)
-			{
-			//alert("WSSERVER no disponible")
-			console.log("WSSERVER no disponible")
-			}
-			
+	if (estado==null||estado==''){estado='STOP';} 
+	console.log("INICIANDO PROCESO");
+	console.log("estado:"+estado);
+	console.log("id_usuario_web:"+id_user_web+" --")
+	console.log("titulo:"+titulo);
 	
-		}
+	//insertamos el grupo en la web//////		
+	//insertamos el grupo en la web//////		
+	//insertamos el grupo en la web//////		
+	var fecha_actualizacion=""+ano_actual+"-"+mes_actual+"-"+dia_actual+" "+hora+":"+minuto+":"+segundo;
+
+	var dato="PROCESO";
+	var formData = new FormData();
+	formData.append("dato", dato);
+	formData.append("id_user_web", id_user_web);
+	formData.append("id_cancion", id_cancion);
+	formData.append("estado", estado);
+	formData.append("titulo", titulo);
+	formData.append("cantante", cantante);
+	formData.append("velocidad", velocidad);
+	formData.append("tono", tono);
+	formData.append("compas", compas);
+	formData.append("letra", letra);
+	formData.append("fecha", fecha_actualizacion);
+	$.ajax({
+		type: 'POST',
+		url: servidor+'conexion_app.php',
+		data: formData,
+		processData: false,
+		contentType: false,
+		timeout: 5000,//5 segundos
+		success: function (resultx) 
+			{
+			console.log(resultx);
+			var obj = JSON.parse(resultx);
+			//$('body').append('<div id="con_pop">Conexión lista</div>');
+			//setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+			//setTimeout(function(){$('#con_pop').remove()},5000);
+	
+			//mensajes_servidor(wsserver,conn,msg,nombre_usuario,correo_electronico);
+			}
+		})
+	.fail(function(resultx)
+		{
+		$('body').append('<div id="con_pop"><span id="disco"></span>Error de conexión</div>');
+		setTimeout(function (){$('#con_pop').fadeOut(1500);},3000);
+		setTimeout(function(){$('#con_pop').remove()},5000);
+		console.log("ERROR DE COMUNICACION");	
+		});
+	}
+function proceso_en_espera(nombre_usuario,correo_electronico,id_user_web)
+	{
+	
 	}
 
-function cierre_servidor(ruta)
-	{
-		
-		//alert("servidor iniciado en:"+addr+" por:"+port+"---");
-		$('body').append('<div id="pelicula" style=" z-index:1000;background-color:transparent; height:100%; width:100%; position:absolute; top:1px;"></div>');
-		$('body').append('<div id="con_pop">Espere un momento<span id="disco"></span></div>');
-		setTimeout(function(){$('#con_pop').remove()},3000);
-		try
-			{
-					//var wsserver = localStorage.getItem('wsserver');
-					//alert("ws VALOE22:"+Object.values(wsserver)+"--"+wsserver+"--");
-					//var wsserver = wsserver;
-					//var wsserver = cordova.plugins.wsserver;	
-					wsserver.stop(function onStop(addr, port) {
-					console.log('Stopped listening on %s:%d', addr, port);
-					setTimeout(function(){
-						window.open(ruta,'_parent');
-						//location.href=ruta 
-						},100);
-										});
-			}
-		catch(err)
-			{
-				window.open(ruta,'_parent');
-				//location.href=ruta;
-			}
-		
-	}
+
 	
 	
 function mensajes_servidor(wsserver,conn,msg,nombre_usuario,correo_electronico)

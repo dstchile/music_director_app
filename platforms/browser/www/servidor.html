@@ -8,6 +8,7 @@
 <script type="text/javascript" src="cordova.js"></script>
 <script src="js2/socket.io.js"></script>
 <!--<script src="js/require.js"></script>-->
+<script src="plugins/www/wsserver.js"></script>
 <script>
 document.addEventListener("backbutton", detener_servidor, false);
 
@@ -19,6 +20,7 @@ document.addEventListener("backbutton", detener_servidor, false);
 				var wsserver = cordova.plugins.wsserver;	
 			
 			var puerto=document.getElementById('mi_puerto').value;
+			var direccion=document.getElementById('mi_ip').value;
 			alert ("iniciando servidor");
 			document.getElementById('log').innerHTML="iniciando servidor";
 			alert ("iniciado....");

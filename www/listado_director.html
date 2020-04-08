@@ -6,27 +6,28 @@
         <title>Music Director</title>
 
     <script src="js/jquery-3.1.1.js"></script>
-    <link href="css/estilos.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/mensajes.js"></script>
+  	<script type="text/javascript" src="js/lenguaje.js"></script>
+	<!--<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<link rel="stylesheet" href="css/swiper.min.css">
 	<script>
-	
-		$(window).resize(function(){
-		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
-		   var alto=$(window).height();
-		   var ancho=$(window).width();
-		   if(ancho>alto)
-			   {
-				  document.getElementById('list').className="listado2";
-			   }
-		   else
-			   {
-				  document.getElementById('list').className="listado";
-			   }
-		   //alert("alto: "+alto+" ancho:"+ancho);
+	$(window).resize(function(){
+		var alto=$(window).height();
+		var ancho=$(window).width();
+		var alto_list=alto-155;
+		document.getElementById('list').style.height=alto_list+'px';
 		})
 	document.addEventListener("deviceready", lectura_inicial, false);
 	function lectura_inicial(ob,x)
 		{
+		var alto=$(window).height();
+		var ancho=$(window).width();
+		var alto_list=alto-155;
+		document.getElementById('list').style.height=alto_list+'px';
 			document.addEventListener('backbutton',pressKey,false);
 			function pressKey()
 			{
@@ -60,11 +61,12 @@
 		var busq = x;
 		if(busq!='')
 		{
-			tx.executeSql('SELECT * FROM director WHERE titulo_cancion LIKE "%'+busq+'%" OR cantante LIKE "%'+busq+'%" OR letra_cancion LIKE "%'+busq+'%" ORDER BY "'+ordenar+'" ',[],querySuccess,errorCB);
+			tx.executeSql('SELECT * FROM canciones WHERE titulo_cancion LIKE "%'+busq+'%" OR cantante LIKE "%'+busq+'%" OR letra_cancion LIKE "%'+busq+'%" ORDER BY "'+ordenar+'" ',[],querySuccess,errorCB);
 		}
 		else
 		{
-			tx.executeSql('SELECT * FROM director ORDER BY "'+ordenar+'" ',[],querySuccess,errorCB);
+			console.log("ordenar por:"+ordenar)
+			tx.executeSql('SELECT * FROM canciones ORDER BY "'+ordenar+'" ',[],querySuccess,errorCB);
 		}
 		//alert(busqv);
 		
@@ -78,6 +80,7 @@
 		{
 		console.log( "generando query." );
 		
+		var pos_scroll=$('#list').scrollTop();			
 		$('#Listado_canciones').empty();
 		for (var i=0; i<result.rows.length; i++) 
 			{
@@ -91,8 +94,12 @@
 			var letra_cancion=row['letra_cancion'];
 			var tono=row['tono'];
 	 		//$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a href='#cancion_detalle.html?v1="+id_cancion+"' onclick='noespera("+id_cancion+")' onblur='noespera("+id_cancion+")' ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
-			$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><a onclick=hipervinculo('cancion_detalle.html?v1="+id_cancion+"') ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></li>");
+			//$('#Listado_canciones').append("<li id='ccan"+id_cancion+"' style='display:flex;' ><a onclick=hipervinculo('cancion_detalle.html?v1="+id_cancion+"') ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'><a data-rel='popup' data-position-to='window' data-transition='pop'>hola</a></li>");
+			$('#Listado_canciones').append("<li id='ccan"+id_cancion+"'><div class='swiper-container"+id_cancion+"'><div class='swiper-wrapper'><div class='swiper-slide'><a class='listado_canciones_fondo' onclick=hipervinculo('cancion_detalle.html?v1="+id_cancion+"') ontouchstart='espera("+id_cancion+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_cancion+")' ><p><span class='icon-headphones'> - <font style='font-size:16px; font-weight:bold'>"+row["titulo_cancion"]+"</font></span></p><p><span class='icon-mic'> - "+row["cantante"]+"</span></p><p><span class='icon-music'> - "+row["tono"]+"</span></p></a><input type='hidden' id='can"+id_cancion+"' value='"+titulo+"'></div><div class='swiper-slide cuadro_eliminar'><div style='width:100%; height:25px;'><span class='icon-trash eliminar_cancion_texto'>Eliminar canción?</span></div><div style='width=100%; height:50%; display:flex !important;text-align=center !important;justify-content: center; '><a id='acepdel"+id_cancion+"' class='botones_sino boton_si' onClick='eliminar("+id_cancion+")'>Si</a><div style='width:20%;'></div><a id='candel"+id_cancion+"' class='botones_sino boton_no' onClick='no_eliminar("+id_cancion+")'>No</a></div></div></div></div></li>");
+			var swiper = new Swiper(".swiper-container"+id_cancion);
 			}
+		$('#list').scrollTop(pos_scroll);			
+		checkLanguage()
 		}
 	}	
 	var tiempo=false;
@@ -103,36 +110,12 @@
 		var tit=document.getElementById('can'+id_c).value;
 		tiempo=true;
 		mover=false;
-		setTimeout(function(){procesar(id_c,tit);clearTimeout();},950)
 		
 		}
-	function procesar(id_c,tit){
-		if(tiempo && v_id==id_c)
-			{
-				document.getElementById('valor_id').value=id_c;
-				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
-				navigator.notification.confirm(
-					'Esta seguro que desea eliminar: '+tit+' ?', // message
-					 onConfirm,            // callback to invoke with index of button pressed
-					'Atencion!',           // title
-					['Eliminar','Cancelar']     // buttonLabels
-				);
-			}
-		}
-	function onConfirm(buttonIndex){
-		if(buttonIndex==2)
-			{
-				var id_c=document.getElementById('valor_id').value;
-				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
-			}
-		if(buttonIndex==1)
-			{
-				document.addEventListener("deviceready", eliminar, false);
-			}		
-	}
-	function movimiento(){
+	function movimiento(id_cancion){
 		tiempo=false;
 		mover=true;
+		console.log("moviendo:")
 	}
 	function noespera(id_c){
 		tiempo=false;
@@ -146,19 +129,23 @@
 			}
 		}	
 	
-	function eliminar(){
+	function eliminar(id_c){
 		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
-		el(db)
-	}
-	function el(db){
 		db.transaction(queryDB);
 		function queryDB(tx)
 			{
-				var id_c=document.getElementById('valor_id').value;
-				tx.executeSql('DELETE FROM director WHERE id="'+id_c+'"');
+			console.log("eliminando:"+id_c)
+				//var id_c=document.getElementById('valor_id').value;
+				tx.executeSql('DELETE FROM canciones WHERE id="'+id_c+'"');
+				tx.executeSql('DELETE FROM lista_grupos WHERE id_cancion="'+id_c+'"');
 				lectura_inicial();
 			}
 	}
+	function no_eliminar(id_cancion)
+		{
+	   	var swiper = document.querySelector('.swiper-container'+id_cancion).swiper
+		swiper.slidePrev();
+		}
 	
 		
 	function ordenar_por(orde){
@@ -191,21 +178,50 @@
 			document.getElementById('boton_cancion').className="boton2 ancho-b_song";
 		}
 	}
-	
+	function hipervinculo(url)
+		{
+		console.log(url)
+		location.href=url;
+		}
 	</script>
-    </head>
+    <style>
+	.swiper-container {
+      width: 100%;
+      height: 20%;
+	 
+    }
+    .swiper-slide {
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      //-webkit-justify-content: center;
+      //justify-content: center;
+      //-webkit-box-align: center;
+      //-ms-flex-align: center;
+      //-webkit-align-items: center;
+      //align-items: center;
+    }
+	
+    </style>
+</head>
     <body>
-      <div data-role="content">
-        <a class="boton2 ancho-back" href="index.html"><span class="icon-left-open"></span></a><a href="#" onClick="hipervinculo('listado_director.html')" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" onClick="hipervinculo('listado_grupos.html')" class="boton2 ancho-b_grupos" ><span class="icon-group"></span></a><a onClick="hipervinculo('cancion_nueva.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="hipervinculo('datos_director.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
-          <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordenar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordenar_por(valor_orden.value)"></div>
+  <div data-role="content">
+        <a class="boton2 ancho-back" href="index.html"><span class="icon-left-open"></span></a><a href="#" onClick="hipervinculo('listado_director.html')" class="boton2_activo ancho-b_listado"><span class="icon-th-list"></span></a><a href="#" onClick="hipervinculo('listado_grupos.html')" class="boton2 ancho-b_grupos" ><span class="icon-group"></span></a><a onClick="hipervinculo('cancion_nueva.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="hipervinculo('configuraciones.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+        <div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" onFocus="this.select()" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(valor_orden.value,this.value); ordenar_por(valor_orden.value)" onBlur="lectura_inicial(valor_orden.value,this.value); ordenar_por(valor_orden.value)"></div>
         <div id="list" class="listado">
-        <ul id="Listado_canciones" class="listado_canciones"></ul>
+        <ul id="Listado_canciones" class="listado_canciones">
+		</ul>
         </div>
         <div class="bot">
-            <input type="hidden" id="valor_orden"><button class="boton2 ancho-b_ordenar" disabled>Ordenar por:</button><button id="boton_cancion" class="boton2 ancho-b_song" onClick="ordenar_por('ocancion')"><span class="icon-headphones"></span></button><button id="boton_cantante" class="boton2 ancho-b_songer" onClick="ordenar_por('ocantante')"><span class="icon-mic"></span></button><button id="boton_tono" class="boton2 ancho-b_tono" onClick="ordenar_por('otono')"><span class="icon-music"></span></button>
+            <input type="hidden" id="valor_orden"><button id="ordenar_por_titulo" class="boton2 ancho-b_ordenar" disabled >Ordenar por:</button><button id="boton_cancion" class="boton2 ancho-b_song" onClick="ordenar_por('ocancion')"><span class="icon-headphones"></span></button><button id="boton_cantante" class="boton2 ancho-b_songer" onClick="ordenar_por('ocantante')"><span class="icon-mic"></span></button><button id="boton_tono" class="boton2 ancho-b_tono" onClick="ordenar_por('otono')"><span class="icon-music"></span></button>
         </div>
         <p>&nbsp;</p>
       </div>
     </div>
-  	</body>
+	<script src="js/swiper.min.js"></script>
+    </body>
 </html>

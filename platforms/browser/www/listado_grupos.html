@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <title>Music Director</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title>Music Director</title>
     <script src="js/jquery-3.1.1.js"></script>
-    <link href="css/estilos.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/conexion.js"></script>
+	<script type="text/javascript" src="js/mensajes.js"></script>
+  	<script type="text/javascript" src="js/lenguaje.js"></script>
+	<link href="css/estilos.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/fontello.css" type="text/css">
+	<link rel="stylesheet" href="css/swiper.min.css">
 	<script>
-		$(window).resize(function(){
-		   //aqui el codigo que se ejecutara cuando se redimencione la ventana
-		   var alto=$(window).height();
-		   var ancho=$(window).width();
-		   if(ancho>alto)
-			   {
-				  document.getElementById('list').className="listadog2";
-			   }
-		   else
-			   {
-				  document.getElementById('list').className="listadog";
-			   }
-		   //alert("alto: "+alto+" ancho:"+ancho);
+	$(window).resize(function(){
+		var alto=$(window).height();
+		var ancho=$(window).width();
+		var alto_list=alto-155;
+		document.getElementById('list').style.height=alto_list+'px';
 		})
-	document.addEventListener("deviceready", lectura_inicial(), false);
-	function lectura_inicial(x)
+	document.addEventListener("deviceready", lectura_inicial, false);
+	function lectura_inicial()
 		{
 			document.addEventListener('backbutton',pressKey,false);
 			function pressKey()
@@ -32,46 +31,71 @@
 				document.addEventListener('backbutton',pressKey,false);
 				
 			}
-			if(x==undefined){x='';}
-			var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
-			lista_programas(db,x);
-			
-		}
-	function lista_programas(db,x){
-	db.transaction(queryDB,errorCB);
-	function queryDB(tx)
-		{
-		var busq = x;
-		if(busq!='')
-		{
-			tx.executeSql('SELECT * FROM grupos WHERE nombre_grupo LIKE "%'+busq+'%"',[],querySuccess,errorCB);
-		}
-		else
-		{
-			tx.executeSql('SELECT * FROM grupos',[],querySuccess,errorCB);
-		}
-		//alert(busqv);
+		var ob='';
+		var obp='asc';
+		var valor='';	
+		lista_programas(ob,obp,valor);
 		
-		console.log( "Leyendo datos guardados." );
+		var alto=$(window).height();
+		var ancho=$(window).width();
+		var alto_list=alto-155;
+		document.getElementById('list').style.height=alto_list+'px';
 		}
-		function errorCB(err) 
+	function lista_programas(ordenar,obp,valor)
 		{
-		alert("Error processing SQL: "+err.code);
-		}
-		function querySuccess(tx,result)
-		{
-		console.log( "generando query." );
-		
-		$('#Listado_canciones').empty();
-		for (var i=0; i<result.rows.length; i++) 
+		if(ordenar=='')
 			{
-			var row = result.rows.item(i);
-			var id_grupo=row['id'];
-			var nomgru=row['nombre_grupo'];			
-			$('#Listado_canciones').append("<li style='height:50px; line-height:40px;' id='ccan"+id_grupo+"'><a href='#' ontouchstart='espera("+id_grupo+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_grupo+")' ><p><span class='icon-group'> - "+nomgru+"</span></p></a><input type='hidden' id='can"+id_grupo+"' value='"+nomgru+"'></li>");
+				document.getElementById('boton_grupo').className="boton2_activo ancho-b_song";
+				var ordenar="nombre_grupo";
 			}
-		}
-	}	
+		else
+			{
+				//document.getElementById('boton_grupo').className="boton2 ancho-b_song";
+			}
+		document.getElementById('valor_orden').value=ordenar;
+		document.getElementById('valor_orden_por').value=obp;
+			
+		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
+		db.transaction(queryDB,errorCB);
+		function queryDB(tx)
+			{
+			var busq = valor;
+			if(busq!='')
+				{
+					tx.executeSql('SELECT * FROM grupos WHERE nombre_grupo LIKE "%'+busq+'%"  ORDER BY "'+ordenar+'"  '+obp+'',[],querySuccess,errorCB);
+				}
+			else
+				{
+					tx.executeSql('SELECT * FROM grupos  ORDER BY "'+ordenar+'" '+obp+'',[],querySuccess,errorCB);
+				}
+			//alert(busqv);
+			
+			console.log( "Leyendo datos guardados." );
+			}
+		function errorCB(err) 
+			{
+			alert("Error processing SQL: "+err.code);
+			}
+		function querySuccess(tx,result)
+			{
+			console.log( "generando query." );
+			
+			var pos_scroll=$('#list').scrollTop();			
+			$('#Listado_canciones').empty();
+			for (var i=0; i<result.rows.length; i++) 
+				{
+				var row = result.rows.item(i);
+				var id_grupo=row['id'];
+				var nomgru=row['nombre_grupo'];			
+				var fecha=row['fecha'];			
+				//$('#Listado_canciones').append("<li style='height:50px; line-height:40px;' id='ccan"+id_grupo+"'><a href='#' ontouchstart='espera("+id_grupo+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_grupo+")' ><p><span class='icon-group'> - "+nomgru+"</span></p></a><input type='hidden' id='can"+id_grupo+"' value='"+nomgru+"'></li>");
+				$('#Listado_canciones').append("<li style='height:50px; line-height:20px;' id='ccan"+id_grupo+"'><div class='swiper-container"+id_grupo+"'><div class='swiper-wrapper'><div class='swiper-slide'><a class='listado_grupos_fondo' href='#' ontouchstart='espera("+id_grupo+")' ontouchmove='movimiento()' ontouchcancel='movimiento()' ontouchend='noespera("+id_grupo+")' ><span class='icon-group'> - "+nomgru+"</span><br><span class='icon-calendar' style=' font-size:12px !important'> - "+fecha+"</span></a><input type='hidden' id='can"+id_grupo+"' value='"+nomgru+"'></div><div class='swiper-slide cuadro_eliminar_grupo'><div style='width:100%;'><span class='icon-trash eliminar_grupo_texto'>Eliminar grupo?</span></div><div style='width=100%; height=20px; display:flex !important;text-align=center !important;justify-content: center; '><a id='acepdel"+id_grupo+"' class='botones_sino boton_si' onClick='eliminar("+id_grupo+")'>Si</a><div style='width:20%;'></div><a id='candel"+id_grupo+"' class='botones_sino boton_no' onClick='no_eliminar("+id_grupo+")'>No</a></div></div></div></div></li>");
+				var swiper = new Swiper(".swiper-container"+id_grupo);
+				}
+			$('#list').scrollTop(pos_scroll);			
+			checkLanguage()
+			}
+		}	
 	var tiempo=false;
 	var v_id=0;
 	var mover=false;
@@ -80,33 +104,8 @@
 		var tit=document.getElementById('can'+id_c).value;
 		tiempo=true;
 		mover=false;
-		setTimeout(function(){procesar(id_c,tit);clearTimeout();},2000)
 		
 		}
-	function procesar(id_c,tit){
-		if(tiempo && v_id==id_c)
-			{
-				document.getElementById('valor_id').value=id_c;
-				document.getElementById('ccan'+id_c).style.backgroundColor="#c61";
-				navigator.notification.confirm(
-					'Esta seguro que desea eliminar: '+tit+' ?', // message
-					 onConfirm,            // callback to invoke with index of button pressed
-					'Atencion!',           // title
-					['Eliminar','Cancelar']     // buttonLabels
-				);
-			}
-		}
-	function onConfirm(buttonIndex){
-		if(buttonIndex==2)
-			{
-				var id_c=document.getElementById('valor_id').value;
-				document.getElementById('ccan'+id_c).style.backgroundColor="#ffffff";
-			}
-		if(buttonIndex==1)
-			{
-				document.addEventListener("deviceready", eliminar, false);
-			}		
-	}
 	function movimiento(){
 		tiempo=false;
 		mover=true;
@@ -119,29 +118,108 @@
 			}
 		}	
 	
-	function eliminar(){
+	function eliminar(id_c)
+		{
 		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000);
-		el(db)
-	}
-	function el(db){
 		db.transaction(queryDB);
 		function queryDB(tx)
 			{
-				var id_c=document.getElementById('valor_id').value;
+				//var id_c=document.getElementById('valor_id').value;
 				tx.executeSql('DELETE FROM grupos WHERE id="'+id_c+'"');
+				tx.executeSql('DELETE FROM lista_grupos WHERE id_grupo="'+id_c+'"');
 				lectura_inicial();
 			}
+		}
+	function no_eliminar(id_cancion)
+		{
+	   	var swiper = document.querySelector('.swiper-container'+id_cancion).swiper
+		swiper.slidePrev();
+		}
+	function ordenar_por(orde,obp,orde_actual){
+		var valor = document.getElementById('busqueda').value;
+		if(orde=='nombre_grupo')
+		{
+			var ordenar="nombre_grupo";
+			document.getElementById('boton_grupo').className="boton2_activo ancho-b_song";
+			document.getElementById('valor_orden').value="nombre_grupo";			
+			document.getElementById('boton_fecha').className="boton2 ancho-b_songer";
+			if (obp=='asc')
+				{
+				obp='desc';
+				console.log("aqui");
+				document.getElementById('icono_grupo').className="icon-sort-name-down";
+				}
+			else
+				{
+				obp='asc';
+				console.log("aqui2");
+				document.getElementById('icono_grupo').className="icon-sort-name-up";
+				}
+			lista_programas(ordenar,obp,valor)
+			
+		}
+		else if(orde=='fecha')
+		{
+			var ordenar="fecha";
+			document.getElementById('boton_fecha').className="boton2_activo ancho-b_songer";
+			document.getElementById('valor_orden').value="fecha";
+			document.getElementById('boton_grupo').className="boton2 ancho-b_song";
+			
+			if (obp=='asc')
+				{
+				obp='desc';
+				document.getElementById('icono_fecha').className="icon-sort-number-down";
+				}
+			else
+				{
+				obp='asc';
+				document.getElementById('icono_fecha').className="icon-sort-number-up";
+				}
+			lista_programas(ordenar,obp,valor)
+			
+		}
 	}
-	
-	
+function hipervinculo(url)
+		{
+		console.log(url)
+		location.href=url;
+		}	
 	
 	</script>
-    </head>
+    <style>
+	.swiper-container {
+      width: 100%;
+      height: 20%;
+	 
+    }
+    .swiper-slide {
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      //-webkit-justify-content: center;
+      //justify-content: center;
+      //-webkit-box-align: center;
+      //-ms-flex-align: center;
+      //-webkit-align-items: center;
+      //align-items: center;
+    }
+	
+	</style>
+	</head>
     <body>
-    <a class="boton2 ancho-back" href="index.html"><span class="icon-left-open"></span></a><a onClick="hipervinculo('listado_director.html')" class="boton2 ancho-b_listado"><span class="icon-th-list"></span></a><a onClick="hipervinculo('listado_grupos.html')" class="boton2_activo ancho-b_grupos"><span class="icon-group"></span></a><a onClick="hipervinculo('grupo_nuevo.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="hipervinculo('datos_director.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
-	<div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lectura_inicial(this.value)" onBlur="lectura_inicial(this.value)"></div>
+    <a class="boton2 ancho-back" href="index.html"><span class="icon-left-open"></span></a><a onClick="hipervinculo('listado_director.html')" class="boton2 ancho-b_listado"><span class="icon-th-list"></span></a><a onClick="hipervinculo('listado_grupos.html')" class="boton2_activo ancho-b_grupos"><span class="icon-group"></span></a><a onClick="hipervinculo('grupo_nuevo.html')" class="boton2 ancho-b_agregar"><span class="icon-plus"></span></a><a onClick="hipervinculo('configuraciones.html')" class="boton2 ancho-b_config"><span class="icon-cog"></span></a>
+	<div class="busqueda"><span class="icon-search"></span><input type="text" name="busqueda" id="busqueda" placeholder="Cancion / Cantante / Grupo / Letra" onKeyUp="lista_programas(valor_orden.value,valor_orden_por.value,this.value)" onBlur="lista_programas(valor_orden.value,valor_orden_por.value,this.value)"></div>
     <div id="list" class="listadog">
     <ul id="Listado_canciones" class="listado_canciones"></ul>
     </div>
-    </body>
+    <div class="bot">
+        <input type="hidden" id="valor_orden"><input type="hidden" id="valor_orden_por"><button id="ordenar_por_titulo" class="boton2 ancho-b_ordenar" disabled >Ordenar por:</button><button id="boton_grupo" class="boton2 ancho-b_songer" onClick="ordenar_por('nombre_grupo',valor_orden_por.value,valor_orden.value)"><span class="icon-group"></span><span id="icono_grupo" class="icon-sort-name-up"></span></button><button id="boton_fecha" class="boton2 ancho-b_tono" onClick="ordenar_por('fecha',valor_orden_por.value,valor_orden.value)"><span class="icon-calendar"></span><span id="icono_fecha" class="icon-sort-number-up"></span></button><button id="boton_cancion" class="boton2 ancho-b_song" disabled ><span>&nbsp;</span></button>
+    </div>
+    <input type="hidden" id="valor_id">
+    <script src="js/swiper.min.js"></script>
+  	</body>
 </html>
