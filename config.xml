@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.dstchile.music_director_app" version="1.0.3">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="cl.dstchile.music_director_app" version="1.0.4">
     <name>Music Director</name>
     <description>
         Gestor de acordes para grupos o bandas de rock, pop, alabanza,etc.
