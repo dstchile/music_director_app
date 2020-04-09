@@ -86,6 +86,7 @@ function inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
 	formData.append("compas", compas);
 	formData.append("letra", letra);
 	formData.append("fecha", fecha_actualizacion);
+	formData.append("tamano_letra", tamano_l);
 	$.ajax({
 		type: 'POST',
 		url: servidor+'conexion_app.php',
