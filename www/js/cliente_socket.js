@@ -97,7 +97,7 @@ function consultando()
 						}
 					}
 				//document.getElementById('cancion').value=obj.titulo+'\n\n'+obj.cantante+'\n\n\n\n\n\n'+obj.letra;
-				letra_cancion=obj.letra;
+				letra_cancion_ori=obj.letra;
 				velocidad=obj.velocidad;
 				tono=obj.tono;
 				compas=obj.compas;

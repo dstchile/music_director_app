@@ -27,6 +27,7 @@ var tono='';
 var compas='';
 var tamano_l='';
 var alto_pantalla='';
+var letra_cancion_ori='';
 $(window).resize(function(){
    //aqui el codigo que se ejecutara cuando se redimencione la ventana
    alto_pantalla=$(window).height();
@@ -211,8 +212,8 @@ function guardar_cancion()
 		{
 		var titulo=document.getElementById('t-can').textContent;
 		var cantante=document.getElementById('ncantante').value;
-		var titulov = titulo.replace(/'/g,"''");
-		var cantantev = cantante.replace(/'/g,"''");
+		var titulov = titulo.replace(/'/g," ");
+		var cantantev = cantante.replace(/'/g," ");
 		tx.executeSql('SELECT * FROM canciones WHERE titulo_cancion="'+titulov+'" and cantante="'+cantantev+'"',[],querySuccess,errorCB);
 		console.log( "Leyendo datos guardados." );
 		}
@@ -224,10 +225,10 @@ function guardar_cancion()
 			{
 			var titulo=document.getElementById('t-can').textContent;
 			var cantante=document.getElementById('ncantante').value;
-			var titulov = titulo.replace(/'/g,"''");
-			var cantantev = cantante.replace(/'/g,"''");
-			var letrav = letra_cancion.replace(/'/g,"''");
-			
+			var titulov = titulo.replace(/'/g," ");
+			var cantantev = cantante.replace(/'/g," ");
+			var letrav = letra_cancion_ori.replace(/'/g," ");
+			alert("letra ori:"+letra_cancion_ori+" letrav:"+letrav);
 				console.log( "generando query." );
 				var fecha_actualizacion=""+ano_actual+"-"+mes_actual+"-"+dia_actual+" "+hora+":"+minuto+":"+segundo;
 

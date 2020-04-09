@@ -537,7 +537,7 @@ input[type=number] { -moz-appearance:textfield; }
 	background-color:#666;
 	height:40px;
 	width:100vw;
-	z-index:99;
+	z-index:999;
 }
 .base_cancionw {
 	margin: 0px;
@@ -580,7 +580,8 @@ input[type=number] { -moz-appearance:textfield; }
 	position: absolute;
 	width:100vw;
 	top:360px;
-	bottom:39px;
+	height:900px;
+	//bottom:39px;
 	background-color: #0F0;
 }
 #check{
