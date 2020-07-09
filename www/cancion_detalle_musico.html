@@ -331,7 +331,7 @@ function tamano_letra(valor)
 				var row = result.rows.item(0);
 				var id_cancion=row['id'];
 				console.log( "CANCION ENCONTRADA." );
-				tx.executeSql("UPDATE canciones set tamano_letra='"+tamano+"' where id='"+id_cancion+"' ");
+				tx.executeSql("UPDATE canciones set tamano_letra='"+tamano+"'  , fecha='"+fecha_actualizacion+"' where id='"+id_cancion+"' ");
 				}
 			if (result.rows.length==0)
 				{

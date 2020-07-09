@@ -224,9 +224,23 @@ var zf=0;
 function delay(i,sh){
 	if(i<sh)
 		{
+			var tamano=document.getElementById('cancion').style.fontSize;	
+			var regex = /(\d+)/g;
+			tamano=tamano.match(regex); 
+			console.log("tamaño letra:"+tamano)
+			
 			var vel=document.getElementById('text-velocidad').value;
 			var est = document.getElementById('estado').value;
-			vel=(240/vel)*100;
+			if (tamano>14)
+				{
+				var multiplo=(tamano-14)*2;
+				vel=((240/vel)*100)-multiplo;
+				}
+			else
+				{
+				vel=(240/vel)*100;
+				}
+			console.log("velocidad:"+vel)
 			if(est=="PLAY")
 				{
 					setTimeout(function(){
@@ -260,7 +274,6 @@ function delay(i,sh){
 						$('#franja').scrollTop(zf);			
 						document.getElementById('franja').style.top=zf+'px';
 						}
-					
 					
 					//////////////////////////////	
 					i++;
@@ -449,7 +462,7 @@ function tamano_letra(valor)
 			}
 		else
 			{
-			update_tamano();
+			update_tamano(tamano);
 			}
 		}
 	if (valor=='menos'&& tamano>14)
@@ -457,20 +470,24 @@ function tamano_letra(valor)
 		tamano--;
 		tamano--;
 		document.getElementById('cancion').style.fontSize=tamano+"px";	
-		update_tamano();
+		update_tamano(tamano);
 		}
 	if (tamano<=14 && valor=='menos')
 		{
 		ventana_mensaje("Se ha alcanzado el mínimo de tamaño");
 		}
-	function update_tamano()
+	function update_tamano(tamano)
 		{
+		tamano_l=tamano;
 		var db = window.openDatabase("music_director_app", "1.0", "music_director_app", 2000000); //will create database Dummy_DB or open it
 		db.transaction(populateDB, errorCB);
 		function populateDB(tx) 
 			{
 			var id_cancion = getParameterByName('v1');
-			tx.executeSql("UPDATE canciones set tamano_letra='"+tamano+"' where id='"+id_cancion+"' ");
+			
+			var fecha_actualizacion=""+ano_actual+"-"+mes_actual+"-"+dia_actual+" "+hora+":"+minuto+":"+segundo;
+
+			tx.executeSql("UPDATE canciones set tamano_letra='"+tamano+"' , fecha='"+fecha_actualizacion+"' where id='"+id_cancion+"' ");
 			}
 		function errorCB(err) 
 			{

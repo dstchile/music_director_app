@@ -139,6 +139,9 @@
 				tx.executeSql('DELETE FROM canciones WHERE id="'+id_c+'"');
 				tx.executeSql('DELETE FROM lista_grupos WHERE id_cancion="'+id_c+'"');
 				lectura_inicial();
+				ventana_mensaje_acepta("No te olvides sincronizar con el servidor para actualizar tus registros eliminados!",function()
+					{
+					});
 			}
 	}
 	function no_eliminar(id_cancion)

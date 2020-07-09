@@ -72,7 +72,7 @@ function inicio_proceso(nombre_usuario,correo_electronico,id_user_web)
 	//insertamos el grupo en la web//////		
 	//insertamos el grupo en la web//////		
 	var fecha_actualizacion=""+ano_actual+"-"+mes_actual+"-"+dia_actual+" "+hora+":"+minuto+":"+segundo;
-
+	console.log("tamano letra:"+tamano_l+"------------------------")
 	var dato="PROCESO";
 	var formData = new FormData();
 	formData.append("dato", dato);

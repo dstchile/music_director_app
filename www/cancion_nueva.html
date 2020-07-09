@@ -197,9 +197,9 @@ function guardar_cancion(){
 	var comp = document.getElementById('compas').value;
 	var letra = document.getElementById('l_cancion').value;
 	
-	var titulov = titulo.replace(/'/g,"''");
-	var cantantev = cantante.replace(/'/g,"''");
-	var letrav = letra.replace(/'/g,"''");
+	var titulov = titulo.replace(/'/g," ");
+	var cantantev = cantante.replace(/'/g," ");
+	var letrav = letra.replace(/'/g," ");
 	
 	titulo.trim();
 	if(titulo=='')
